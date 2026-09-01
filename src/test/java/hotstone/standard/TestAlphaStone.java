@@ -63,6 +63,7 @@ public class TestAlphaStone {
     // When I ask for the player in turn
     Player player = game.getPlayerInTurn();
     // Then it should be Findus
+
     assertThat(player, is(Player.FINDUS));
 
     // Later on, the 'printGameState' can be very handy during development
@@ -73,6 +74,21 @@ public class TestAlphaStone {
     // TestHelper.printGameState(game);
   }
 
+  @Test
+  public void shouldHavePeddersenAfterFindus(){
+    game.endTurn();
+    Player player = game.getPlayerInTurn();
+    assertThat(player, is(Player.PEDDERSEN));
+  }
+
+  // Potentially redundant
+  @Test
+  public void shouldHaveFindusAfterPeddersen(){
+    game.endTurn();
+    game.endTurn();
+    Player player = game.getPlayerInTurn();
+    assertThat(player, is(Player.FINDUS));
+  }
 
   // Example of a later, more complex, test case:
   // Card handling
