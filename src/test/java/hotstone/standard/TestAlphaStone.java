@@ -76,7 +76,6 @@ public class TestAlphaStone {
 
   // Example of a later, more complex, test case:
   // Card handling
-
   // The HotStone specs are quite insisting on how
   // the cards, drawn from the deck, are organized
   // in the hand. So when drawing the top three cards
@@ -98,7 +97,7 @@ public class TestAlphaStone {
     Card card = game.getCardInHand(Player.FINDUS, 0);
     // Then is it Tres
     // ENABLE TO START TDD'ing
-    // assertThat(card.getName(), is(GameConstants.TRES_CARD));
+     assertThat(card.getName(), is(GameConstants.TRES_CARD));
   }
 
   /** REMOVE ME. Not a test of HotStone, just an example of the
