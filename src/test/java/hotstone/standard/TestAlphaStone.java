@@ -98,6 +98,14 @@ public class TestAlphaStone {
     assertThat(attributes, is(new int[]{2, 2, 2}));
   }
 
+  @Test
+  public void turnNumberFor3Rounds(){
+    for (int i = 1; i <= 3; i++){
+      assertThat(game.getTurnNumber(), is(i));
+      game.endTurn();
+    }
+  }
+
   // Example of a later, more complex, test case:
   // Card handling
 

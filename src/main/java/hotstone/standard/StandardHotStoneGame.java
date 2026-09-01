@@ -42,6 +42,7 @@ import hotstone.framework.*;
 
 public class StandardHotStoneGame implements Game {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
+  private int turnNumber = 1;
 
   @Override
   public Player getPlayerInTurn() {
@@ -60,7 +61,7 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public int getTurnNumber() {
-    return 0;
+    return turnNumber;
   }
 
   @Override
@@ -105,6 +106,7 @@ public class StandardHotStoneGame implements Game {
     } else {
       playerInTurn = Player.FINDUS;
     }
+    turnNumber++;
   }
 
   @Override
