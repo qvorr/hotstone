@@ -98,7 +98,7 @@ public class TestAlphaStone {
     Card card = game.getCardInHand(Player.FINDUS, 0);
     // Then is it Tres
     // ENABLE TO START TDD'ing
-    // assertThat(card.getName(), is(GameConstants.TRES_CARD));
+     assertThat(card.getName(), is(GameConstants.TRES_CARD));
   }
 
   /** REMOVE ME. Not a test of HotStone, just an example of the
