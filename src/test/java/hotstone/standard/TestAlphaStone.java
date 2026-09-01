@@ -48,6 +48,7 @@ import hotstone.framework.Game;
  */
 public class TestAlphaStone {
   private Game game;
+  private StdCard card;
 
   /** Fixture for AlphaStone testing. */
   @BeforeEach
@@ -88,6 +89,13 @@ public class TestAlphaStone {
     game.endTurn();
     Player player = game.getPlayerInTurn();
     assertThat(player, is(Player.FINDUS));
+  }
+
+  @Test
+  public void cardDosAttributes222(){
+    card = new StdCard(GameConstants.DOS_CARD);
+    int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
+    assertThat(attributes, is(new int[]{2, 2, 2}));
   }
 
   // Example of a later, more complex, test case:

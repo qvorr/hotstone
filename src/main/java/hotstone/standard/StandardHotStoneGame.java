@@ -70,7 +70,7 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Card getCardInHand(Player who, int indexInHand) {
-    return new StdCard(); // Faking it
+    return new StdCard(GameConstants.TRES_CARD); // Faking it
   }
 
   @Override

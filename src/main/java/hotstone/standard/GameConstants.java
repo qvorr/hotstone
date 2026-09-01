@@ -42,8 +42,8 @@ public class GameConstants {
   public static final String ITALIAN_CHEF_HERO_TYPE = "Bottura";
 
   // Card names for Alpha
-  public static final String DOS_CARD = "Dos";
   public static final String UNO_CARD = "Uno";
+  public static final String DOS_CARD = "Dos";
   public static final String TRES_CARD = "Tres";
   public static final String CUATRO_CARD = "Cuatro";
   public static final String CINCO_CARD = "Cinco";

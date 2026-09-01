@@ -4,24 +4,33 @@ import hotstone.framework.Card;
 import hotstone.framework.Player;
 
 public class StdCard implements Card {
+    private String cardName;
+
     @Override
     public String getName() {
-        return GameConstants.TRES_CARD;
+        return cardName;
+    }
+    public StdCard(String name){
+        cardName = name;
+    }
+
+    public void setName(String name){
+        cardName = name;
     }
 
     @Override
     public int getManaCost() {
-        return 0;
+        return 2;
     }
 
     @Override
     public int getAttack() {
-        return 0;
+        return 2;
     }
 
     @Override
     public int getHealth() {
-        return 0;
+        return 2;
     }
 
     @Override
