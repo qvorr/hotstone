@@ -117,6 +117,42 @@ public class TestAlphaStone {
     assertThat(count, is(3));
   }
 
+  @Test
+  public void shouldHave3CardsTresAt0() {
+    //We made Findus play card TRES at index 0 (doesnt matter the index)
+    Card cardTres = new StdCard(GameConstants.TRES_CARD);
+    game.playCard(Player.FINDUS, cardTres, 0);
+
+    int handsize = game.getHandSize(Player.FINDUS);
+    assertThat(handsize, is(3));
+
+    assertThat(game.getCardInHand(Player.FINDUS, 0).getName(), is ("Tres"));
+  }
+
+
+  @Test
+  public void shouldHave3CardsDosAt1() {
+    //We made Findus play card DOS at index 1
+    Card card = new StdCard(GameConstants.DOS_CARD);
+    game.playCard(Player.FINDUS, card, 1);
+
+    int handsize = game.getHandSize(Player.FINDUS);
+    assertThat(handsize, is(3));
+
+    assertThat(game.getCardInHand(Player.FINDUS, 1).getName(), is ("Dos"));
+  }
+
+  @Test
+  public void shouldHave3CardsUnoAt2() {
+    //We made Findus play card UNO at index 2
+    Card card = new StdCard(GameConstants.UNO_CARD);
+    game.playCard(Player.FINDUS, card, 2);
+
+    int handsize = game.getHandSize(Player.FINDUS);
+    assertThat(handsize, is(3));
+
+    assertThat(game.getCardInHand(Player.FINDUS, 2).getName(), is ("Uno"));
+  }
 
 
 }

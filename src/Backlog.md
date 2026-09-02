@@ -8,8 +8,8 @@ Faked Implementations:
 1. Card health - card.getHealth()
 2. Card attack power - card.getAttack()
 3. Card mana cost - card.getManaCost()
-4. What cards are currently in the hand - getCardInHand()
-5. how many cards in currently in the hand - getHandSize()
+4. both players have the same "preset" hand
+
 
 
 

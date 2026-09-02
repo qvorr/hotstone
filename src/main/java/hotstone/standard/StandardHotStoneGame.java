@@ -43,6 +43,16 @@ import hotstone.framework.*;
 public class StandardHotStoneGame implements Game {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
   private int turnNumber = 1;
+  private Card[] hand;
+
+  public StandardHotStoneGame() {
+    hand = new Card[] {
+            new StdCard(GameConstants.TRES_CARD),
+            new StdCard(GameConstants.DOS_CARD),
+            new StdCard(GameConstants.UNO_CARD)
+    };
+  }
+
 
   @Override
   public Player getPlayerInTurn() {
@@ -70,8 +80,8 @@ public class StandardHotStoneGame implements Game {
   }
 
   @Override
-  public Card getCardInHand(Player who, int indexInHand) { // FAKE
-    return new StdCard(GameConstants.TRES_CARD);
+  public Card getCardInHand(Player who, int indexInHand) {
+    return hand[indexInHand];
   }
 
   @Override
@@ -81,8 +91,8 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public int getHandSize(Player who) {
-    return 3;
-  }  // FAKE
+    return hand.length;
+  }
 
   @Override
   public Card getCardInField(Player who, int indexInField) {
