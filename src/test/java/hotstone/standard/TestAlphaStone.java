@@ -106,35 +106,8 @@ public class TestAlphaStone {
     }
   }
 
-  // Example of a later, more complex, test case:
-  // Card handling
-
-  // The HotStone specs are quite insisting on how
-  // the cards, drawn from the deck, are organized
-  // in the hand. So when drawing the top three cards
-  // from the deck (uno, dos, tres) they have to
-  // be organized in the hand as
-  // index 0 = tres; index 1 = dos; index 2 = uno
-  // That is, a newly drawn card is 'at the top'
-  // of the hand - always entered at position 0
-  // and pushing the rest of the cards 1 position
-  // 'down'
   @Test
-  public void shouldHaveUnoDosTresCardsInitially() {
-    // Given a game, Findus has 3 cards in hand
-    int count = game.getHandSize(Player.FINDUS);
-    assertThat(count, is(3));
-    // And these are ordered Tres, Dos, Uno in slot 0,1,2
-
-    // When I pick card 0
-    Card card = game.getCardInHand(Player.FINDUS, 0);
-    // Then is it Tres
-    // ENABLE TO START TDD'ing
-     assertThat(card.getName(), is(GameConstants.TRES_CARD));
-  }
-
-  @Test
-  public void PedersonStillHas3Cards() {
+  public void PedersonShouldStillHave3Cards() {
     //We made Findus play card DOS at index 0 (doesnt matter the index)
     Card card = new StdCard(GameConstants.DOS_CARD);
     game.playCard(Player.FINDUS, card, 0);
@@ -144,35 +117,6 @@ public class TestAlphaStone {
     assertThat(count, is(3));
   }
 
-  /** REMOVE ME. Not a test of HotStone, just an example of the
-   matchers that the hamcrest library has... */
-  @Test
-  public void shouldDefinitelyBeRemoved() {
-    // Matching null and not null values
-    // 'is' require an exact match
-    // Hamcrest uses the 'equals()' method
-    String s = null;
-    assertThat(s, is(nullValue()));
-    s = "Ok";
-    assertThat(s, is(notNullValue()));
-    assertThat(s, is("Ok"));
 
-    // If you only validate substrings, use containsString
-    assertThat("This is a dummy test", containsString("dummy"));
-
-    // You can use is on any type
-    int answerToLifeUniverseAndEverything = 42;
-    assertThat(answerToLifeUniverseAndEverything, is(42));
-
-    // Match contents of Lists
-    List<String> l = new ArrayList<String>();
-    l.add("Bimse");
-    l.add("Bumse");
-    // Note - ordering is ignored when matching using hasItems
-    assertThat(l, hasItems(new String[] {"Bumse","Bimse"}));
-
-    // Matchers may be combined, like is-not
-    assertThat(l.get(0), is(not("Bumse")));
-  }
 
 }

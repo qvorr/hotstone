@@ -70,8 +70,8 @@ public class StandardHotStoneGame implements Game {
   }
 
   @Override
-  public Card getCardInHand(Player who, int indexInHand) {
-    return new StdCard(GameConstants.TRES_CARD); // Faking it
+  public Card getCardInHand(Player who, int indexInHand) { // FAKE
+    return new StdCard(GameConstants.TRES_CARD);
   }
 
   @Override
@@ -82,7 +82,7 @@ public class StandardHotStoneGame implements Game {
   @Override
   public int getHandSize(Player who) {
     return 3;
-  } // FAKE-IT
+  }  // FAKE
 
   @Override
   public Card getCardInField(Player who, int indexInField) {

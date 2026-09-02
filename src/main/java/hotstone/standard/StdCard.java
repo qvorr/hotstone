@@ -21,18 +21,17 @@ public class StdCard implements Card {
     @Override
     public int getManaCost() {
         return 2;
-    }
+    } // FAKE
 
     @Override
     public int getAttack() {
         return 2;
-    }
+    }   // FAKE
 
     @Override
     public int getHealth() {
         return 2;
-    }
-
+    }   // FAKE
     @Override
     public boolean isActive() {
         return false;
