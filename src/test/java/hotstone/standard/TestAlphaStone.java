@@ -133,6 +133,17 @@ public class TestAlphaStone {
      assertThat(card.getName(), is(GameConstants.TRES_CARD));
   }
 
+  @Test
+  public void PedersonStillHas3Cards() {
+    //We made Findus play card DOS at index 0 (doesnt matter the index)
+    Card card = new StdCard(GameConstants.DOS_CARD);
+    game.playCard(Player.FINDUS, card, 0);
+
+    //Now we check if Peddersen still has 3 cards
+    int count = game.getHandSize(Player.PEDDERSEN);
+    assertThat(count, is(3));
+  }
+
   /** REMOVE ME. Not a test of HotStone, just an example of the
    matchers that the hamcrest library has... */
   @Test
