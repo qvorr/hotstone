@@ -47,9 +47,9 @@ public class StandardHotStoneGame implements Game {
 
   public StandardHotStoneGame() {
     hand = new Card[] {
-            new StdCard(GameConstants.TRES_CARD),
-            new StdCard(GameConstants.DOS_CARD),
-            new StdCard(GameConstants.UNO_CARD)
+            new StdCard(GameConstants.TRES_CARD, Player.FINDUS),
+            new StdCard(GameConstants.DOS_CARD, Player.FINDUS),
+            new StdCard(GameConstants.UNO_CARD, Player.FINDUS)
     };
   }
 

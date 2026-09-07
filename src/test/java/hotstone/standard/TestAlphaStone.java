@@ -30,6 +30,7 @@ package hotstone.standard;
  */
 
 import hotstone.framework.Card;
+import hotstone.framework.Hero;
 import hotstone.framework.Player;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
@@ -49,6 +50,7 @@ import hotstone.framework.Game;
 public class TestAlphaStone {
   private Game game;
   private StdCard card;
+  private StdHero hero;
 
   /** Fixture for AlphaStone testing. */
   @BeforeEach
@@ -66,12 +68,6 @@ public class TestAlphaStone {
     // Then it should be Findus
 
     assertThat(player, is(Player.FINDUS));
-
-    // Later on, the 'printGameState' can be very handy during development
-    // as you can inspect the state of the game (the Given in GWT) and
-    // ensure your assumptions are correct before modifying it (When)
-    // to test a new feature (Then)
-
     // TestHelper.printGameState(game);
   }
 
@@ -93,7 +89,7 @@ public class TestAlphaStone {
 
   @Test
   public void cardDosAttributes222(){
-    card = new StdCard(GameConstants.DOS_CARD);
+    card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
     assertThat(attributes, is(new int[]{2, 2, 2}));
   }
@@ -109,7 +105,7 @@ public class TestAlphaStone {
   @Test
   public void PedersonShouldStillHave3Cards() {
     //We made Findus play card DOS at index 0 (doesnt matter the index)
-    Card card = new StdCard(GameConstants.DOS_CARD);
+    Card card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     game.playCard(Player.FINDUS, card, 0);
 
     //Now we check if Peddersen still has 3 cards
@@ -120,7 +116,7 @@ public class TestAlphaStone {
   @Test
   public void shouldHave3CardsTresAt0() {
     //We made Findus play card TRES at index 0 (doesnt matter the index)
-    Card cardTres = new StdCard(GameConstants.TRES_CARD);
+    Card cardTres = new StdCard(GameConstants.TRES_CARD, Player.FINDUS);
     game.playCard(Player.FINDUS, cardTres, 0);
 
     int handsize = game.getHandSize(Player.FINDUS);
@@ -133,7 +129,7 @@ public class TestAlphaStone {
   @Test
   public void shouldHave3CardsDosAt1() {
     //We made Findus play card DOS at index 1
-    Card card = new StdCard(GameConstants.DOS_CARD);
+    Card card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     game.playCard(Player.FINDUS, card, 1);
 
     int handsize = game.getHandSize(Player.FINDUS);
@@ -145,7 +141,7 @@ public class TestAlphaStone {
   @Test
   public void shouldHave3CardsUnoAt2() {
     //We made Findus play card UNO at index 2
-    Card card = new StdCard(GameConstants.UNO_CARD);
+    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
     game.playCard(Player.FINDUS, card, 2);
 
     int handsize = game.getHandSize(Player.FINDUS);
@@ -154,5 +150,16 @@ public class TestAlphaStone {
     assertThat(game.getCardInHand(Player.FINDUS, 2).getName(), is ("Uno"));
   }
 
+  @Test
+  public void getCardOwner(){
+    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
+    assertThat(card.getOwner(), is(Player.FINDUS));
+  }
+
+  @Test
+  public void setCardName(){
+    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
+    assertThat(card.getName(), is(GameConstants.UNO_CARD));
+  }
 
 }
