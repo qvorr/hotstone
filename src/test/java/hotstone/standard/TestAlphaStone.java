@@ -96,7 +96,7 @@ public class TestAlphaStone {
 
   @Test
   public void turnNumberFor3Rounds(){
-    for (int i = 1; i <= 3; i++){
+    for (int i = 0; i <= 2; i++){
       assertThat(game.getTurnNumber(), is(i));
       game.endTurn();
     }

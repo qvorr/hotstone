@@ -11,7 +11,9 @@ public class StdHero implements Hero {
 
     @Override
     public int getMana() {
-        return 0;
+        return 3; // as per the book, section 37.2 mentioned,
+//      "at the start of each player's turn, the mana crystals available to the hero is set to exactly 3,
+//      irrespective of how many mana was left from the previous turn"
     }
 
 

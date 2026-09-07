@@ -3,6 +3,9 @@ Missing features:
 2. Hero using abilities
 3. Minions should be active only 1 turn after placing them
 4. Win Condition check
+5. deck exhaustion
+6. hero non-active but not testing if power cannot be used a second time
+7. 
 
 Faked Implementations:
 1. Card health - card.getHealth()

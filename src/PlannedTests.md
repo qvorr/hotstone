@@ -1,3 +1,5 @@
+### ITERATION 2
+
 [x] Given an initialized game, Then Findus is player in turn
 [x] When Findus ends its turn, Then it is Peddersen in turn
 [x] When Peddersen ends its turn, Then it is Findus in turn
@@ -11,3 +13,7 @@
 ### ITERATION 2
 [x] getOwner method in StdCard is working properly
 [x] setName method in StdCard
+[ ] play card and end turn and check mana
+[ ] playing card mana depletion
+[ ] findus wins after 4 turns
+[ ] if findus playe Tres and peddersen played Dos, dos is removed from the game
