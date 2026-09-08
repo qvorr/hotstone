@@ -92,7 +92,19 @@ public class TestAlphaStone {
 
   @Test
   public void bothPlayersStartAt21Health(){
-    TestHelper.printGameState(game);
+    assertThat(game.getHero(Player.FINDUS).getHealth(), is(GameConstants.HERO_MAX_HEALTH));
+    assertThat(game.getHero(Player.PEDDERSEN).getHealth(), is(GameConstants.HERO_MAX_HEALTH));
+  }
+
+  @Test
+  public void heroTypeShouldBeBaby(){
+    assertThat(game.getHero(Player.FINDUS).getType(), is(GameConstants.BABY_HERO_TYPE));
+  }
+
+  @Test
+  public void bothPlayersHave4CardDeck(){
+    assertThat(game.getDeckSize(Player.FINDUS), is(4));
+    assertThat(game.getDeckSize(Player.PEDDERSEN), is(4));
   }
 
   @Test

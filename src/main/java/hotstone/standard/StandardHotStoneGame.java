@@ -49,25 +49,48 @@ public class StandardHotStoneGame implements Game {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
   private int turnNumber = 0;
   private Map<Player, List<StdCard>> hand = new HashMap<>();
-  private StdHero heroFINDUS = new StdHero();
-  private StdHero heroPEDDERSEN  = new StdHero();
+  private Map<Player, StdHero> heroes = new HashMap<>();
   private Map<Player, List<StdCard>> field = new HashMap<>();
+  private Map<Player, List<StdCard>> deck = new HashMap<>();
+
+  private final String[] AlphaStoneDeck = {
+          GameConstants.UNO_CARD,
+          GameConstants.DOS_CARD,
+          GameConstants.TRES_CARD,
+          GameConstants.CUATRO_CARD,
+          GameConstants.CINCO_CARD,
+          GameConstants.SEIS_CARD,
+          GameConstants.SIETE_CARD,
+  };
 
 
 
   public StandardHotStoneGame() {
-    hand.put(Player.FINDUS, new ArrayList<>());
-    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.UNO_CARD, Player.FINDUS));
-    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.DOS_CARD, Player.FINDUS));
-    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.TRES_CARD, Player.FINDUS));
-
-    hand.put(Player.PEDDERSEN, new ArrayList<>());
-    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.UNO_CARD, Player.PEDDERSEN));
-    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.DOS_CARD, Player.PEDDERSEN));
-    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.TRES_CARD, Player.PEDDERSEN));
-
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
+    heroes.put(Player.FINDUS, new StdHero());
+    heroes.put(Player.PEDDERSEN, new StdHero());
+    hand.put(Player.FINDUS, new ArrayList<>());
+    hand.put(Player.PEDDERSEN, new ArrayList<>());
+
+    dealCards();
+
+  }
+
+  private void dealCards(){
+    deck.put(Player.FINDUS, new ArrayList<>());
+    for(String name : AlphaStoneDeck){
+      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS));
+    }
+    deck.put(Player.PEDDERSEN, new ArrayList<>());
+    for(String name : AlphaStoneDeck){
+      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN));
+    }
+    for(int i = 0; i < 3; i++){
+      drawCard(Player.FINDUS);
+      drawCard(Player.PEDDERSEN);
+    }
+
   }
 
 
@@ -78,10 +101,8 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Hero getHero(Player who) {
-    return heroFINDUS;
+    return heroes.get(who);
   }
-
-
 
   @Override
   public Player getWinner() {
@@ -95,7 +116,7 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public int getDeckSize(Player who) {
-    return 0;
+    return deck.get(who).size();
   }
 
   @Override
@@ -156,5 +177,11 @@ public class StandardHotStoneGame implements Game {
   @Override
   public Status usePower(Player who) {
     return null;
+  }
+
+  private void drawCard(Player who){
+    StdCard drawnCard =  deck.get(who).getFirst();
+    deck.get(who).removeFirst();
+    hand.get(who).addFirst(drawnCard);
   }
 }

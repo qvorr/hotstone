@@ -26,19 +26,19 @@
 [ DONE ] PEDDERSEN is after FINDUS
 [ DONE ] FINDUS is after PEDDERSEN (redundant maybe?)
 [ DONE ] Turn number starts at 0 and increments by 1 each endTurn()
-[ ] Both heroes start with 21 health (HERO_MAX_HEALTH)
+[ DONE ] Both heroes start with 21 health (HERO_MAX_HEALTH)
 [ ] A hero dies and loses when health reaches 0 or below
-[ ] Hero type is "Baby" (BABY_HERO_TYPE) with description "Just Cure"
+[ DONE ] Hero type is "Baby" (BABY_HERO_TYPE) with description "Just Cure"
 [ ] Hero power costs 2 mana (HERO_POWER_COST) and does nothing in AlphaStone
 [ ] Hero non-active but no check for power only once per turn (said it in the book)
 [ ] Hero mana resets to 3 at the start of their turn
 
 -- Decks, hands and drawing
-[ ] Both players have a 7-card deck (attributes added already)
-[ ] Both players start with 3-card hand: Uno, Dos, Tres
+[ DONE ] Both players have a 7-card deck (attributes added already)
+[ DONE ] Both players start with 3-card hand: Uno, Dos, Tres
 [ ] Cards have no effects or spells in AlphaStone
 [ ] At the start of a turn, the active player draws 1 card from their deck
-[ ] Drawn cards enter the hand at index 0, pushing existing cards in +1 index
+[ DONE ] Drawn cards enter the hand at index 0, pushing existing cards in +1 index
 
 -- Playing cards/minions
 [ ] Playing a card costs mana equal to the card's mana cost
