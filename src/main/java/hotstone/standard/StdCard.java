@@ -3,9 +3,10 @@ package hotstone.standard;
 import hotstone.framework.Card;
 import hotstone.framework.Player;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StdCard implements Card {
-    private final HashMap<String, int[]> CardAttributes = new HashMap<>();
+    private final Map<String, int[]> CardAttributes = new HashMap<>();
 
     private String cardName;
     private Player owner;

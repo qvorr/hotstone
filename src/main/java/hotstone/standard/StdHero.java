@@ -4,10 +4,11 @@ import hotstone.framework.Hero;
 import hotstone.framework.Player;
 
 public class StdHero implements Hero {
-    private String heroName;
-    public StdHero(String name){
-        heroName = name;
-    }
+    private String heroType = "Baby";
+    private int health = GameConstants.HERO_MAX_HEALTH;
+    private int mana = 3;
+
+
 
     @Override
     public int getMana() {
@@ -29,7 +30,7 @@ public class StdHero implements Hero {
 
     @Override
     public String getType() {
-        return "";
+        return heroType;
     }
 
     @Override

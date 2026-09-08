@@ -58,15 +58,10 @@ public class TestAlphaStone {
     game = new StandardHotStoneGame();
   }
 
-  // Example of an early, simple test case:
   // Turn handling
   @Test
   public void shouldHaveFindusAsFirstPlayer() {
-    // Given a game
-    // When I ask for the player in turn
     Player player = game.getPlayerInTurn();
-    // Then it should be Findus
-
     assertThat(player, is(Player.FINDUS));
     // TestHelper.printGameState(game);
   }
@@ -88,18 +83,23 @@ public class TestAlphaStone {
   }
 
   @Test
-  public void cardDosAttributes222(){
-    card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
-    int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
-    assertThat(attributes, is(new int[]{2, 2, 2}));
-  }
-
-  @Test
   public void turnNumberFor3Rounds(){
     for (int i = 0; i <= 2; i++){
       assertThat(game.getTurnNumber(), is(i));
       game.endTurn();
     }
+  }
+
+  @Test
+  public void bothPlayersStartAt21Health(){
+    TestHelper.printGameState(game);
+  }
+
+  @Test
+  public void cardDosAttributes222(){
+    card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
+    int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
+    assertThat(attributes, is(new int[]{2, 2, 2}));
   }
 
   @Test

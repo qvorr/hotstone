@@ -18,6 +18,11 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /** This is the 'temporary test stub' in TDD
  * terms: the initial empty but compilable implementation
  * of the game interface.
@@ -43,14 +48,26 @@ import hotstone.framework.*;
 public class StandardHotStoneGame implements Game {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
   private int turnNumber = 0;
-  private Card[] hand;
+  private Map<Player, List<StdCard>> hand = new HashMap<>();
+  private StdHero heroFINDUS = new StdHero();
+  private StdHero heroPEDDERSEN  = new StdHero();
+  private Map<Player, List<StdCard>> field = new HashMap<>();
+
+
 
   public StandardHotStoneGame() {
-    hand = new Card[] {
-            new StdCard(GameConstants.TRES_CARD, Player.FINDUS),
-            new StdCard(GameConstants.DOS_CARD, Player.FINDUS),
-            new StdCard(GameConstants.UNO_CARD, Player.FINDUS)
-    };
+    hand.put(Player.FINDUS, new ArrayList<>());
+    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.UNO_CARD, Player.FINDUS));
+    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.DOS_CARD, Player.FINDUS));
+    hand.get(Player.FINDUS).addFirst(new StdCard(GameConstants.TRES_CARD, Player.FINDUS));
+
+    hand.put(Player.PEDDERSEN, new ArrayList<>());
+    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.UNO_CARD, Player.PEDDERSEN));
+    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.DOS_CARD, Player.PEDDERSEN));
+    hand.get(Player.PEDDERSEN).addFirst(new StdCard(GameConstants.TRES_CARD, Player.PEDDERSEN));
+
+    field.put(Player.FINDUS, new ArrayList<>());
+    field.put(Player.PEDDERSEN, new ArrayList<>());
   }
 
 
@@ -61,8 +78,10 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Hero getHero(Player who) {
-    return null;
+    return heroFINDUS;
   }
+
+
 
   @Override
   public Player getWinner() {
@@ -81,17 +100,17 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Card getCardInHand(Player who, int indexInHand) {
-    return hand[indexInHand];
+    return hand.get(who).get(indexInHand);
   }
 
   @Override
   public Iterable<? extends Card> getHand(Player who) {
-    return null;
+    return hand.get(who);
   }
 
   @Override
   public int getHandSize(Player who) {
-    return hand.length;
+    return hand.get(who).size();
   }
 
   @Override
@@ -101,12 +120,12 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Iterable<? extends Card> getField(Player who) {
-    return null;
+    return field.get(who);
   }
 
   @Override
   public int getFieldSize(Player who) {
-    return 0;
+    return field.size();
   }
 
   @Override
