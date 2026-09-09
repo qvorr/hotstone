@@ -416,4 +416,26 @@ public class TestAlphaStone {
     assertThat(card.getName(), is(GameConstants.UNO_CARD));
   }
 
+  @Test
+  public void handFindusShouldReturnTresat0(){
+    assertThat(game.getHand(Player.FINDUS).iterator().next(), is(game.getCardInHand(Player.FINDUS, 0)));
+  }
+
+  @Test
+  public void handPeddersenShouldReturnTresat0(){
+    assertThat(game.getHand(Player.PEDDERSEN).iterator().next(), is(game.getCardInHand(Player.PEDDERSEN, 0)));
+  }
+
+  @Test
+  public void fieldFindusShouldReturnDosat0(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 1), 0);
+    assertThat(game.getField(Player.FINDUS).iterator().next(), is(game.getCardInField(Player.FINDUS, 0)));
+  }
+
+  @Test
+  public void fieldPeddersenShouldReturnUnoat0(){
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    assertThat(game.getField(Player.PEDDERSEN).iterator().next(), is(game.getCardInField(Player.PEDDERSEN, 0)));
+  }
 }

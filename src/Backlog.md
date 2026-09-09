@@ -1,18 +1,5 @@
 Missing features:
-1. Attack System
-2. Hero using abilities
-3. Minions should be active only 1 turn after placing them
-4. Win Condition check
-5. deck exhaustion
-6. hero non-active but not testing if power cannot be used a second time
-7. 
-
-Faked Implementations:
-1. Card health - card.getHealth()
-2. Card attack power - card.getAttack()
-3. Card mana cost - card.getManaCost()
-4. both players have the same "preset" hand
-
-
+1. Winning currently happens only on turn 8, with no other prerequisites
+2. no check for StdCard.getEffectDescription(), since in AlphaStone cards don't have effects,
 
 
