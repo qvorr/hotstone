@@ -47,6 +47,7 @@ import java.util.Map;
 
 public class StandardHotStoneGame implements Game {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
+  private final int MAX_MANA = 3;
   private int turnNumber = 0;
   private Map<Player, List<StdCard>> hand = new HashMap<>();
   private Map<Player, StdHero> heroes = new HashMap<>();
@@ -138,7 +139,7 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Card getCardInField(Player who, int indexInField) {
-    return null;
+    return field.get(who).get(indexInField);
   }
 
   @Override
@@ -159,6 +160,14 @@ public class StandardHotStoneGame implements Game {
       playerInTurn = Player.FINDUS;
     }
     turnNumber++;
+    if(turnNumber > 1){
+      drawCard(playerInTurn);
+      StdHero player = (StdHero) getHero(playerInTurn);
+      player.setMana(MAX_MANA);
+      for(StdCard card: field.get(playerInTurn)){
+        card.setActive(true);
+      }
+    }
   }
 
   @Override
@@ -174,13 +183,35 @@ public class StandardHotStoneGame implements Game {
       field.get(who).add(atIndex, (StdCard) card);
       StdHero thisHero = (StdHero) getHero(who);
       thisHero.setMana(thisHero.getMana() - card.getManaCost());
+      StdCard thisCard = (StdCard) card;
+//      thisCard.setActive(true);
       return Status.OK;
     }
   }
 
   @Override
   public Status attackCard(Player playerAttacking, Card attackingCard, Card defendingCard) {
-    return null;
+    StdCard attacker = (StdCard) attackingCard;
+    StdCard defender = (StdCard) defendingCard;
+    if(getPlayerInTurn() != playerAttacking) {
+      return Status.NOT_PLAYER_IN_TURN;
+    }else if(attackingCard.getOwner() != playerAttacking){
+      return Status.NOT_OWNER;
+    }else if(!attacker.isActive()) {
+      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
+    }else if(attacker.getOwner() == defender.getOwner()){
+      return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
+    } else {
+      attacker.setHealth(attacker.getHealth() - defender.getAttack());
+      defender.setHealth(defender.getHealth() - attacker.getAttack());
+
+      if(attacker.getHealth() <=0){
+        field.get(playerAttacking).remove(attackingCard);
+      }else if(defender.getHealth() <= 0){
+        field.get(Player.computeOpponent(playerAttacking)).remove(defendingCard);
+      }
+      return Status.OK;
+    }
   }
 
   @Override

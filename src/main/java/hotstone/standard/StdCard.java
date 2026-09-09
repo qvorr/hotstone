@@ -25,6 +25,14 @@ public class StdCard implements Card {
         CardAttributes.put(GameConstants.SIETE_CARD, new int[]{3, 2, 4});
     }
 
+    public void setHealth(int newHealth){
+       CardAttributes.get(cardName)[1] = newHealth;
+    }
+
+    public void setActive(boolean status){
+        isActive = status;
+    }
+
     @Override
     public String getName() {
         return cardName;
@@ -46,7 +54,7 @@ public class StdCard implements Card {
     }   // FAKE
     @Override
     public boolean isActive() {
-        return false;
+        return isActive;
     }
 
     @Override

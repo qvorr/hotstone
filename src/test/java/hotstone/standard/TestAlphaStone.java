@@ -59,7 +59,6 @@ public class TestAlphaStone {
   public void shouldHaveFindusAsFirstPlayer() {
     Player player = game.getPlayerInTurn();
     assertThat(player, is(Player.FINDUS));
-    // TestHelper.printGameState(game);
   }
 
   @Test
@@ -98,7 +97,24 @@ public class TestAlphaStone {
   }
 
   @Test
-  public void bothPlayersHave4CardDeck(){
+  public void drawANewCardOnBeginningOfTurn(){
+    for(int i = 3; i < 7; i++){
+      assertThat(game.getHandSize(Player.FINDUS), is(i));
+      game.endTurn();
+      game.endTurn();
+    }
+  }
+
+  @Test
+  public void heroManaResetsTo3OnANewTurn(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.endTurn();
+    assertThat(game.getHero(Player.FINDUS).getMana(), is(3));
+  }
+
+  @Test
+  public void bothPlayersHave4CardDeckOnANewGame(){
     assertThat(game.getDeckSize(Player.FINDUS), is(4));
     assertThat(game.getDeckSize(Player.PEDDERSEN), is(4));
   }
@@ -151,6 +167,73 @@ public class TestAlphaStone {
     assertThat(game.playCard(Player.FINDUS,
             game.getCardInHand(Player.PEDDERSEN, 0), 0),
             is(Status.NOT_OWNER));
+  }
+
+  @Test
+  public void cardBecomesActiveTheTurnAfterBeingPlayed(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    assertThat(game.getCardInField(Player.FINDUS, 0).isActive(), is(false));
+    game.endTurn();
+    game.endTurn();
+    assertThat(game.getCardInField(Player.FINDUS, 0).isActive(), is(true));
+  }
+
+  @Test
+  public void inactiveMinionCannotAttack(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    game.endTurn();
+    assertThat(game.attackCard(Player.PEDDERSEN,
+            game.getCardInHand(Player.PEDDERSEN, 0),
+            game.getCardInField(Player.FINDUS, 0)),
+            is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
+  }
+
+  @Test
+  public void cannotAttackOwnMinion(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 1), 0);
+    game.endTurn();
+    game.endTurn();
+    assertThat(game.attackCard(Player.FINDUS,
+            game.getCardInField(Player.FINDUS, 0),
+            game.getCardInField(Player.FINDUS, 1)),
+            is(Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION));
+  }
+
+  @Test
+  public void cannotAttackWithACardPlayedDoesntOwn(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    assertThat(game.attackCard(Player.PEDDERSEN,
+            game.getCardInField(Player.FINDUS, 0),
+            game.getCardInField(Player.PEDDERSEN, 0)),
+            is(Status.NOT_OWNER));
+  }
+
+  @Test
+  public void cannotAttackWhenNotPlayersTurn(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 0);
+    game.endTurn();
+    assertThat(game.attackCard(Player.PEDDERSEN,
+            game.getCardInField(Player.PEDDERSEN, 0),
+            game.getCardInField(Player.FINDUS, 0)),
+            is(Status.NOT_PLAYER_IN_TURN));
+  }
+
+  @Test
+  public void attackingCardShouldReturnOKStatus(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 0);
+    game.endTurn();
+    game.endTurn();
+    assertThat(game.attackCard(Player.PEDDERSEN,
+                    game.getCardInField(Player.PEDDERSEN, 0),
+                    game.getCardInField(Player.FINDUS, 0)),
+            is(Status.OK));
   }
 
   @Test

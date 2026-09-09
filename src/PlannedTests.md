@@ -31,27 +31,27 @@
 [ DONE ] Hero type is "Baby" (BABY_HERO_TYPE) with description "Just Cure"
 [ ] Hero power costs 2 mana (HERO_POWER_COST) and does nothing in AlphaStone
 [ ] Hero non-active but no check for power only once per turn (said it in the book)
-[ ] Hero mana resets to 3 at the start of their turn
+[ DONE ] Hero mana resets to 3 at the start of their turn
 
 -- Decks, hands and drawing
 [ DONE ] Both players have a 7-card deck (attributes added already)
 [ DONE ] Both players start with 3-card hand: Uno, Dos, Tres
-[ ] Cards have no effects or spells in AlphaStone
-[ ] At the start of a turn, the active player draws 1 card from their deck
+[ DONE ?] Cards have no effects or spells in AlphaStone
+[ DONE ] At the start of a turn, the active player draws 1 card from their deck
 [ DONE ] Drawn cards enter the hand at index 0, pushing existing cards in +1 index
 
 -- Playing cards/minions
 [ DONE ] Playing a card costs mana equal to the card's mana cost
 [ DONE ] Playing a card moves it from the player's hand to the field at 'atIndex'
 [ DONE ] Minions enter the field inactive
-[ ] Fielded minions become active at the start of their owner's turn
+[ DONE ] Fielded minions become active at the start of their owner's turn
 [ DONE ? ] Cards in hand are always inactive
 
 -- Combat and attacks
-[ ] Inactive minions cannot attack
+[ DONE] Inactive minions cannot attack
 [ ] A minion can attack only once per turn, becoming inactive after attacking
-[ ] Minion cs minion: both deal simultaneous damage equal to their attack to each other's health
-[ ] Defeated minions (health <= 0) are removed from the field immediately
+[ DONE ] Minion cs minion: both deal simultaneous damage equal to their attack to each other's health
+[ DONE ] Defeated minions (health <= 0) are removed from the field immediately
 [ ] Minion vs hero: deals damage equal to minion's attack opponent's hero
 [ ] Heroes do not counter-attack
 
@@ -60,7 +60,7 @@
 [ ] getWinner() returns null while progressing, or the winning player
 
 -- Return statuses
-done for playCard()
+done for playCard() and attackCard()
 [ ] Return Status.OK on successful mutator execution
 [ ] Return Status.NOT_PLAYER_IN_TURN if action is attempted out of turn
 [ ] Return Status.NOT_OWNER if interacting with an opponent's card or hero
