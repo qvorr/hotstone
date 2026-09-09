@@ -7,7 +7,7 @@ public class StdHero implements Hero {
     private String heroType = GameConstants.BABY_HERO_TYPE;
     private int health = GameConstants.HERO_MAX_HEALTH;
     private int mana = 3;
-
+    private boolean canUsePower = true;
 
 
     @Override
@@ -15,6 +15,10 @@ public class StdHero implements Hero {
         return mana; // as per the book, section 37.2 mentioned,
 //      "at the start of each player's turn, the mana crystals available to the hero is set to exactly 3,
 //      irrespective of how many mana was left from the previous turn"
+    }
+
+    public void setUsePower(boolean status){
+        canUsePower = status;
     }
 
     public void setMana(int newMana){
@@ -32,7 +36,7 @@ public class StdHero implements Hero {
 
     @Override
     public boolean canUsePower() {
-        return false;
+        return canUsePower;
     }
 
     @Override

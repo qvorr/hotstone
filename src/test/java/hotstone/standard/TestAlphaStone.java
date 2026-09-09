@@ -286,6 +286,30 @@ public class TestAlphaStone {
     assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0)), is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
   }
 
+//  hero power tests
+  @Test
+  public void cannotUseHeroPowerWhenNotOnPlayersTurn(){
+    assertThat(game.usePower(Player.PEDDERSEN), is(Status.NOT_PLAYER_IN_TURN));
+  }
+
+  @Test
+  public void notEnoughManaForHeroPower(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    assertThat(game.usePower(Player.FINDUS), is(Status.NOT_ENOUGH_MANA));
+  }
+
+  @Test
+  public void usingHeroPowerShouldReturnOKStatus(){
+    assertThat(game.usePower(Player.FINDUS), is(Status.OK));
+  }
+
+  @Test
+  public void usingHeroPowerShouldDecreaseHeroMana(){
+    int prevMana = game.getHero(Player.FINDUS).getMana();
+    game.usePower(Player.FINDUS);
+    assertThat(game.getHero(Player.FINDUS).getMana(), is(prevMana - GameConstants.HERO_POWER_COST));
+  }
+
   @Test
   public void cardDosAttributes222(){
     card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);

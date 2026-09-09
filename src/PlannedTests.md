@@ -29,8 +29,8 @@
 [ DONE ] Both heroes start with 21 health (HERO_MAX_HEALTH)
 [ ] A hero dies and loses when health reaches 0 or below
 [ DONE ] Hero type is "Baby" (BABY_HERO_TYPE) with description "Just Cure"
-[ ] Hero power costs 2 mana (HERO_POWER_COST) and does nothing in AlphaStone
-[ ] Hero non-active but no check for power only once per turn (said it in the book)
+[ DONE ] Hero power costs 2 mana (HERO_POWER_COST) and does nothing in AlphaStone
+[ DONE ] Hero non-active but no check for power only once per turn (said it in the book)
 [ DONE ] Hero mana resets to 3 at the start of their turn
 
 -- Decks, hands and drawing
@@ -49,11 +49,11 @@
 
 -- Combat and attacks
 [ DONE] Inactive minions cannot attack
-[ ] A minion can attack only once per turn, becoming inactive after attacking
+[ DONE ] A minion can attack only once per turn, becoming inactive after attacking
 [ DONE ] Minion cs minion: both deal simultaneous damage equal to their attack to each other's health
 [ DONE ] Defeated minions (health <= 0) are removed from the field immediately
-[ ] Minion vs hero: deals damage equal to minion's attack opponent's hero
-[ ] Heroes do not counter-attack
+[ DONE ] Minion vs hero: deals damage equal to minion's attack on opponent's hero
+[ DONE ? ] Heroes do not counter-attack
 
 -- Win condition
 [ ] Findus wins at the start of turn 8 (after 4 completed rounds)

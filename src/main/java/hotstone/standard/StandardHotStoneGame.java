@@ -164,6 +164,7 @@ public class StandardHotStoneGame implements Game {
       drawCard(playerInTurn);
       StdHero player = (StdHero) getHero(playerInTurn);
       player.setMana(MAX_MANA);
+      player.setUsePower(true);
       for(StdCard card: field.get(playerInTurn)){
         card.setActive(true);
       }
@@ -232,7 +233,16 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Status usePower(Player who) {
-    return null;
+    StdHero hero = (StdHero) getHero(who);
+    if(playerInTurn != who){
+      return Status.NOT_PLAYER_IN_TURN;
+    }else if(hero.getMana() < GameConstants.HERO_POWER_COST){
+      return Status.NOT_ENOUGH_MANA;
+    }else{
+      hero.setMana(hero.getMana() - GameConstants.HERO_POWER_COST);
+      hero.setUsePower(false);
+      return Status.OK;
+    }
   }
 
 //  draw a card from the top of the deck
