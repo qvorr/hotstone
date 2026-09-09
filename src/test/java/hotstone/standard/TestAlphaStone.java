@@ -237,6 +237,56 @@ public class TestAlphaStone {
   }
 
   @Test
+  public void cannotAttackWithSameCardTwiceInOneTurn(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 1);
+    game.endTurn();
+    game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
+    assertThat(game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0)),is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
+  }
+
+//  hero attacking tests
+  @Test
+  public void cannotAttackHeroWhenNotPlayersTurn(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0)), is(Status.NOT_PLAYER_IN_TURN));
+  }
+
+  @Test
+  public void cannotAttackHeroWithOtherPlayersCard(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    game.endTurn();
+    assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.PEDDERSEN, 0)), is(Status.NOT_OWNER));
+  }
+
+  @Test
+  public void cannotAttackHeroWhenMinionNotActive(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0)), is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
+  }
+
+  @Test
+  public void attackingHeroShouldGiveOKStatus(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.endTurn();
+    game.endTurn();
+    assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0)), is(Status.OK));
+  }
+
+  @Test
+  public void cannotAttackHeroTwiceInOneTurnWithSameCard(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0));
+    assertThat(game.attackHero(Player.FINDUS, game.getCardInField(Player.FINDUS, 0)), is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
+  }
+
+  @Test
   public void cardDosAttributes222(){
     card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};

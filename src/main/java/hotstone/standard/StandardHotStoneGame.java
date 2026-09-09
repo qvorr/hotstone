@@ -184,7 +184,6 @@ public class StandardHotStoneGame implements Game {
       StdHero thisHero = (StdHero) getHero(who);
       thisHero.setMana(thisHero.getMana() - card.getManaCost());
       StdCard thisCard = (StdCard) card;
-//      thisCard.setActive(true);
       return Status.OK;
     }
   }
@@ -204,7 +203,7 @@ public class StandardHotStoneGame implements Game {
     } else {
       attacker.setHealth(attacker.getHealth() - defender.getAttack());
       defender.setHealth(defender.getHealth() - attacker.getAttack());
-
+      attacker.setActive(false);
       if(attacker.getHealth() <=0){
         field.get(playerAttacking).remove(attackingCard);
       }else if(defender.getHealth() <= 0){
@@ -216,7 +215,19 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Status attackHero(Player playerAttacking, Card attackingCard) {
-    return null;
+    if(playerInTurn != playerAttacking){
+      return Status.NOT_PLAYER_IN_TURN;
+    }else if(attackingCard.getOwner() != playerAttacking){
+      return Status.NOT_OWNER;
+    }else if(!attackingCard.isActive()){
+      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
+    }else{
+      StdCard attacker = (StdCard) attackingCard;
+      StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
+      opHero.setHealth(opHero.getHealth() - attackingCard.getAttack());
+      attacker.setActive(false);
+      return Status.OK;
+    }
   }
 
   @Override

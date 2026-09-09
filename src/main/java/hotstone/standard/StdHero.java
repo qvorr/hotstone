@@ -17,8 +17,12 @@ public class StdHero implements Hero {
 //      irrespective of how many mana was left from the previous turn"
     }
 
-    public void setMana(int num){
-        mana = num;
+    public void setMana(int newMana){
+        mana = newMana;
+    }
+
+    public void setHealth(int newHealth){
+        health = newHealth;
     }
 
     @Override
