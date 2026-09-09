@@ -6,9 +6,14 @@ import hotstone.framework.Player;
 public class StdHero implements Hero {
     private String heroType = GameConstants.BABY_HERO_TYPE;
     private int health = GameConstants.HERO_MAX_HEALTH;
+    private String effectDesc = "Just Cute.";
     private int mana = 3;
     private boolean canUsePower = true;
+    private Player owner;
 
+    public StdHero(Player owner){
+       this.owner = owner;
+    }
 
     @Override
     public int getMana() {
@@ -46,12 +51,12 @@ public class StdHero implements Hero {
 
     @Override
     public Player getOwner() {
-        return null;
+        return owner;
     }
 
     @Override
     public String getEffectDescription() {
-        return "";
+        return effectDesc;
     }
 
 }

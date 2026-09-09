@@ -97,6 +97,12 @@ public class TestAlphaStone {
   }
 
   @Test
+  public void fieldSizeShouldReturn1afterPlayedCard(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    assertThat(game.getFieldSize(Player.FINDUS), is(1));
+  }
+
+  @Test
   public void drawANewCardOnBeginningOfTurn(){
     for(int i = 3; i < 7; i++){
       assertThat(game.getHandSize(Player.FINDUS), is(i));
@@ -114,6 +120,16 @@ public class TestAlphaStone {
   }
 
   @Test
+  public void heroEffectDescriptionShouldReturnBabyDescription(){
+    assertThat(game.getHero(Player.FINDUS).getEffectDescription(), is("Just Cute."));
+  }
+
+  @Test
+  public void heroOwnerShouldReturnCorrectPlayer(){
+    assertThat(game.getHero(Player.FINDUS).getOwner(), is(Player.FINDUS));
+  }
+
+  @Test
   public void bothPlayersHave4CardDeckOnANewGame(){
     assertThat(game.getDeckSize(Player.FINDUS), is(4));
     assertThat(game.getDeckSize(Player.PEDDERSEN), is(4));
@@ -121,9 +137,10 @@ public class TestAlphaStone {
 
   @Test
   public void playCardShouldReducePlayersMana(){
+    int prevHeroMana = game.getHero(Player.FINDUS).getMana();
     Card playedCard = game.getCardInHand(Player.FINDUS, 2);
     game.playCard(Player.FINDUS, playedCard , 0);
-    assertThat(game.getHero(Player.FINDUS).getMana(), is(3- playedCard.getManaCost()));
+    assertThat(game.getHero(Player.FINDUS).getMana(), is(prevHeroMana- playedCard.getManaCost()));
   }
 
   @Test
@@ -247,7 +264,28 @@ public class TestAlphaStone {
     assertThat(game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0)),is(Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION));
   }
 
-//  hero attacking tests
+  @Test
+  public void whenDefendingCardDiesItShouldBeRemovedFromTheField(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    game.endTurn();
+    game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
+    assertThat(game.getFieldSize(Player.PEDDERSEN), is(0));
+  }
+
+  @Test
+  public void whenAttackingCardDiesItShouldBeRemovedFromTheField(){
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+    game.endTurn();
+    game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+    game.endTurn();
+    game.endTurn();
+    game.attackCard(Player.PEDDERSEN, game.getCardInField(Player.PEDDERSEN, 0), game.getCardInField(Player.FINDUS, 0));
+    assertThat(game.getFieldSize(Player.PEDDERSEN), is(0));
+  }
+
+// attacking hero  tests
   @Test
   public void cannotAttackHeroWhenNotPlayersTurn(){
     game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
@@ -287,6 +325,7 @@ public class TestAlphaStone {
   }
 
 //  hero power tests
+
   @Test
   public void cannotUseHeroPowerWhenNotOnPlayersTurn(){
     assertThat(game.usePower(Player.PEDDERSEN), is(Status.NOT_PLAYER_IN_TURN));
@@ -315,6 +354,27 @@ public class TestAlphaStone {
     card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
     assertThat(attributes, is(new int[]{2, 2, 2}));
+  }
+
+  @Test
+  public void aftetUsingHeroPowerStatusShouldBeFalse(){
+    game.usePower(Player.FINDUS);
+    assertThat(game.getHero(Player.FINDUS).canUsePower(), is(false));
+  }
+
+//  game winner tests
+  @Test
+  public void winnerNormallyShouldReturnNull(){
+    for(int i = 0; i < 3; i++){
+      assertThat(game.getWinner(), is(nullValue()));
+      TestHelper.advanceGameNRounds(game, 1);
+    }
+  }
+
+  @Test
+  public void findusShouldWinOnTurn8(){
+    TestHelper.advanceGameNRounds(game, 4);
+    assertThat(game.getWinner(), is(Player.FINDUS));
   }
 
   @Test

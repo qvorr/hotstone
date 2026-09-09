@@ -69,8 +69,8 @@ public class StandardHotStoneGame implements Game {
   public StandardHotStoneGame() {
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
-    heroes.put(Player.FINDUS, new StdHero());
-    heroes.put(Player.PEDDERSEN, new StdHero());
+    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS));
+    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN));
     hand.put(Player.FINDUS, new ArrayList<>());
     hand.put(Player.PEDDERSEN, new ArrayList<>());
 
@@ -109,7 +109,11 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Player getWinner() {
-    return null;
+    if(getTurnNumber() == 8){
+      return Player.FINDUS;
+    }else {
+      return null;
+    }
   }
 
   @Override
@@ -149,7 +153,7 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public int getFieldSize(Player who) {
-    return field.size();
+    return field.get(who).size();
   }
 
   @Override
@@ -207,8 +211,9 @@ public class StandardHotStoneGame implements Game {
       attacker.setActive(false);
       if(attacker.getHealth() <=0){
         field.get(playerAttacking).remove(attackingCard);
-      }else if(defender.getHealth() <= 0){
-        field.get(Player.computeOpponent(playerAttacking)).remove(defendingCard);
+      }
+      if(defender.getHealth() <= 0){
+        field.get(defendingCard.getOwner()).remove(defendingCard);
       }
       return Status.OK;
     }

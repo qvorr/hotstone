@@ -26,7 +26,7 @@ public class StdCard implements Card {
     }
 
     public void setHealth(int newHealth){
-       CardAttributes.get(cardName)[1] = newHealth;
+       CardAttributes.get(cardName)[2] = newHealth;
     }
 
     public void setActive(boolean status){
