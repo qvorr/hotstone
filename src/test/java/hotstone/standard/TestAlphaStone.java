@@ -29,9 +29,7 @@ package hotstone.standard;
  *      Aarhus University
  */
 
-import hotstone.framework.Card;
-import hotstone.framework.Hero;
-import hotstone.framework.Player;
+import hotstone.framework.*;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
 
@@ -40,8 +38,6 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import hotstone.framework.Game;
 
 /** Template for your own ongoing TDD process.
  * Fill it out until you have covered all
@@ -108,6 +104,56 @@ public class TestAlphaStone {
   }
 
   @Test
+  public void playCardShouldReducePlayersMana(){
+    Card playedCard = game.getCardInHand(Player.FINDUS, 2);
+    game.playCard(Player.FINDUS, playedCard , 0);
+    assertThat(game.getHero(Player.FINDUS).getMana(), is(3- playedCard.getManaCost()));
+  }
+
+  @Test
+  public void playedCardShouldBeRemovedFromHandWhenPlayed(){
+//    we save the hand size before and after playing a card, and check if after is smaller by 1
+    int ogHandSize = game.getHandSize(Player.FINDUS);
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+    int afterHandSize = game.getHandSize(Player.FINDUS);
+    assertThat(afterHandSize, is(ogHandSize-1));
+  }
+
+  @Test
+  public void playedCardShouldReturnOKStatus(){
+//    when everything works normally, we should receive
+//    the OK status from the playCard() accessor method
+    assertThat(game.playCard(Player.FINDUS,
+            game.getCardInHand(Player.FINDUS, 0), 0),
+            is(Status.OK));
+  }
+
+  @Test
+  public void cannotPlayCardWithoutEnoughMana(){
+//    tres is played
+    game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+//    this time we try to play dos, but the total mana cost of tres
+//    and dos is bigger than available mana.
+    assertThat(game.playCard(Player.FINDUS,
+            game.getCardInHand(Player.FINDUS, 0), 1),
+            is(Status.NOT_ENOUGH_MANA));
+  }
+
+  @Test
+  public void cannotPlayCardWhenNotPlayerTurn(){
+    assertThat(game.playCard(Player.PEDDERSEN,
+            game.getCardInHand(Player.PEDDERSEN, 0), 0),
+            is(Status.NOT_PLAYER_IN_TURN));
+  }
+
+  @Test
+  public void cannotPlayCardOfAnotherPlayer(){
+    assertThat(game.playCard(Player.FINDUS,
+            game.getCardInHand(Player.PEDDERSEN, 0), 0),
+            is(Status.NOT_OWNER));
+  }
+
+  @Test
   public void cardDosAttributes222(){
     card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
     int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
@@ -127,38 +173,17 @@ public class TestAlphaStone {
 
   @Test
   public void shouldHave3CardsTresAt0() {
-    //We made Findus play card TRES at index 0 (doesnt matter the index)
-    Card cardTres = new StdCard(GameConstants.TRES_CARD, Player.FINDUS);
-    game.playCard(Player.FINDUS, cardTres, 0);
-
-    int handsize = game.getHandSize(Player.FINDUS);
-    assertThat(handsize, is(3));
-
     assertThat(game.getCardInHand(Player.FINDUS, 0).getName(), is ("Tres"));
   }
 
 
   @Test
   public void shouldHave3CardsDosAt1() {
-    //We made Findus play card DOS at index 1
-    Card card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
-    game.playCard(Player.FINDUS, card, 1);
-
-    int handsize = game.getHandSize(Player.FINDUS);
-    assertThat(handsize, is(3));
-
     assertThat(game.getCardInHand(Player.FINDUS, 1).getName(), is ("Dos"));
   }
 
   @Test
   public void shouldHave3CardsUnoAt2() {
-    //We made Findus play card UNO at index 2
-    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
-    game.playCard(Player.FINDUS, card, 2);
-
-    int handsize = game.getHandSize(Player.FINDUS);
-    assertThat(handsize, is(3));
-
     assertThat(game.getCardInHand(Player.FINDUS, 2).getName(), is ("Uno"));
   }
 

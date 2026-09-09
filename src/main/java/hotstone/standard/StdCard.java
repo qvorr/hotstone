@@ -10,12 +10,11 @@ public class StdCard implements Card {
 
     private String cardName;
     private Player owner;
-    private boolean isActive;
+    private boolean isActive = false;
 
     public StdCard(String name, Player owner){
         cardName = name;
         this.owner = owner;
-        isActive = false;
 //      [mana, attack, health]
         CardAttributes.put(GameConstants.UNO_CARD, new int[]{1, 1, 1});
         CardAttributes.put(GameConstants.DOS_CARD, new int[]{2, 2, 2});

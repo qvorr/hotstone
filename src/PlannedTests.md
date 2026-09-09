@@ -41,11 +41,11 @@
 [ DONE ] Drawn cards enter the hand at index 0, pushing existing cards in +1 index
 
 -- Playing cards/minions
-[ ] Playing a card costs mana equal to the card's mana cost
-[ ] Playing a card moves it from the player's hand to the field at 'atIndex'
-[ ] Minions enter the field inactive
+[ DONE ] Playing a card costs mana equal to the card's mana cost
+[ DONE ] Playing a card moves it from the player's hand to the field at 'atIndex'
+[ DONE ] Minions enter the field inactive
 [ ] Fielded minions become active at the start of their owner's turn
-[ ] Cards in hand are always inactive
+[ DONE ? ] Cards in hand are always inactive
 
 -- Combat and attacks
 [ ] Inactive minions cannot attack
@@ -60,10 +60,11 @@
 [ ] getWinner() returns null while progressing, or the winning player
 
 -- Return statuses
+done for playCard()
 [ ] Return Status.OK on successful mutator execution
 [ ] Return Status.NOT_PLAYER_IN_TURN if action is attempted out of turn
 [ ] Return Status.NOT_OWNER if interacting with an opponent's card or hero
 [ ] Return Status.NOT_ENOUGH_MANA if hero lacks required mana.
-[ ] Return Status.ATTACK_NOT_ALLOWE_FOR_NON_ACTIVE-MINOON if minion is inactive
+[ ] Return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE-MINION if minion is inactive
 [ ] Return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION if targeting a friendly minion
 [ ] Return Status.POWER_USE_NOT_ALLOWED_TWICE_PR_ROUND if hero power is reused in one turn

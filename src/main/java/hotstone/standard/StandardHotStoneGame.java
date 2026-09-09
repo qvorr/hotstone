@@ -78,6 +78,7 @@ public class StandardHotStoneGame implements Game {
   }
 
   private void dealCards(){
+//    Initialize the decks for both players
     deck.put(Player.FINDUS, new ArrayList<>());
     for(String name : AlphaStoneDeck){
       deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS));
@@ -86,6 +87,7 @@ public class StandardHotStoneGame implements Game {
     for(String name : AlphaStoneDeck){
       deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN));
     }
+//    deal 3 cards to both players
     for(int i = 0; i < 3; i++){
       drawCard(Player.FINDUS);
       drawCard(Player.PEDDERSEN);
@@ -161,7 +163,19 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Status playCard(Player who, Card card, int atIndex) {
-    return null;
+    if(getPlayerInTurn() != who){
+      return Status.NOT_PLAYER_IN_TURN;
+    }else if(card.getOwner() != who){
+      return Status.NOT_OWNER;
+    }else if(card.getManaCost() > heroes.get(who).getMana()){
+      return Status.NOT_ENOUGH_MANA;
+    }else {
+      hand.get(who).remove(card);
+      field.get(who).add(atIndex, (StdCard) card);
+      StdHero thisHero = (StdHero) getHero(who);
+      thisHero.setMana(thisHero.getMana() - card.getManaCost());
+      return Status.OK;
+    }
   }
 
   @Override
@@ -179,6 +193,7 @@ public class StandardHotStoneGame implements Game {
     return null;
   }
 
+//  draw a card from the top of the deck
   private void drawCard(Player who){
     StdCard drawnCard =  deck.get(who).getFirst();
     deck.get(who).removeFirst();

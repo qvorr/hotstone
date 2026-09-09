@@ -17,6 +17,9 @@ public class StdHero implements Hero {
 //      irrespective of how many mana was left from the previous turn"
     }
 
+    public void setMana(int num){
+        mana = num;
+    }
 
     @Override
     public int getHealth() {
@@ -42,4 +45,5 @@ public class StdHero implements Hero {
     public String getEffectDescription() {
         return "";
     }
+
 }
