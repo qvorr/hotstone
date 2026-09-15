@@ -26,12 +26,12 @@ public class StdHero implements Hero {
         canUsePower = status;
     }
 
-    public void setMana(int newMana){
-        mana = newMana;
+    public void setMana(int changeMana){
+        mana = mana - changeMana;
     }
 
-    public void setHealth(int newHealth){
-        health = newHealth;
+    public void setHealth(int change){
+        health = health-change;
     }
 
     @Override

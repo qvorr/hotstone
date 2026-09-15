@@ -25,8 +25,8 @@ public class StdCard implements Card {
         CardAttributes.put(GameConstants.SIETE_CARD, new int[]{3, 2, 4});
     }
 
-    public void setHealth(int newHealth){
-       CardAttributes.get(cardName)[2] = newHealth;
+    public void setHealth(int change){
+       CardAttributes.get(cardName)[2] = CardAttributes.get(cardName)[2] - change;
     }
 
     public void setActive(boolean status){

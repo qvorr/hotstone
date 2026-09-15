@@ -167,7 +167,7 @@ public class StandardHotStoneGame implements Game {
     if(turnNumber > 1){
       drawCard(playerInTurn);
       StdHero player = (StdHero) getHero(playerInTurn);
-      player.setMana(MAX_MANA);
+      player.setMana(-1*(MAX_MANA - player.getMana()));
       player.setUsePower(true);
       for(StdCard card: field.get(playerInTurn)){
         card.setActive(true);
@@ -187,8 +187,7 @@ public class StandardHotStoneGame implements Game {
       hand.get(who).remove(card);
       field.get(who).add(atIndex, (StdCard) card);
       StdHero thisHero = (StdHero) getHero(who);
-      thisHero.setMana(thisHero.getMana() - card.getManaCost());
-      StdCard thisCard = (StdCard) card;
+      thisHero.setMana(card.getManaCost());
       return Status.OK;
     }
   }
@@ -206,8 +205,8 @@ public class StandardHotStoneGame implements Game {
     }else if(attacker.getOwner() == defender.getOwner()){
       return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
     } else {
-      attacker.setHealth(attacker.getHealth() - defender.getAttack());
-      defender.setHealth(defender.getHealth() - attacker.getAttack());
+      attacker.setHealth(defender.getAttack());
+      defender.setHealth(attacker.getAttack());
       attacker.setActive(false);
       if(attacker.getHealth() <=0){
         field.get(playerAttacking).remove(attackingCard);
@@ -230,7 +229,7 @@ public class StandardHotStoneGame implements Game {
     }else{
       StdCard attacker = (StdCard) attackingCard;
       StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
-      opHero.setHealth(opHero.getHealth() - attackingCard.getAttack());
+      opHero.setHealth(attackingCard.getAttack());
       attacker.setActive(false);
       return Status.OK;
     }
@@ -244,7 +243,7 @@ public class StandardHotStoneGame implements Game {
     }else if(hero.getMana() < GameConstants.HERO_POWER_COST){
       return Status.NOT_ENOUGH_MANA;
     }else{
-      hero.setMana(hero.getMana() - GameConstants.HERO_POWER_COST);
+      hero.setMana(GameConstants.HERO_POWER_COST);
       hero.setUsePower(false);
       return Status.OK;
     }
