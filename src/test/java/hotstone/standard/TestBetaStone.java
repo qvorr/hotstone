@@ -17,20 +17,21 @@ public class TestBetaStone {
     }
 
     @Test
-    public void FindusShouldStartWith1Mana(){
+    public void findusShouldStartWith1Mana(){
         assertThat(game.getHero(Player.FINDUS).getMana(), is(1));
     }
 
     @Test
-    public void FindusManaShouldIncreaseEachRound(){
+    public void playersManaShouldIncreaseEachRound(){
         for(int i = 1; i <= 4; i++){
             assertThat(game.getHero(Player.FINDUS).getMana(), is(i));
             game.endTurn();
+            assertThat(game.getHero(Player.PEDDERSEN).getMana(), is(i));
             game.endTurn();
         }
     }
     @Test
-    public void pleyerManaShouldCapAt7(){
+    public void playerManaShouldCapAt7(){
         TestHelper.advanceGameNRounds(game, 8);
         assertThat(game.getHero(Player.FINDUS).getMana(), is(7));
     }

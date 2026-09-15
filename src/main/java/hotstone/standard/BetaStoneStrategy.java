@@ -12,8 +12,8 @@ import java.util.Map;
 public class BetaStoneStrategy implements ManaStrategy, WinnerStrategy {
     @Override
     public int manaCalculator(int turnNum) {
-        if(turnNum < 14 && turnNum % 2 == 0){
-            return turnNum/2 + 1;
+        if(turnNum < 14){
+            return turnNum/2 + initialMana();
         }else return 7;
     }
 

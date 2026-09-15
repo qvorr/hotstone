@@ -47,3 +47,11 @@ done for playCard() and attackCard()
 [ DONE ] Return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE-MINION if minion is inactive
 [ DONE ] Return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION if targeting a friendly minion
 [ DONE ] Return Status.POWER_USE_NOT_ALLOWED_TWICE_PR_ROUND if hero power is reused in one turn
+
+-- GammaStone
+[ ] 2 hero types
+[ ] Findus ThaiChef, Peddersen DanishChef
+[ ] ThaiChef hero power decrease op hero health by 2
+[ ] DanishChef hero power summon Sovs card (1, 1)
+[ ] Winner when op field is empty after round 3
+[ ]  if both players' fields are empty on round 3, findus wins

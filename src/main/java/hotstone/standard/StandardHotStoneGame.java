@@ -160,12 +160,12 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public void endTurn() {
+    turnNumber++;
     if (getPlayerInTurn() ==  Player.FINDUS) {
       playerInTurn = Player.PEDDERSEN;
     } else {
       playerInTurn = Player.FINDUS;
     }
-    turnNumber++;
     if(turnNumber > 1){
       drawCard(playerInTurn);
       StdHero player = (StdHero) getHero(playerInTurn);
