@@ -33,9 +33,6 @@ import hotstone.framework.*;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -46,12 +43,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestAlphaStone {
   private Game game;
   private StdCard card;
-  private StdHero hero;
 
   /** Fixture for AlphaStone testing. */
   @BeforeEach
   public void setUp() {
-    game = new StandardHotStoneGame();
+    game = new StandardHotStoneGame(new AlphaStoneStrategy());
   }
 
   // Turn handling

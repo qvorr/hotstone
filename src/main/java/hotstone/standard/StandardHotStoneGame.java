@@ -17,6 +17,7 @@
 package hotstone.standard;
 
 import hotstone.framework.*;
+import hotstone.framework.Strategy.ManaStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class StandardHotStoneGame implements Game {
   private Map<Player, StdHero> heroes = new HashMap<>();
   private Map<Player, List<StdCard>> field = new HashMap<>();
   private Map<Player, List<StdCard>> deck = new HashMap<>();
+  ManaStrategy manaStrat;
 
   private final String[] AlphaStoneDeck = {
           GameConstants.UNO_CARD,
@@ -66,14 +68,14 @@ public class StandardHotStoneGame implements Game {
 
 
 
-  public StandardHotStoneGame() {
+  public StandardHotStoneGame(ManaStrategy ms) {
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
-    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS));
-    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN));
+    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, ms));
+    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN, ms));
     hand.put(Player.FINDUS, new ArrayList<>());
     hand.put(Player.PEDDERSEN, new ArrayList<>());
-
+    manaStrat = ms;
     dealCards();
 
   }
@@ -167,7 +169,7 @@ public class StandardHotStoneGame implements Game {
     if(turnNumber > 1){
       drawCard(playerInTurn);
       StdHero player = (StdHero) getHero(playerInTurn);
-      player.setMana(-1*(MAX_MANA - player.getMana()));
+      player.refillMana(turnNumber);
       player.setUsePower(true);
       for(StdCard card: field.get(playerInTurn)){
         card.setActive(true);
@@ -251,8 +253,10 @@ public class StandardHotStoneGame implements Game {
 
 //  draw a card from the top of the deck
   private void drawCard(Player who){
-    StdCard drawnCard =  deck.get(who).getFirst();
-    deck.get(who).removeFirst();
-    hand.get(who).addFirst(drawnCard);
+    if(!deck.get(who).isEmpty()){
+      StdCard drawnCard =  deck.get(who).getFirst();
+      deck.get(who).removeFirst();
+      hand.get(who).addFirst(drawnCard);
+    }
   }
 }
