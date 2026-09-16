@@ -51,6 +51,26 @@ public class GammaStoneStrategy implements StrategyMaster {
     }
 
     @Override
+    public String[] getDeck() {
+        String[] AlphaStoneDeck = {
+                GameConstants.UNO_CARD,
+                GameConstants.DOS_CARD,
+                GameConstants.TRES_CARD,
+                GameConstants.CUATRO_CARD,
+                GameConstants.CINCO_CARD,
+                GameConstants.SEIS_CARD,
+                GameConstants.SIETE_CARD,
+//                 GameConstants.SOVS_CARD
+        };
+        return AlphaStoneDeck;
+    }
+
+    @Override
+    public List<StdCard> arrangeDeck(List<StdCard> deck) {
+        return deck; // natural build order, unchanged
+    }
+
+    @Override
     public String getHeroPowerEffectDescription(Hero plHero) {
         return switch (plHero.getType()) {
             case GameConstants.BABY_HERO_TYPE -> "Just Cute.";

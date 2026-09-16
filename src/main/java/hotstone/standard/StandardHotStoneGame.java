@@ -58,16 +58,6 @@ public class StandardHotStoneGame implements Game {
   private Map<Player, List<StdCard>> deck = new HashMap<>();
   private StrategyMaster strat;
 
-  private final String[] AlphaStoneDeck = {
-          GameConstants.UNO_CARD,
-          GameConstants.DOS_CARD,
-          GameConstants.TRES_CARD,
-          GameConstants.CUATRO_CARD,
-          GameConstants.CINCO_CARD,
-          GameConstants.SEIS_CARD,
-          GameConstants.SIETE_CARD,
-  };
-
 
   public StandardHotStoneGame(StrategyMaster strat) {
     field.put(Player.FINDUS, new ArrayList<>());
@@ -84,13 +74,18 @@ public class StandardHotStoneGame implements Game {
   private void dealCards(){
 //    Initialize the decks for both players
     deck.put(Player.FINDUS, new ArrayList<>());
-    for(String name : AlphaStoneDeck){
+    for(String name : strat.getDeck()){
       deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS));
     }
     deck.put(Player.PEDDERSEN, new ArrayList<>());
-    for(String name : AlphaStoneDeck){
+    for(String name : strat.getDeck()){
       deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN));
     }
+//    shuffle the cards as needed
+    deck.put(Player.FINDUS, strat.arrangeDeck(deck.get(Player.FINDUS)));
+    deck.put(Player.PEDDERSEN, strat.arrangeDeck(deck.get(Player.PEDDERSEN)));
+
+
 //    deal 3 cards to both players
     for(int i = 0; i < 3; i++){
       drawCard(Player.FINDUS);
