@@ -18,6 +18,8 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.framework.Strategy.ManaStrategy;
+import hotstone.framework.Strategy.StrategyMaster;
+import hotstone.framework.Strategy.WinnerStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +56,7 @@ public class StandardHotStoneGame implements Game {
   private Map<Player, StdHero> heroes = new HashMap<>();
   private Map<Player, List<StdCard>> field = new HashMap<>();
   private Map<Player, List<StdCard>> deck = new HashMap<>();
-  ManaStrategy manaStrat;
+  private StrategyMaster strat;
 
   private final String[] AlphaStoneDeck = {
           GameConstants.UNO_CARD,
@@ -67,15 +69,14 @@ public class StandardHotStoneGame implements Game {
   };
 
 
-
-  public StandardHotStoneGame(ManaStrategy ms) {
+  public StandardHotStoneGame(StrategyMaster strat) {
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
-    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, ms));
-    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN, ms));
+    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, strat));
+    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN, strat));
     hand.put(Player.FINDUS, new ArrayList<>());
     hand.put(Player.PEDDERSEN, new ArrayList<>());
-    manaStrat = ms;
+    this.strat = strat;
     dealCards();
 
   }
@@ -111,11 +112,9 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Player getWinner() {
-    if(getTurnNumber() == 8){
-      return Player.FINDUS;
-    }else {
-      return null;
-    }
+    Hero currentPlayer =  getHero(getPlayerInTurn());
+    Hero opPlayer = getHero(Player.computeOpponent(getPlayerInTurn()));
+    return strat.getWinner(currentPlayer, opPlayer, field, turnNumber);
   }
 
   @Override
@@ -247,6 +246,7 @@ public class StandardHotStoneGame implements Game {
     }else{
       hero.setMana(GameConstants.HERO_POWER_COST);
       hero.setUsePower(false);
+      strat.useHeroPower(getHero(who), getHero(Player.computeOpponent(who)), field.get(who));
       return Status.OK;
     }
   }

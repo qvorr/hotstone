@@ -34,6 +34,10 @@ public enum Player {
   public static Player computeOpponent(Player who) {
     return who == Player.FINDUS ? Player.PEDDERSEN : Player.FINDUS;
   }
+
+    public Object getHe() {
+        return null;
+    }
 }
 // Credits: Thanks to Anders Kristoffersen, SWEA 2023 student, for pointing
 // out that the computeOpponent method belongs here.

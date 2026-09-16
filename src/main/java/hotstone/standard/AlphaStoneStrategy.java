@@ -2,13 +2,12 @@ package hotstone.standard;
 
 import hotstone.framework.Hero;
 import hotstone.framework.Player;
-import hotstone.framework.Strategy.ManaStrategy;
-import hotstone.framework.Strategy.WinnerStrategy;
+import hotstone.framework.Strategy.StrategyMaster;
 
 import java.util.List;
 import java.util.Map;
 
-public class AlphaStoneStrategy implements ManaStrategy, WinnerStrategy {
+public class AlphaStoneStrategy implements StrategyMaster {
     @Override
     public int manaCalculator(int playerNumber) {
         return 3;
@@ -26,5 +25,20 @@ public class AlphaStoneStrategy implements ManaStrategy, WinnerStrategy {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public String getHeroType(Player who) {
+        return GameConstants.BABY_HERO_TYPE;
+    }
+
+    @Override
+    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField) {
+       // does nothing
+    }
+
+    @Override
+    public String getHeroPowerEffectDescription(Hero plHero) {
+        return "Just Cute.";
     }
 }

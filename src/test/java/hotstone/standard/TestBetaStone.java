@@ -35,4 +35,11 @@ public class TestBetaStone {
         TestHelper.advanceGameNRounds(game, 8);
         assertThat(game.getHero(Player.FINDUS).getMana(), is(7));
     }
+
+    @Test
+    public void peddersenShouldWinWhenFindusHealthIs0(){
+        StdHero hero = (StdHero) game.getHero(Player.FINDUS);
+        hero.setHealth(21);
+        assertThat(game.getWinner(), is(Player.PEDDERSEN));
+    }
 }

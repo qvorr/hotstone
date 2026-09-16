@@ -23,6 +23,7 @@ public class StdCard implements Card {
         CardAttributes.put(GameConstants.CINCO_CARD, new int[]{3, 5, 1});
         CardAttributes.put(GameConstants.SEIS_CARD, new int[]{2, 1, 3});
         CardAttributes.put(GameConstants.SIETE_CARD, new int[]{3, 2, 4});
+        CardAttributes.put(GameConstants.SOVS_CARD, new int[]{0, 1, 1});
     }
 
     public void setHealth(int change){

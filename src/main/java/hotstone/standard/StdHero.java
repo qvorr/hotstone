@@ -3,6 +3,8 @@ package hotstone.standard;
 import hotstone.framework.Hero;
 import hotstone.framework.Strategy.ManaStrategy;
 import hotstone.framework.Player;
+import hotstone.framework.Strategy.StrategyMaster;
+import hotstone.framework.Strategy.WinnerStrategy;
 
 public class StdHero implements Hero {
     private String heroType = GameConstants.BABY_HERO_TYPE;
@@ -11,12 +13,13 @@ public class StdHero implements Hero {
     private int mana;
     private boolean canUsePower = true;
     private Player owner;
-    ManaStrategy manaStrat;
+    StrategyMaster strat;
 
-    public StdHero(Player owner, ManaStrategy ms){
+    public StdHero(Player owner, StrategyMaster strat){
        this.owner = owner;
-       manaStrat = ms;
-       mana = ms.initialMana();
+       this.strat  = strat;
+       mana = strat.initialMana();
+
     }
 
     @Override
@@ -33,7 +36,7 @@ public class StdHero implements Hero {
     }
 
     public void refillMana(int turnNumber){
-        mana = manaStrat.manaCalculator(turnNumber);
+        mana = strat.manaCalculator(turnNumber);
     }
 
     public void setHealth(int change){
@@ -52,7 +55,7 @@ public class StdHero implements Hero {
 
     @Override
     public String getType() {
-        return heroType;
+        return strat.getHeroType(owner);
     }
 
     @Override
