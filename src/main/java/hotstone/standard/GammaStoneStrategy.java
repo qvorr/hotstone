@@ -22,7 +22,7 @@ public class GammaStoneStrategy implements StrategyMaster {
     public Player getWinner(Hero player, Hero opponent, Map<Player, List<StdCard>> field, int turnNumber) {
         Player attacker = player.getOwner();
         Player defender = opponent.getOwner();
-        if(turnNumber>3){
+        if(turnNumber>6){
             if(field.get(attacker).isEmpty() && field.get(defender).isEmpty()){
                 return Player.FINDUS;
             } else if(field.get(defender).isEmpty()){
