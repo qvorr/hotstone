@@ -24,7 +24,7 @@ public class GammaStoneStrategy implements StrategyMaster {
         Player defender = opponent.getOwner();
         if(turnNumber>6){
             if(field.get(attacker).isEmpty() && field.get(defender).isEmpty()){
-                return Player.FINDUS;
+                return Player.PEDDERSEN;
             } else if(field.get(defender).isEmpty()){
                 return player.getOwner();
             }
