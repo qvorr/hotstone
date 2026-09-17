@@ -17,9 +17,7 @@
 package hotstone.standard;
 
 import hotstone.framework.*;
-import hotstone.framework.Strategy.ManaStrategy;
-import hotstone.framework.Strategy.StrategyMaster;
-import hotstone.framework.Strategy.WinnerStrategy;
+import hotstone.framework.Strategy.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,17 +54,22 @@ public class StandardHotStoneGame implements Game {
   private Map<Player, StdHero> heroes = new HashMap<>();
   private Map<Player, List<StdCard>> field = new HashMap<>();
   private Map<Player, List<StdCard>> deck = new HashMap<>();
-  private StrategyMaster strat;
+  private ManaStrategy ms;
+  private DeckStrategy ds;
+  private HeroStrategy hs;
+  private WinnerStrategy ws;
 
-
-  public StandardHotStoneGame(StrategyMaster strat) {
+  public StandardHotStoneGame(ManaStrategy ms, DeckStrategy ds, HeroStrategy hs, WinnerStrategy ws) {
+    this.ms = ms;
+    this.ds = ds;
+    this.hs = hs;
+    this.ws = ws;
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
-    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, strat));
-    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN, strat));
+    heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, ms, hs));
+    heroes.put(Player.PEDDERSEN, new StdHero(Player.PEDDERSEN, ms, hs));
     hand.put(Player.FINDUS, new ArrayList<>());
     hand.put(Player.PEDDERSEN, new ArrayList<>());
-    this.strat = strat;
     dealCards();
 
   }
@@ -74,16 +77,16 @@ public class StandardHotStoneGame implements Game {
   private void dealCards(){
 //    Initialize the decks for both players
     deck.put(Player.FINDUS, new ArrayList<>());
-    for(String name : strat.getDeck()){
+    for(String name : ds.getDeck()){
       deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS));
     }
     deck.put(Player.PEDDERSEN, new ArrayList<>());
-    for(String name : strat.getDeck()){
+    for(String name : ds.getDeck()){
       deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN));
     }
 //    shuffle the cards as needed
-    deck.put(Player.FINDUS, strat.arrangeDeck(deck.get(Player.FINDUS)));
-    deck.put(Player.PEDDERSEN, strat.arrangeDeck(deck.get(Player.PEDDERSEN)));
+    deck.put(Player.FINDUS, ds.arrangeDeck(deck.get(Player.FINDUS)));
+    deck.put(Player.PEDDERSEN, ds.arrangeDeck(deck.get(Player.PEDDERSEN)));
 
 
 //    deal 3 cards to both players
@@ -109,7 +112,7 @@ public class StandardHotStoneGame implements Game {
   public Player getWinner() {
     Hero currentPlayer =  getHero(getPlayerInTurn());
     Hero opPlayer = getHero(Player.computeOpponent(getPlayerInTurn()));
-    return strat.getWinner(currentPlayer, opPlayer, field, turnNumber);
+    return ws.getWinner(currentPlayer, opPlayer, field, turnNumber);
   }
 
   @Override
@@ -241,7 +244,7 @@ public class StandardHotStoneGame implements Game {
     }else{
       hero.setMana(GameConstants.HERO_POWER_COST);
       hero.setUsePower(false);
-      strat.useHeroPower(getHero(who), getHero(Player.computeOpponent(who)), field.get(who));
+      hs.useHeroPower(getHero(who), getHero(Player.computeOpponent(who)), field.get(who));
       return Status.OK;
     }
   }

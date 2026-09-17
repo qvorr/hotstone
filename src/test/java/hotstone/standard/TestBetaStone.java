@@ -3,6 +3,10 @@ package hotstone.standard;
 import hotstone.framework.Game;
 
 import hotstone.framework.*;
+import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Hero.AlphaHeroStrategy;
+import hotstone.standard.Mana.BetaManaStrategy;
+import hotstone.standard.Winner.BetaWinnerStrategy;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -13,7 +17,7 @@ public class TestBetaStone {
     private Game game;
     @BeforeEach
     public void SetUp(){
-        game = new StandardHotStoneGame(new BetaStoneStrategy());
+        game = new StandardHotStoneGame(new BetaManaStrategy(), new AlphaDeckStrategy(), new AlphaHeroStrategy(), new BetaWinnerStrategy());
     }
 
     @Test

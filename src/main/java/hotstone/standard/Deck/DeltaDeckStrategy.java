@@ -1,45 +1,15 @@
-package hotstone.standard;
+package hotstone.standard.Deck;
 
-import hotstone.framework.Hero;
-import hotstone.framework.Player;
-import hotstone.framework.Strategy.StrategyMaster;
+import hotstone.framework.Strategy.DeckStrategy;
+import hotstone.standard.GameConstants;
+import hotstone.standard.StdCard;
 
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
-public class DeltaStoneStrategy implements StrategyMaster {
-    @Override
-    public int manaCalculator(int playerNumber){
-        return 5;
-    }
-
-    @Override
-    public int initialMana() {
-        return 5;
-    }
-
-    @Override
-    public Player getWinner(Hero player, Hero opponent, Map<Player, List<StdCard>> field, int turnNumber) {
-        if(turnNumber >= 8){
-            return Player.FINDUS;
-        }else{
-            return null;
-        }
-    }
-
-    @Override
-    public String getHeroType(Player who) {
-        return GameConstants.BABY_HERO_TYPE;
-    }
-
-    @Override
-    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField) {
-        // does nothing
-    }
-
+public class DeltaDeckStrategy implements DeckStrategy {
     @Override
     public String[] getDeck() {
         String[] DeltaStoneDeck = {
@@ -87,10 +57,5 @@ public class DeltaStoneStrategy implements StrategyMaster {
                 return;
             }
         }
-    }
-
-    @Override
-    public String getHeroPowerEffectDescription(Hero plHero) {
-        return "Just Cute.";
     }
 }

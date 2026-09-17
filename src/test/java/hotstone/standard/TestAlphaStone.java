@@ -30,6 +30,10 @@ package hotstone.standard;
  */
 
 import hotstone.framework.*;
+import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Hero.AlphaHeroStrategy;
+import hotstone.standard.Mana.AlphaManaStrategy;
+import hotstone.standard.Winner.AlphaWinnerStrategy;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
 
@@ -47,7 +51,7 @@ public class TestAlphaStone {
   /** Fixture for AlphaStone testing. */
   @BeforeEach
   public void setUp() {
-    game = new StandardHotStoneGame(new AlphaStoneStrategy());
+    game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new AlphaHeroStrategy(), new AlphaWinnerStrategy());
   }
 
   // Turn handling

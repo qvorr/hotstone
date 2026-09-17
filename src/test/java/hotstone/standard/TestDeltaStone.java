@@ -4,7 +4,10 @@ package hotstone.standard;
 import hotstone.framework.Card;
 import hotstone.framework.Game;
 import hotstone.framework.Player;
-import hotstone.utility.TestHelper;
+import hotstone.standard.Deck.DeltaDeckStrategy;
+import hotstone.standard.Hero.AlphaHeroStrategy;
+import hotstone.standard.Mana.DeltaManaStrategy;
+import hotstone.standard.Winner.AlphaWinnerStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
@@ -20,7 +22,7 @@ public class TestDeltaStone {
     private Game game;
     @BeforeEach
     public void SetUp(){
-        game = new StandardHotStoneGame(new DeltaStoneStrategy());
+        game = new StandardHotStoneGame(new DeltaManaStrategy(), new DeltaDeckStrategy(), new AlphaHeroStrategy(), new AlphaWinnerStrategy());
     }
 
     @Test
@@ -42,7 +44,7 @@ public class TestDeltaStone {
     @Test
     public void shouldHave2CopiesOfBrownRice() {
         //we count how many Brown Rice are there in a deck
-        String[] deckNames = new DeltaStoneStrategy().getDeck();
+        String[] deckNames = new DeltaDeckStrategy().getDeck();
         int count = 0;
         for (String name : deckNames) {
             if (name.equals(GameConstants.BROWN_RICE_CARD)) {
@@ -55,7 +57,7 @@ public class TestDeltaStone {
 
     @Test
     public void firstCardShouldHave1Mana() {
-        DeltaStoneStrategy strat = new DeltaStoneStrategy();
+        DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<StdCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
@@ -68,7 +70,7 @@ public class TestDeltaStone {
 
     @Test
     public void secondCardShouldHave2ManaOrLess() {
-        DeltaStoneStrategy strat = new DeltaStoneStrategy();
+        DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<StdCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
@@ -81,7 +83,7 @@ public class TestDeltaStone {
 
     @Test
     public void thirdCardShouldHave4ManaOrLess() {
-        DeltaStoneStrategy strat = new DeltaStoneStrategy();
+        DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<StdCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
