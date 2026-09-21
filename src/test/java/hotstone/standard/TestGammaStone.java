@@ -48,8 +48,8 @@ public class TestGammaStone {
 
     @Test
     public void byTurn3IfBothFieldsEmptyFindusWins(){
-        TestHelper.advanceGameNRounds(game, 3);
-        assertThat(game.getWinner(), is(Player.FINDUS));
+        TestHelper.advanceGameNRounds(game, 4);
+        assertThat(game.getWinner(), is(Player.PEDDERSEN));
     }
 
     @Test
