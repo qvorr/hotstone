@@ -212,21 +212,23 @@ public class StandardHotStoneGame implements Game {
     if( status != Status.OK ){
       return status;
     }
-    executeAttack(playerAttacking, attackingCard, defendingCard);
+
+    executeAttack(attackingCard, defendingCard);
+
     return Status.OK;
   }
 
-  private void executeAttack(Player playerAttacking, Card attackingCard, Card defendingCard){
-    StdCard attacker = (StdCard) attackingCard;
-    StdCard defender = (StdCard) defendingCard;
-    attacker.setHealth(defender.getAttack());
-    defender.setHealth(attacker.getAttack());
-    attacker.setActive(false);
+  private void executeAttack(Card attackingCard, Card defendingCard){
+    decreaseHealthAndRemoveIfDead(attackingCard, defendingCard);
+    decreaseHealthAndRemoveIfDead(defendingCard, attackingCard);
+
+    ((StdCard) attackingCard).setActive(false);
+  }
+
+  private void decreaseHealthAndRemoveIfDead(Card attacker, Card defender){
+    ((StdCard) attacker).setHealth(defender.getAttack());
     if(attacker.getHealth() <=0){
-      field.get(playerAttacking).remove(attackingCard);
-    }
-    if(defender.getHealth() <= 0){
-      field.get(defendingCard.getOwner()).remove(defendingCard);
+      field.get(attacker.getOwner()).remove(attacker);
     }
   }
 
@@ -267,6 +269,8 @@ public class StandardHotStoneGame implements Game {
       return Status.OK;
     }
   }
+
+
 
   @Override
   public Status usePower(Player who) {
