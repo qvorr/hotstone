@@ -55,6 +55,7 @@ done for playCard() and attackCard()
 [ DONE ] DanishChef hero power summon Sovs card (1, 1)
 [ DONE ] Winner when op field is empty after round 3
 [ DONE ]  if both players' fields are empty on round 3, findus wins
+[ ] If no fields are empty after round 3 nobody wins
 
 -- BetaStone
 [ DONE ] Findus should start round 1 with 1 mana

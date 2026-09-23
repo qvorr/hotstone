@@ -47,9 +47,19 @@ public class TestGammaStone {
     }
 
     @Test
-    public void byTurn3IfBothFieldsEmptyFindusWins(){
+    public void afterTurn3IfBothFieldsEmptyFindusWins(){
         TestHelper.advanceGameNRounds(game, 4);
         assertThat(game.getWinner(), is(Player.PEDDERSEN));
+    }
+
+    @Test
+    public void afterTurn3IfBothFieldsAreNotEmptyNobodyWins(){
+        game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 0), 0);
+        game.endTurn();
+        TestHelper.advanceGameNRounds(game, 3);
+        assertThat(game.getWinner(), is(nullValue()));
     }
 
     @Test
@@ -65,14 +75,55 @@ public class TestGammaStone {
     }
 
     @Test
+    public void afterTurn3IfPeddersenHasEmptyFieldFindusWins(){
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+        game.endTurn();
+        game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 1), 0);
+        TestHelper.advanceGameNRounds(game, 3);
+        game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
+        assertThat(game.getWinner(), is(Player.FINDUS));
+    }
+
+    @Test
+    public void afterTurn3IfPeddersenHasEmptyFieldAndIsPeddersenTurnFindusWins(){
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+        game.endTurn();
+        game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 1), 0);
+        TestHelper.advanceGameNRounds(game, 3);
+        game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
+        game.endTurn();
+        assertThat(game.getWinner(), is(Player.FINDUS));
+    }
+
+    @Test
     public void beforeTurn3IfFindusHasEmptyFieldNobodyWinsYet(){
         game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 2), 0);
         game.endTurn();
         game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 0), 0);
         game.endTurn();
         game.endTurn();
-        TestHelper.printGameState(game);
         game.attackCard(Player.PEDDERSEN, game.getCardInField(Player.PEDDERSEN, 0), game.getCardInField(Player.FINDUS, 0));
+        assertThat(game.getWinner(), is(nullValue()));
+    }
+
+    @Test
+    public void afterTurn3IfPeddersenHasEmptyFieldNobodyWinsYet(){
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+        game.endTurn();
+        game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
+        game.endTurn();
+        TestHelper.advanceGameNRounds(game, 3);
+        TestHelper.printGameState(game);
+        game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
+        assertThat(game.getWinner(), is(nullValue()));
+    }
+
+    @Test
+    public void afterTurn3IfBothFieldsEmptyNobodyWindsYet(){
+        TestHelper.advanceGameNRounds(game, 3);
         assertThat(game.getWinner(), is(nullValue()));
     }
 

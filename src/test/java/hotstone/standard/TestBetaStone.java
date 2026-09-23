@@ -46,4 +46,17 @@ public class TestBetaStone {
         hero.setHealth(21);
         assertThat(game.getWinner(), is(Player.PEDDERSEN));
     }
+
+    @Test
+    public void findusShouldWinWhenPeddersenHealthIs0(){
+        game.endTurn();
+        StdHero hero = (StdHero) game.getHero(Player.FINDUS);
+        hero.setHealth(21);
+        assertThat(game.getWinner(), is(Player.PEDDERSEN));
+    }
+
+    @Test
+    public void winnerShouldBeNullAtStartOfGame(){
+        assertThat(game.getWinner(), is(nullValue()));
+    }
 }

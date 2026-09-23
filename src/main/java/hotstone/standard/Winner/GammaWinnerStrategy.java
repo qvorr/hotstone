@@ -17,7 +17,9 @@ public class GammaWinnerStrategy implements WinnerStrategy {
             if(field.get(attacker).isEmpty() && field.get(defender).isEmpty()){
                 return Player.PEDDERSEN;
             } else if(field.get(defender).isEmpty()){
-                return player.getOwner();
+                return attacker;
+            } else if(field.get(attacker).isEmpty()){
+                return defender;
             }
         }
         return null;
