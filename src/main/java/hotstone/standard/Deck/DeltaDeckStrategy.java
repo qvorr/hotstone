@@ -54,7 +54,7 @@ public class DeltaDeckStrategy implements DeckStrategy {
             if (list.get(i).getManaCost() <= maxManaCost) {
                 StdCard found = list.remove(i);
                 list.addFirst(found);
-                return;
+                break;
             }
         }
     }
