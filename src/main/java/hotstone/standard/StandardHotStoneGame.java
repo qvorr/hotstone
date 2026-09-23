@@ -158,21 +158,36 @@ public class StandardHotStoneGame implements Game {
   @Override
   public void endTurn() {
     turnNumber++;
-    if (getPlayerInTurn() ==  Player.FINDUS) {
-      playerInTurn = Player.PEDDERSEN;
-    } else {
-      playerInTurn = Player.FINDUS;
-    }
-    if(turnNumber > 1){
-      drawCard(playerInTurn);
-      StdHero player = (StdHero) getHero(playerInTurn);
-      player.refillMana(turnNumber);
-      player.setUsePower(true);
-      for(StdCard card: field.get(playerInTurn)){
-        card.setActive(true);
-      }
+    playerInTurn = Player.computeOpponent(playerInTurn);
+
+    if (turnNumber > 1){
+      drawCardOnNewTurn();
+      refillManaOnNewTurn();
+      setUsePowerOnHeroOnNewTurn();
+      activateCardsOnField();
     }
   }
+
+  private void drawCardOnNewTurn(){
+    drawCard(getPlayerInTurn());
+  }
+
+  private void refillManaOnNewTurn(){
+    StdHero player = (StdHero) getHero(getPlayerInTurn());
+    player.refillMana(getTurnNumber()); // turn number if statement not needed here
+  }
+
+  private void setUsePowerOnHeroOnNewTurn(){
+    StdHero player = (StdHero) getHero(getPlayerInTurn());
+    player.setUsePower(true);
+  }
+
+  private void activateCardsOnField(){
+    for(Card card: getField(getPlayerInTurn())){
+      ((StdCard) card).setActive(true);
+    }
+  }
+
 
   @Override
   public Status playCard(Player who, Card card, int atIndex) {
@@ -251,10 +266,12 @@ public class StandardHotStoneGame implements Game {
 
 //  draw a card from the top of the deck
   private void drawCard(Player who){
-    if(!deck.get(who).isEmpty()){
-      StdCard drawnCard =  deck.get(who).getFirst();
-      deck.get(who).removeFirst();
-      hand.get(who).addFirst(drawnCard);
+    if(turnNumber > 1){
+      if(!deck.get(who).isEmpty()){
+        StdCard drawnCard =  deck.get(who).getFirst();
+        deck.get(who).removeFirst();
+        hand.get(who).addFirst(drawnCard);
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 package hotstone.framework.Strategy;
 
 public interface ManaStrategy {
-    int manaCalculator(int playerNumber);
+    int manaCalculator(int turnNumber);
 
     int initialMana();
 }

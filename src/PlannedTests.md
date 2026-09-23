@@ -49,9 +49,25 @@ done for playCard() and attackCard()
 [ DONE ] Return Status.POWER_USE_NOT_ALLOWED_TWICE_PR_ROUND if hero power is reused in one turn
 
 -- GammaStone
-[ ] 2 hero types
-[ ] Findus ThaiChef, Peddersen DanishChef
-[ ] ThaiChef hero power decrease op hero health by 2
-[ ] DanishChef hero power summon Sovs card (1, 1)
-[ ] Winner when op field is empty after round 3
-[ ]  if both players' fields are empty on round 3, findus wins
+[ DONE ] 2 hero types
+[ DONE ] Findus ThaiChef, Peddersen DanishChef
+[ DONE ] ThaiChef hero power decrease op hero health by 2
+[ DONE ] DanishChef hero power summon Sovs card (1, 1)
+[ DONE ] Winner when op field is empty after round 3
+[ DONE ]  if both players' fields are empty on round 3, findus wins
+
+-- BetaStone
+[ DONE ] Findus should start round 1 with 1 mana
+[ DONE ] Both of the player's mana should increase each round
+[ DONE ] Player's mana should cap at round 7
+[ DONE ] Peddersen should win when the health of Findus is 0
+
+-- DeltaStone
+[ DONE ] Both players start with 5 mana
+[ DONE ] When the game is initialized, the decks of Findus and Peddersen both have 15 cards left
+[ DONE ] Should have 2 coppies of all cards
+[ DONE ] The first card drawn should have 1 mana cost or less
+[ DONE ] The second card drawn should have 2 mana cost or less
+[ DONE ] The third card drawn should have 3 mana cost or less
+[ DONE ] Card 'Brown Rice' should have 1 mana cost, 2 attack and 2 health
+[ DONE ] Card 'Baked Salmon' should have 5 mana cost, 8 attack and 2 health
