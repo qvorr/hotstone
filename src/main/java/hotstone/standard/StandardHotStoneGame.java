@@ -208,28 +208,43 @@ public class StandardHotStoneGame implements Game {
 
   @Override
   public Status attackCard(Player playerAttacking, Card attackingCard, Card defendingCard) {
+    Status status = isAttackPossible(playerAttacking, attackingCard, defendingCard);
+    if( status != Status.OK ){
+      return status;
+    }
     StdCard attacker = (StdCard) attackingCard;
     StdCard defender = (StdCard) defendingCard;
-    if(getPlayerInTurn() != playerAttacking) {
-      return Status.NOT_PLAYER_IN_TURN;
-    }else if(attackingCard.getOwner() != playerAttacking){
-      return Status.NOT_OWNER;
-    }else if(!attacker.isActive()) {
-      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
-    }else if(attacker.getOwner() == defender.getOwner()){
-      return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
-    } else {
-      attacker.setHealth(defender.getAttack());
-      defender.setHealth(attacker.getAttack());
-      attacker.setActive(false);
-      if(attacker.getHealth() <=0){
-        field.get(playerAttacking).remove(attackingCard);
-      }
-      if(defender.getHealth() <= 0){
-        field.get(defendingCard.getOwner()).remove(defendingCard);
-      }
-      return Status.OK;
+    attacker.setHealth(defender.getAttack());
+    defender.setHealth(attacker.getAttack());
+    attacker.setActive(false);
+    if(attacker.getHealth() <=0){
+      field.get(playerAttacking).remove(attackingCard);
     }
+    if(defender.getHealth() <= 0){
+      field.get(defendingCard.getOwner()).remove(defendingCard);
+    }
+    return Status.OK;
+  }
+
+  public Status isAttackPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
+
+    boolean isPlayerInTurn = getPlayerInTurn() != playerAttacking;
+    if(isPlayerInTurn ) {
+      return Status.NOT_PLAYER_IN_TURN;
+    }
+    boolean isOwnerOfCard = attackingCard.getOwner() != playerAttacking;
+    if(! isOwnerOfCard ){
+      return Status.NOT_OWNER;
+    }
+    boolean isCardActive = !attackingCard.isActive();
+    if(! isCardActive ) {
+      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
+    }
+    boolean attackingOwnMinion = attackingCard.getOwner() == defendingCard.getOwner();
+    if(! attackingOwnMinion ){
+      return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
+    }
+    return Status.OK;
   }
 
   @Override
