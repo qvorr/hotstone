@@ -212,6 +212,11 @@ public class StandardHotStoneGame implements Game {
     if( status != Status.OK ){
       return status;
     }
+    executeAttack(playerAttacking, attackingCard, defendingCard);
+    return Status.OK;
+  }
+
+  private void executeAttack(Player playerAttacking, Card attackingCard, Card defendingCard){
     StdCard attacker = (StdCard) attackingCard;
     StdCard defender = (StdCard) defendingCard;
     attacker.setHealth(defender.getAttack());
@@ -223,25 +228,24 @@ public class StandardHotStoneGame implements Game {
     if(defender.getHealth() <= 0){
       field.get(defendingCard.getOwner()).remove(defendingCard);
     }
-    return Status.OK;
   }
 
-  public Status isAttackPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
+  private Status isAttackPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
 
-    boolean isPlayerInTurn = getPlayerInTurn() != playerAttacking;
-    if(isPlayerInTurn ) {
+    boolean isPlayerInTurn = getPlayerInTurn() == playerAttacking;
+    if(! isPlayerInTurn ) {
       return Status.NOT_PLAYER_IN_TURN;
     }
-    boolean isOwnerOfCard = attackingCard.getOwner() != playerAttacking;
+    boolean isOwnerOfCard = attackingCard.getOwner() == playerAttacking;
     if(! isOwnerOfCard ){
       return Status.NOT_OWNER;
     }
-    boolean isCardActive = !attackingCard.isActive();
+    boolean isCardActive = attackingCard.isActive();
     if(! isCardActive ) {
       return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
     }
     boolean attackingOwnMinion = attackingCard.getOwner() == defendingCard.getOwner();
-    if(! attackingOwnMinion ){
+    if(attackingOwnMinion ){
       return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
     }
     return Status.OK;
@@ -281,12 +285,10 @@ public class StandardHotStoneGame implements Game {
 
 //  draw a card from the top of the deck
   private void drawCard(Player who){
-    if(turnNumber > 1){
-      if(!deck.get(who).isEmpty()){
-        StdCard drawnCard =  deck.get(who).getFirst();
-        deck.get(who).removeFirst();
-        hand.get(who).addFirst(drawnCard);
-      }
+    if(!deck.get(who).isEmpty()){
+      StdCard drawnCard =  deck.get(who).getFirst();
+      deck.get(who).removeFirst();
+      hand.get(who).addFirst(drawnCard);
     }
   }
 }
