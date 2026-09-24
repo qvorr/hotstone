@@ -55,7 +55,7 @@ done for playCard() and attackCard()
 [ DONE ] DanishChef hero power summon Sovs card (1, 1)
 [ DONE ] Winner when op field is empty after round 3
 [ DONE ]  if both players' fields are empty on round 3, findus wins
-[ ] If no fields are empty after round 3 nobody wins
+[ DONE ] If no fields are empty after round 3 nobody wins
 
 -- BetaStone
 [ DONE ] Findus should start round 1 with 1 mana
@@ -72,3 +72,7 @@ done for playCard() and attackCard()
 [ DONE ] The third card drawn should have 3 mana cost or less
 [ DONE ] Card 'Brown Rice' should have 1 mana cost, 2 attack and 2 health
 [ DONE ] Card 'Baked Salmon' should have 5 mana cost, 8 attack and 2 health
+
+-- ZetaStone
+[ DONE ] Before round 6, the winning strategy should be the same as GammaStone
+[ DONE ] After round 6, the winning strategy should be the same as BetaStone
