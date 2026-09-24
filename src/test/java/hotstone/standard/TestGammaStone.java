@@ -127,4 +127,13 @@ public class TestGammaStone {
         assertThat(game.getWinner(), is(nullValue()));
     }
 
+    @Test
+    public void effectDescForThaiChefShouldReturnItsProperDesc(){
+        assertThat(game.getHero(Player.FINDUS).getEffectDescription(), is("Deal 2 damage to opponent hero."));
+    }
+
+    @Test
+    public void effectDescForDanishChefShouldReturnItsProperDesc(){
+        assertThat(game.getHero(Player.PEDDERSEN).getEffectDescription(), is("Summon Sovs card."));
+    }
 }

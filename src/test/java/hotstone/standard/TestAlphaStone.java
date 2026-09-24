@@ -438,4 +438,9 @@ public class TestAlphaStone {
     game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
     assertThat(game.getField(Player.PEDDERSEN).iterator().next(), is(game.getCardInField(Player.PEDDERSEN, 0)));
   }
+
+  @Test
+  public void heroEffectDescriptionShouldReturnJustCute(){
+    assertThat(game.getHero(Player.FINDUS).getEffectDescription(), is("Just Cute."));
+  }
 }

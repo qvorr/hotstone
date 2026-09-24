@@ -20,7 +20,7 @@ public class AlphaHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public String getHeroPowerEffectDescription(Hero plHero) {
+    public String getHeroPowerEffectDescription(String plHero) {
         return "Just Cute.";
     }
 }

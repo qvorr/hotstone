@@ -66,7 +66,7 @@ public class StdHero implements Hero {
 
     @Override
     public String getEffectDescription() {
-        return effectDesc;
+        return hs.getHeroPowerEffectDescription(getType());
     }
 
 }

@@ -11,5 +11,5 @@ public interface HeroStrategy {
 
         void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField);
 
-        String getHeroPowerEffectDescription(Hero plHero);
+        String getHeroPowerEffectDescription(String plHero);
 }

@@ -3,7 +3,6 @@ package hotstone.standard.Hero;
 import hotstone.framework.Hero;
 import hotstone.framework.Player;
 import hotstone.framework.Strategy.HeroStrategy;
-import hotstone.framework.Strategy.WinnerStrategy;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
 import hotstone.standard.StdHero;
@@ -30,9 +29,8 @@ public class GammaHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public String getHeroPowerEffectDescription(Hero plHero) {
-        return switch (plHero.getType()) {
-            case GameConstants.BABY_HERO_TYPE -> "Just Cute.";
+    public String getHeroPowerEffectDescription(String plHero) {
+        return switch (plHero) {
             case GameConstants.THAI_CHEF_HERO_TYPE -> "Deal 2 damage to opponent hero.";
             case GameConstants.DANISH_CHEF_HERO_TYPE -> "Summon Sovs card.";
             default -> "";
