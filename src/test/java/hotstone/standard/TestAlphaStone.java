@@ -31,6 +31,7 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Factories.AlphaFactory;
 import hotstone.standard.Hero.AlphaHeroStrategy;
 import hotstone.standard.Mana.AlphaManaStrategy;
 import hotstone.standard.Winner.AlphaWinnerStrategy;
@@ -51,7 +52,7 @@ public class TestAlphaStone {
   /** Fixture for AlphaStone testing. */
   @BeforeEach
   public void setUp() {
-    game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new AlphaHeroStrategy(), new AlphaWinnerStrategy());
+    game = new StandardHotStoneGame(new AlphaFactory());
   }
 
   // Turn handling

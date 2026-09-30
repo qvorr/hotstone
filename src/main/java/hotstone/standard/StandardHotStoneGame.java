@@ -59,11 +59,11 @@ public class StandardHotStoneGame implements Game {
   private HeroStrategy hs;
   private WinnerStrategy ws;
 
-  public StandardHotStoneGame(ManaStrategy ms, DeckStrategy ds, HeroStrategy hs, WinnerStrategy ws) {
-    this.ms = ms;
-    this.ds = ds;
-    this.hs = hs;
-    this.ws = ws;
+  public StandardHotStoneGame(AbstractFactory factory) {
+    ms = factory.createManaStrategy();
+    ds = factory.createDeckStrategy();
+    hs = factory.createHeroStrategy();
+    ws = factory.createWinnerStrategy();
     field.put(Player.FINDUS, new ArrayList<>());
     field.put(Player.PEDDERSEN, new ArrayList<>());
     heroes.put(Player.FINDUS, new StdHero(Player.FINDUS, ms, hs));

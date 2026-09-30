@@ -2,6 +2,7 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Factories.EpsilonFactory;
 import hotstone.standard.Hero.EpsilonHeroStrategy;
 import hotstone.standard.Mana.AlphaManaStrategy;
 import hotstone.standard.Winner.AlphaWinnerStrategy;
@@ -24,9 +25,7 @@ public class TestEpsilonStone {
     }
 
     private Game createGameSelectingMinionAt(int index) {
-        return new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(),
-                new EpsilonHeroStrategy(new FixedMinionSelectionStub(index)),
-                new AlphaWinnerStrategy());
+        return new StandardHotStoneGame(new EpsilonTestFactory(index));
     }
 
 

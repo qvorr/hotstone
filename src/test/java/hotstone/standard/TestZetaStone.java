@@ -1,6 +1,7 @@
 package hotstone.standard;
 
 import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Factories.ZetaFactory;
 import hotstone.standard.Hero.AlphaHeroStrategy;
 import hotstone.standard.Mana.AlphaManaStrategy;
 import hotstone.standard.Winner.ZetaWinnerStrategy;
@@ -18,7 +19,7 @@ public class TestZetaStone {
     /** Fixture for AlphaStone testing. */
     @BeforeEach
     public void setUp() {
-        game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new AlphaHeroStrategy(), new ZetaWinnerStrategy());
+        game = new StandardHotStoneGame(new ZetaFactory());
     }
 
     @Test

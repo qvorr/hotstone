@@ -5,6 +5,7 @@ import hotstone.framework.Game;
 
 import hotstone.framework.*;
 import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Factories.GammaFactory;
 import hotstone.standard.Hero.GammaHeroStrategy;
 import hotstone.standard.Mana.AlphaManaStrategy;
 import hotstone.standard.Winner.GammaWinnerStrategy;
@@ -18,7 +19,7 @@ public class TestGammaStone {
     private Game game;
     @BeforeEach
     public void SetUp(){
-        game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new GammaHeroStrategy(), new GammaWinnerStrategy());
+        game = new StandardHotStoneGame(new GammaFactory());
     }
 
     @Test

@@ -5,6 +5,7 @@ import hotstone.framework.Card;
 import hotstone.framework.Game;
 import hotstone.framework.Player;
 import hotstone.standard.Deck.DeltaDeckStrategy;
+import hotstone.standard.Factories.DeltaFactory;
 import hotstone.standard.Hero.AlphaHeroStrategy;
 import hotstone.standard.Mana.DeltaManaStrategy;
 import hotstone.standard.Winner.AlphaWinnerStrategy;
@@ -22,7 +23,7 @@ public class TestDeltaStone {
     private Game game;
     @BeforeEach
     public void SetUp(){
-        game = new StandardHotStoneGame(new DeltaManaStrategy(), new DeltaDeckStrategy(), new AlphaHeroStrategy(), new AlphaWinnerStrategy());
+        game = new StandardHotStoneGame(new DeltaFactory());
     }
 
     @Test

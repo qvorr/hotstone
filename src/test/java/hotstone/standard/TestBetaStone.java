@@ -4,6 +4,7 @@ import hotstone.framework.Game;
 
 import hotstone.framework.*;
 import hotstone.standard.Deck.AlphaDeckStrategy;
+import hotstone.standard.Factories.BetaFactory;
 import hotstone.standard.Hero.AlphaHeroStrategy;
 import hotstone.standard.Mana.BetaManaStrategy;
 import hotstone.standard.Winner.BetaWinnerStrategy;
@@ -17,7 +18,7 @@ public class TestBetaStone {
     private Game game;
     @BeforeEach
     public void SetUp(){
-        game = new StandardHotStoneGame(new BetaManaStrategy(), new AlphaDeckStrategy(), new AlphaHeroStrategy(), new BetaWinnerStrategy());
+        game = new StandardHotStoneGame(new BetaFactory());
     }
 
     @Test
