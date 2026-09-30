@@ -65,6 +65,7 @@ public class TestEpsilonStone {
     public void pastaShouldAdd2AttackToOwnMinion() {
         game.endTurn();
         game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+        assertThat(game.getCardInField(Player.PEDDERSEN, 0).getAttack(), is(1));
         game.usePower(Player.PEDDERSEN);
         assertThat(game.getCardInField(Player.PEDDERSEN, 0).getAttack(), is(3));
     }
@@ -76,6 +77,7 @@ public class TestEpsilonStone {
         game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 0);
         game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 1);
         game.endTurn();
+        assertThat(game.getFieldSize(Player.PEDDERSEN), is(2));
         game.usePower(Player.FINDUS);
         assertThat(game.getFieldSize(Player.PEDDERSEN), is(1));
         assertThat(game.getCardInField(Player.PEDDERSEN, 0).getName(), is(GameConstants.DOS_CARD));
