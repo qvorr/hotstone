@@ -282,7 +282,8 @@ public class StandardHotStoneGame implements Game {
     }else{
       hero.setMana(GameConstants.HERO_POWER_COST);
       hero.setUsePower(false);
-      hs.useHeroPower(getHero(who), getHero(Player.computeOpponent(who)), field.get(who));
+        Player opponent = Player.computeOpponent(who);
+        hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
       return Status.OK;
     }
   }

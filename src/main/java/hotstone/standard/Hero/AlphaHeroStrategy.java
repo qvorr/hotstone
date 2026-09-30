@@ -15,7 +15,7 @@ public class AlphaHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField) {
+    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField, List<StdCard> opponentField) {
         // does nothing
     }
 

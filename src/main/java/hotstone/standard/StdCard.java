@@ -2,6 +2,7 @@ package hotstone.standard;
 
 import hotstone.framework.Card;
 import hotstone.framework.Player;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class StdCard implements Card {
     private Player owner;
     private boolean isActive = false;
 
-    public StdCard(String name, Player owner){
+    public StdCard(String name, Player owner) {
         cardName = name;
         this.owner = owner;
 //      [mana, attack, health]
@@ -37,11 +38,15 @@ public class StdCard implements Card {
 
     }
 
-    public void setHealth(int change){
-       CardAttributes.get(cardName)[2] = CardAttributes.get(cardName)[2] - change;
+    public void setHealth(int change) {
+        CardAttributes.get(cardName)[2] = CardAttributes.get(cardName)[2] - change;
     }
 
-    public void setActive(boolean status){
+    public void increaseAttack(int amount) {
+        CardAttributes.get(cardName)[1] = CardAttributes.get(cardName)[1] + amount;
+    }
+
+    public void setActive(boolean status) {
         isActive = status;
     }
 
@@ -64,6 +69,7 @@ public class StdCard implements Card {
     public int getHealth() {
         return CardAttributes.get(cardName)[2];
     }   // FAKE
+
     @Override
     public boolean isActive() {
         return isActive;
@@ -73,6 +79,7 @@ public class StdCard implements Card {
     public Player getOwner() {
         return owner;
     }
+
 
     @Override
     public String getEffectDescription() {

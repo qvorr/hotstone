@@ -18,7 +18,7 @@ public class GammaHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public void useHeroPower(Hero playerHero, Hero opponentHero, List<StdCard> playerField) {
+    public void useHeroPower(Hero playerHero, Hero opponentHero, List<StdCard> playerField, List<StdCard> opponentField) {
         StdHero player =  (StdHero) playerHero;
         StdHero opponent =  (StdHero) opponentHero;
         if(player.getType().equals(GameConstants.THAI_CHEF_HERO_TYPE)){

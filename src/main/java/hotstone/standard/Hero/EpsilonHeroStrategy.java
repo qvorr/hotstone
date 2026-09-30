@@ -9,7 +9,8 @@ import hotstone.standard.StdCard;
 import java.util.List;
 
 public class EpsilonHeroStrategy implements HeroStrategy {
-
+    private static final int PASTA_ATTACK_BONUS = 2;
+    private static final int REDWINE_DAMAGE = 2;
 
     @Override
     public String getHeroType(Player who) {
@@ -20,8 +21,12 @@ public class EpsilonHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField) {
-
+    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField, List<StdCard> opponentField) {
+        if (plHero.getType().equals(GameConstants.ITALIAN_CHEF_HERO_TYPE)) {
+            playerField.get(0).increaseAttack(PASTA_ATTACK_BONUS);
+        } else if (plHero.getType().equals(GameConstants.FRENCH_CHEF_HERO_TYPE)) {
+            opponentField.get(0).setHealth(REDWINE_DAMAGE);
+        }
     }
 
     @Override

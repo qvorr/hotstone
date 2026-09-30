@@ -47,4 +47,22 @@ public class TestEpsilonStone {
                 is("Add 2 attack to minion."));
     }
 
+    @Test
+    public void redwineShouldDeal2DamageToOpponentMinion() {
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 0), 0);
+        game.endTurn();
+        game.usePower(Player.FINDUS);
+        assertThat(game.getCardInField(Player.PEDDERSEN, 0).getHealth(), is(1));
+    }
+
+    @Test
+    public void pastaShouldAdd2AttackToOwnMinion() {
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 2), 0);
+        game.usePower(Player.PEDDERSEN);
+        assertThat(game.getCardInField(Player.PEDDERSEN, 0).getAttack(), is(3));
+    }
+
+
 }
