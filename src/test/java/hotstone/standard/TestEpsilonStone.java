@@ -20,8 +20,13 @@ public class TestEpsilonStone {
      */
     @BeforeEach
     public void setUp() {
-        game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new EpsilonHeroStrategy(), new AlphaWinnerStrategy());
+        game = createGameSelectingMinionAt(0);
+    }
 
+    private Game createGameSelectingMinionAt(int index) {
+        return new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(),
+                new EpsilonHeroStrategy(new FixedMinionSelectionStub(index)),
+                new AlphaWinnerStrategy());
     }
 
 
@@ -64,5 +69,29 @@ public class TestEpsilonStone {
         assertThat(game.getCardInField(Player.PEDDERSEN, 0).getAttack(), is(3));
     }
 
+    @Test
+    public void redwineShouldHitTheSelectedMinionAndRemoveItIfDead() {
+        game = createGameSelectingMinionAt(1);
+        game.endTurn();
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 0);
+        game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 1), 1);
+        game.endTurn();
+        game.usePower(Player.FINDUS);
+        assertThat(game.getFieldSize(Player.PEDDERSEN), is(1));
+        assertThat(game.getCardInField(Player.PEDDERSEN, 0).getName(), is(GameConstants.DOS_CARD));
+        assertThat(game.getCardInField(Player.PEDDERSEN, 0).getHealth(), is(2));
+    }
 
+    @Test
+    public void redwineShouldHaveNoEffectWhenOpponentFieldIsEmpty() {
+        assertThat(game.usePower(Player.FINDUS), is(Status.OK));
+        assertThat(game.getFieldSize(Player.PEDDERSEN), is(0));
+    }
+
+    @Test
+    public void pastaShouldHaveNoEffectWhenOwnFieldIsEmpty() {
+        game.endTurn();
+        assertThat(game.usePower(Player.PEDDERSEN), is(Status.OK));
+        assertThat(game.getFieldSize(Player.PEDDERSEN), is(0));
+    }
 }
