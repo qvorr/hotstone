@@ -26,4 +26,11 @@ public class TestEpsilonStone {
     public void findusShouldBeFrenchChef() {
         assertThat(game.getHero(Player.FINDUS).getType(), is(GameConstants.FRENCH_CHEF_HERO_TYPE));
     }
+
+    @Test
+    public void peddersenShouldBeItalianChef() {
+        assertThat(game.getHero(Player.PEDDERSEN).getType(), is(GameConstants.ITALIAN_CHEF_HERO_TYPE));
+    }
+
+
 }

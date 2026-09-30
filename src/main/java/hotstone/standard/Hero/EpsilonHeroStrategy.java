@@ -13,7 +13,10 @@ public class EpsilonHeroStrategy implements HeroStrategy {
 
     @Override
     public String getHeroType(Player who) {
-        return GameConstants.FRENCH_CHEF_HERO_TYPE;
+        if (who == Player.FINDUS) {
+            return GameConstants.FRENCH_CHEF_HERO_TYPE;
+        }
+        return GameConstants.ITALIAN_CHEF_HERO_TYPE;
     }
 
     @Override
