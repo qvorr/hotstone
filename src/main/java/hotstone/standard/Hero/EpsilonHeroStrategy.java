@@ -26,6 +26,11 @@ public class EpsilonHeroStrategy implements HeroStrategy {
 
     @Override
     public String getHeroPowerEffectDescription(String plHero) {
-        return "";
+        return switch (plHero) {
+            case GameConstants.FRENCH_CHEF_HERO_TYPE -> "Deal 2 damage to opponent minion.";
+            case GameConstants.ITALIAN_CHEF_HERO_TYPE -> "Add 2 attack to minion.";
+            default -> "";
+        };
     }
+
 }

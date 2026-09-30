@@ -1,4 +1,5 @@
 package hotstone.standard;
+
 import hotstone.framework.*;
 import hotstone.standard.Deck.AlphaDeckStrategy;
 import hotstone.standard.Hero.EpsilonHeroStrategy;
@@ -14,7 +15,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestEpsilonStone {
     private Game game;
 
-    /** Fixture for EpsilonStone testing. */
+    /**
+     * Fixture for EpsilonStone testing.
+     */
     @BeforeEach
     public void setUp() {
         game = new StandardHotStoneGame(new AlphaManaStrategy(), new AlphaDeckStrategy(), new EpsilonHeroStrategy(), new AlphaWinnerStrategy());
@@ -32,5 +35,16 @@ public class TestEpsilonStone {
         assertThat(game.getHero(Player.PEDDERSEN).getType(), is(GameConstants.ITALIAN_CHEF_HERO_TYPE));
     }
 
+    @Test
+    public void frenchChefShouldHaveRedwineDescription() {
+        assertThat(game.getHero(Player.FINDUS).getEffectDescription(),
+                is("Deal 2 damage to opponent minion."));
+    }
+
+    @Test
+    public void italianChefShouldHavePastaDescription() {
+        assertThat(game.getHero(Player.PEDDERSEN).getEffectDescription(),
+                is("Add 2 attack to minion."));
+    }
 
 }
