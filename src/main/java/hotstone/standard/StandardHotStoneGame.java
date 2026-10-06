@@ -161,7 +161,7 @@ public class StandardHotStoneGame implements Game {
     turnNumber++;
     playerInTurn = Player.computeOpponent(playerInTurn);
 
-    if (turnNumber > 1){
+    if (turnNumber > 1) {
       drawCardOnNewTurn();
       refillManaOnNewTurn();
       setUsePowerOnHeroOnNewTurn();
@@ -193,7 +193,7 @@ public class StandardHotStoneGame implements Game {
   @Override
   public Status playCard(Player who, Card card, int atIndex) {
     Status status = isPlayCardPossible(who, card);
-    if( status != Status.OK ){
+    if (status != Status.OK) {
       return status;
     }
     executePlayCard(who, card, atIndex);
@@ -202,15 +202,15 @@ public class StandardHotStoneGame implements Game {
 
   public Status isPlayCardPossible(Player who, Card card){
     boolean isPlayersTurn = getPlayerInTurn() == who;
-    if(! isPlayersTurn){
+    if (!isPlayersTurn) {
       return Status.NOT_PLAYER_IN_TURN;
     }
     boolean isCardOwner = card.getOwner() == who;
-    if(! isCardOwner){
+    if (!isCardOwner) {
       return Status.NOT_OWNER;
     }
     boolean heroHasEnoughMana = card.getManaCost() <= heroes.get(who).getMana();
-    if(! heroHasEnoughMana ){
+    if (!heroHasEnoughMana) {
       return Status.NOT_ENOUGH_MANA;
     }
 
@@ -231,7 +231,7 @@ public class StandardHotStoneGame implements Game {
   @Override
   public Status attackCard(Player playerAttacking, Card attackingCard, Card defendingCard) {
     Status status = isAttackOnCardPossible(playerAttacking, attackingCard, defendingCard);
-    if( status != Status.OK ){
+    if (status != Status.OK) {
       return status;
     }
     executeAttack(attackingCard, defendingCard);
@@ -247,26 +247,26 @@ public class StandardHotStoneGame implements Game {
 
   private void decreaseHealthAndRemoveIfDead(Card attacker, Card defender){
     ((StdCard) attacker).setHealth(defender.getAttack());
-    if(attacker.getHealth() <=0){
+    if (attacker.getHealth() <= 0) {
       field.get(attacker.getOwner()).remove(attacker);
     }
   }
 
   private Status isAttackOnCardPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
     boolean isPlayerInTurn = getPlayerInTurn() == playerAttacking;
-    if(! isPlayerInTurn ) {
+    if (!isPlayerInTurn) {
       return Status.NOT_PLAYER_IN_TURN;
     }
     boolean isOwnerOfCard = attackingCard.getOwner() == playerAttacking;
-    if(! isOwnerOfCard ){
+    if (!isOwnerOfCard) {
       return Status.NOT_OWNER;
     }
     boolean isCardActive = attackingCard.isActive();
-    if(! isCardActive ) {
+    if (!isCardActive) {
       return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
     }
     boolean attackingOwnMinion = attackingCard.getOwner() == defendingCard.getOwner();
-    if(attackingOwnMinion ){
+    if (attackingOwnMinion) {
       return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
     }
     return Status.OK;
@@ -276,7 +276,7 @@ public class StandardHotStoneGame implements Game {
   @Override
   public Status attackHero(Player playerAttacking, Card attackingCard) {
     Status status = isAttackHeroPossible(playerAttacking, attackingCard);
-    if( status != Status.OK ){
+    if (status != Status.OK) {
       return status;
     }
     executeAttackOnHero(playerAttacking, attackingCard);
@@ -295,15 +295,15 @@ public class StandardHotStoneGame implements Game {
 
   public Status isAttackHeroPossible(Player playerAttacking, Card attackingCard) {
     boolean isPlayerInTurn = playerInTurn == playerAttacking;
-    if(! isPlayerInTurn ){
+    if (!isPlayerInTurn) {
       return Status.NOT_PLAYER_IN_TURN;
     }
     boolean isOwnerOfCard = attackingCard.getOwner() == playerAttacking;
-    if(! isOwnerOfCard){
+    if (!isOwnerOfCard) {
       return Status.NOT_OWNER;
     }
     boolean isCardActive = attackingCard.isActive();
-    if(! isCardActive){
+    if (!isCardActive) {
       return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
     }
     return Status.OK;
@@ -313,23 +313,47 @@ public class StandardHotStoneGame implements Game {
   // Use Power and helper methods
   @Override
   public Status usePower(Player who) {
-    StdHero hero = (StdHero) getHero(who);
-    if(playerInTurn != who){
-      return Status.NOT_PLAYER_IN_TURN;
-    }else if(hero.getMana() < GameConstants.HERO_POWER_COST){
-      return Status.NOT_ENOUGH_MANA;
-    }else{
-      hero.descreaseManaBy(GameConstants.HERO_POWER_COST);
-      hero.setUsePower(false);
-        Player opponent = Player.computeOpponent(who);
-        hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
-      return Status.OK;
+    Status status = canUsePower(who, getHero(who));
+    if (status != Status.OK) {
+      return status;
     }
+    executeUseHeroPower(who);
+    return Status.OK;
+  }
+
+  public void executeUseHeroPower(Player who){
+    Player opponent = Player.computeOpponent(who);
+
+    hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
+
+    decreaseHeroManaOnPowerUse(getHero(who));
+    deactivateHeroPower(who);
+  }
+
+  public void deactivateHeroPower(Player who){
+    StdHero hero = (StdHero) getHero(who);
+    hero.setUsePower(false);
+  }
+
+  public void decreaseHeroManaOnPowerUse(Hero hero){
+    ((StdHero) hero).descreaseManaBy(GameConstants.HERO_POWER_COST);
+  }
+
+  public Status canUsePower(Player who, Hero hero) {
+    boolean isPlayerInTurn = playerInTurn == who;
+    if(!isPlayerInTurn) {
+      return Status.NOT_PLAYER_IN_TURN;
+    }
+    boolean hasEnoughMana = hero.getMana() >= GameConstants.HERO_POWER_COST;
+    if (!hasEnoughMana) {
+      return Status.NOT_ENOUGH_MANA;
+    }
+    return Status.OK;
   }
 
 //  draw a card from the top of the deck
   private void drawCard(Player who){
-    if(!deck.get(who).isEmpty()){
+    if (!deck.get(who).isEmpty()) {
       StdCard drawnCard =  deck.get(who).getFirst();
       deck.get(who).removeFirst();
       hand.get(who).addFirst(drawnCard);
