@@ -275,19 +275,38 @@ public class StandardHotStoneGame implements Game {
   // Attack Hero and helper methods
   @Override
   public Status attackHero(Player playerAttacking, Card attackingCard) {
-    if(playerInTurn != playerAttacking){
-      return Status.NOT_PLAYER_IN_TURN;
-    }else if(attackingCard.getOwner() != playerAttacking){
-      return Status.NOT_OWNER;
-    }else if(!attackingCard.isActive()){
-      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
-    }else{
-      StdCard attacker = (StdCard) attackingCard;
-      StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
-      opHero.setHealth(attackingCard.getAttack());
-      attacker.setActive(false);
-      return Status.OK;
+    Status status = isAttackHeroPossible(playerAttacking, attackingCard);
+    if( status != Status.OK ){
+      return status;
     }
+    executeAttackOnHero(playerAttacking, attackingCard);
+    return Status.OK;
+  }
+
+  public void executeAttackOnHero(Player playerAttacking, Card attackingCard){
+    StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
+    opHero.setHealth(attackingCard.getAttack());
+    deactivateCardAttack(attackingCard);
+  }
+
+  public void deactivateCardAttack(Card attacker){
+    ((StdCard) attacker).setActive(false);
+  }
+
+  public Status isAttackHeroPossible(Player playerAttacking, Card attackingCard) {
+    boolean isPlayerInTurn = playerInTurn == playerAttacking;
+    if(! isPlayerInTurn ){
+      return Status.NOT_PLAYER_IN_TURN;
+    }
+    boolean isOwnerOfCard = attackingCard.getOwner() == playerAttacking;
+    if(! isOwnerOfCard){
+      return Status.NOT_OWNER;
+    }
+    boolean isCardActive = attackingCard.isActive();
+    if(! isCardActive){
+      return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
+    }
+    return Status.OK;
   }
 
 
