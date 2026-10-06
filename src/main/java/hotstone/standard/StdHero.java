@@ -32,7 +32,7 @@ public class StdHero implements Hero {
         canUsePower = status;
     }
 
-    public void setMana(int changeMana){
+    public void descreaseManaBy(int changeMana){
         mana = mana - changeMana;
     }
 

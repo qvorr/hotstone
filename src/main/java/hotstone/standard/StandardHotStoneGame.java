@@ -155,6 +155,7 @@ public class StandardHotStoneGame implements Game {
     return field.get(who).size();
   }
 
+  // End turn and helper methods
   @Override
   public void endTurn() {
     turnNumber++;
@@ -188,33 +189,52 @@ public class StandardHotStoneGame implements Game {
     }
   }
 
-
+  // Play card and helper methods
   @Override
   public Status playCard(Player who, Card card, int atIndex) {
-    if(getPlayerInTurn() != who){
-      return Status.NOT_PLAYER_IN_TURN;
-    }else if(card.getOwner() != who){
-      return Status.NOT_OWNER;
-    }else if(card.getManaCost() > heroes.get(who).getMana()){
-      return Status.NOT_ENOUGH_MANA;
-    }else {
-      hand.get(who).remove(card);
-      field.get(who).add(atIndex, (StdCard) card);
-      StdHero thisHero = (StdHero) getHero(who);
-      thisHero.setMana(card.getManaCost());
-      return Status.OK;
-    }
-  }
-
-  @Override
-  public Status attackCard(Player playerAttacking, Card attackingCard, Card defendingCard) {
-    Status status = isAttackPossible(playerAttacking, attackingCard, defendingCard);
+    Status status = isPlayCardPossible(who, card);
     if( status != Status.OK ){
       return status;
     }
+    executePlayCard(who, card, atIndex);
+    return Status.OK;
+  }
 
+  public Status isPlayCardPossible(Player who, Card card){
+    boolean isPlayersTurn = getPlayerInTurn() == who;
+    if(! isPlayersTurn){
+      return Status.NOT_PLAYER_IN_TURN;
+    }
+    boolean isCardOwner = card.getOwner() == who;
+    if(! isCardOwner){
+      return Status.NOT_OWNER;
+    }
+    boolean heroHasEnoughMana = card.getManaCost() <= heroes.get(who).getMana();
+    if(! heroHasEnoughMana ){
+      return Status.NOT_ENOUGH_MANA;
+    }
+
+    return Status.OK;
+  }
+
+  public void executePlayCard(Player who, Card card, int atIndex){
+    hand.get(who).remove(card);
+    field.get(who).add(atIndex, (StdCard) card);
+    decreaseHeroMana(who, card.getManaCost());
+  }
+
+  public void decreaseHeroMana(Player who, int value){
+    ((StdHero) getHero(who)).descreaseManaBy(value);
+  }
+
+  // Attack card and helper methods
+  @Override
+  public Status attackCard(Player playerAttacking, Card attackingCard, Card defendingCard) {
+    Status status = isAttackOnCardPossible(playerAttacking, attackingCard, defendingCard);
+    if( status != Status.OK ){
+      return status;
+    }
     executeAttack(attackingCard, defendingCard);
-
     return Status.OK;
   }
 
@@ -232,8 +252,7 @@ public class StandardHotStoneGame implements Game {
     }
   }
 
-  private Status isAttackPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
-
+  private Status isAttackOnCardPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
     boolean isPlayerInTurn = getPlayerInTurn() == playerAttacking;
     if(! isPlayerInTurn ) {
       return Status.NOT_PLAYER_IN_TURN;
@@ -253,6 +272,7 @@ public class StandardHotStoneGame implements Game {
     return Status.OK;
   }
 
+  // Attack Hero and helper methods
   @Override
   public Status attackHero(Player playerAttacking, Card attackingCard) {
     if(playerInTurn != playerAttacking){
@@ -271,7 +291,7 @@ public class StandardHotStoneGame implements Game {
   }
 
 
-
+  // Use Power and helper methods
   @Override
   public Status usePower(Player who) {
     StdHero hero = (StdHero) getHero(who);
@@ -280,7 +300,7 @@ public class StandardHotStoneGame implements Game {
     }else if(hero.getMana() < GameConstants.HERO_POWER_COST){
       return Status.NOT_ENOUGH_MANA;
     }else{
-      hero.setMana(GameConstants.HERO_POWER_COST);
+      hero.descreaseManaBy(GameConstants.HERO_POWER_COST);
       hero.setUsePower(false);
         Player opponent = Player.computeOpponent(who);
         hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
