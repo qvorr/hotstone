@@ -6,12 +6,10 @@ import hotstone.framework.Strategy.ManaStrategy;
 import hotstone.framework.Player;
 
 public class StdHero implements Hero {
-    private String heroType = GameConstants.BABY_HERO_TYPE;
     private int health = GameConstants.HERO_MAX_HEALTH;
-    private String effectDesc = "Just Cute.";
     private int mana;
     private boolean canUsePower = true;
-    private Player owner;
+    private final Player owner;
     ManaStrategy ms;
     HeroStrategy hs;
 
@@ -23,16 +21,11 @@ public class StdHero implements Hero {
 
     }
 
-    @Override
-    public int getMana() {
-        return mana;
-    }
-
     public void setUsePower(boolean status){
         canUsePower = status;
     }
 
-    public void descreaseManaBy(int changeMana){
+    public void decreaseManaBy(int changeMana){
         mana = mana - changeMana;
     }
 
@@ -40,8 +33,13 @@ public class StdHero implements Hero {
         mana = ms.manaCalculator(turnNumber);
     }
 
-    public void setHealth(int change){
+    public void decreaseHealthBy(int change){
         health = health-change;
+    }
+
+    @Override
+    public int getMana() {
+        return mana;
     }
 
     @Override

@@ -3,11 +3,7 @@ package hotstone.standard;
 import hotstone.framework.Game;
 
 import hotstone.framework.*;
-import hotstone.standard.Deck.AlphaDeckStrategy;
 import hotstone.standard.Factories.BetaFactory;
-import hotstone.standard.Hero.AlphaHeroStrategy;
-import hotstone.standard.Mana.BetaManaStrategy;
-import hotstone.standard.Winner.BetaWinnerStrategy;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -44,7 +40,7 @@ public class TestBetaStone {
     @Test
     public void peddersenShouldWinWhenFindusHealthIs0(){
         StdHero hero = (StdHero) game.getHero(Player.FINDUS);
-        hero.setHealth(21);
+        hero.decreaseHealthBy(21);
         assertThat(game.getWinner(), is(Player.PEDDERSEN));
     }
 
@@ -52,7 +48,7 @@ public class TestBetaStone {
     public void findusShouldWinWhenPeddersenHealthIs0(){
         game.endTurn();
         StdHero hero = (StdHero) game.getHero(Player.FINDUS);
-        hero.setHealth(21);
+        hero.decreaseHealthBy(21);
         assertThat(game.getWinner(), is(Player.PEDDERSEN));
     }
 

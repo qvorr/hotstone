@@ -22,7 +22,7 @@ public class GammaHeroStrategy implements HeroStrategy {
         StdHero player =  (StdHero) playerHero;
         StdHero opponent =  (StdHero) opponentHero;
         if(player.getType().equals(GameConstants.THAI_CHEF_HERO_TYPE)){
-            opponent.setHealth(2);
+            opponent.decreaseHealthBy(2);
         }else if(player.getType().equals(GameConstants.DANISH_CHEF_HERO_TYPE)){
             playerField.addLast(new StdCard(GameConstants.SOVS_CARD, playerHero.getOwner()));
         }

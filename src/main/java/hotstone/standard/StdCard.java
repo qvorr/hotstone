@@ -80,7 +80,6 @@ public class StdCard implements Card {
         return owner;
     }
 
-
     @Override
     public String getEffectDescription() {
         return "";

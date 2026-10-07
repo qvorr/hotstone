@@ -1,10 +1,6 @@
 package hotstone.standard;
 
-import hotstone.standard.Deck.AlphaDeckStrategy;
 import hotstone.standard.Factories.ZetaFactory;
-import hotstone.standard.Hero.AlphaHeroStrategy;
-import hotstone.standard.Mana.AlphaManaStrategy;
-import hotstone.standard.Winner.ZetaWinnerStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import hotstone.utility.TestHelper;
 import org.junit.jupiter.api.*;
@@ -56,7 +52,7 @@ public class TestZetaStone {
     public void peddersenShouldWinWhenFindusHealthIs0AfterRound6(){
         TestHelper.advanceGameNRounds(game, 6);
         StdHero hero = (StdHero) game.getHero(Player.FINDUS);
-        hero.setHealth(21);
+        hero.decreaseHealthBy(21);
         assertThat(game.getWinner(), is(Player.PEDDERSEN));
     }
 }

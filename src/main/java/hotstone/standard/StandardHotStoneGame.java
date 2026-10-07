@@ -206,7 +206,7 @@ public class StandardHotStoneGame implements Game {
       return Status.NOT_PLAYER_IN_TURN;
     }
     boolean isCardOwner = card.getOwner() == who;
-    if (!isCardOwner) {
+    if (!isCardOwner){
       return Status.NOT_OWNER;
     }
     boolean heroHasEnoughMana = card.getManaCost() <= heroes.get(who).getMana();
@@ -224,7 +224,7 @@ public class StandardHotStoneGame implements Game {
   }
 
   public void decreaseHeroMana(Player who, int value){
-    ((StdHero) getHero(who)).descreaseManaBy(value);
+    ((StdHero) getHero(who)).decreaseManaBy(value);
   }
 
   // Attack card and helper methods
@@ -285,7 +285,7 @@ public class StandardHotStoneGame implements Game {
 
   public void executeAttackOnHero(Player playerAttacking, Card attackingCard){
     StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
-    opHero.setHealth(attackingCard.getAttack());
+    opHero.decreaseHealthBy(attackingCard.getAttack());
     deactivateCardAttack(attackingCard);
   }
 
@@ -336,7 +336,7 @@ public class StandardHotStoneGame implements Game {
   }
 
   public void decreaseHeroManaOnPowerUse(Hero hero){
-    ((StdHero) hero).descreaseManaBy(GameConstants.HERO_POWER_COST);
+    ((StdHero) hero).decreaseManaBy(GameConstants.HERO_POWER_COST);
   }
 
   public Status canUsePower(Player who, Hero hero) {
