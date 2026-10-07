@@ -112,7 +112,7 @@ public class StandardHotStoneGame implements Game {
   public Player getWinner() {
     Hero currentPlayer =  getHero(getPlayerInTurn());
     Hero opPlayer = getHero(Player.computeOpponent(getPlayerInTurn()));
-    return ws.getWinner(currentPlayer, opPlayer, field, turnNumber);
+    return ws.getWinner(this);
   }
 
   @Override

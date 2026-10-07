@@ -1,6 +1,7 @@
 package hotstone.standard.Winner;
 
 
+import hotstone.framework.Game;
 import hotstone.framework.Hero;
 import hotstone.framework.Player;
 import hotstone.framework.Strategy.WinnerStrategy;
@@ -14,11 +15,12 @@ public class ZetaWinnerStrategy implements WinnerStrategy {
     private final WinnerStrategy gws = new GammaWinnerStrategy();
 
     @Override
-    public Player getWinner(Hero player, Hero opponent, Map<Player, List<StdCard>> field, int turnNumber) {
+    public Player getWinner(Game game) {
+        int turnNumber = game.getTurnNumber();
         if( turnNumber < 12 ){
-            return gws.getWinner(player, opponent, field, turnNumber);
+            return gws.getWinner(game);
         } else {
-            return bws.getWinner(player, opponent, field, turnNumber);
+            return bws.getWinner(game);
         }
     }
 }
