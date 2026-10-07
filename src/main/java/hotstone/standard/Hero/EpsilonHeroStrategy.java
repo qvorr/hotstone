@@ -1,7 +1,6 @@
 package hotstone.standard.Hero;
 
-import hotstone.framework.Hero;
-import hotstone.framework.Player;
+import hotstone.framework.*;
 import hotstone.framework.Strategy.HeroStrategy;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
@@ -27,28 +26,37 @@ public class EpsilonHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField, List<StdCard> opponentField) {
-        if (plHero.getType().equals(GameConstants.ITALIAN_CHEF_HERO_TYPE)) {
-            if (playerField.isEmpty()) {
+    public void useHeroPower(MutableGame game, Player who) {
+        MutableHero plHero = game.getMutableHero(who);
+        Iterable<? extends Card> playerField = game.getField(who);
+        Iterable<? extends Card> opponentField = game.getField(Player.computeOpponent(who));
+
+        boolean heroIsItalianChef = plHero.getType().equals(GameConstants.ITALIAN_CHEF_HERO_TYPE);
+        boolean heroIsFrenchChef = plHero.getType().equals(GameConstants.FRENCH_CHEF_HERO_TYPE);
+        boolean isPlayerFieldEmpty = !playerField.iterator().hasNext();
+        boolean isOpponentFieldEmpty = !opponentField.iterator().hasNext();
+
+        if (heroIsItalianChef) {
+            if (isPlayerFieldEmpty) {
                 return;
             }
-            StdCard target = selectMinion(playerField);
+            MutableCard target = selectMinion(game, who);
             target.increaseAttack(PASTA_ATTACK_BONUS);
-        } else if (plHero.getType().equals(GameConstants.FRENCH_CHEF_HERO_TYPE)) {
-            if (opponentField.isEmpty()) {
+        } else if (heroIsFrenchChef) {
+            if (isOpponentFieldEmpty) {
                 return;
             }
-            StdCard target = selectMinion(opponentField);
+            MutableCard target = selectMinion(game, Player.computeOpponent(who));
             target.setHealth(REDWINE_DAMAGE);
             if (target.getHealth() <= 0) {
-                opponentField.remove(target);
+                game.removeCardOnField(Player.computeOpponent(who), target);
             }
         }
     }
 
-    private StdCard selectMinion(List<StdCard> field) {
-        int index = minionSelection.selectMinionIndex(field.size());
-        return field.get(index);
+    private MutableCard selectMinion(MutableGame game, Player who) {
+        int index = minionSelection.selectMinionIndex(game.getFieldSize(who));
+        return game.getMutableCardInField(who, index);
     }
 
     @Override

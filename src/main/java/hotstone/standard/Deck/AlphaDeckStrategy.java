@@ -1,5 +1,6 @@
 package hotstone.standard.Deck;
 
+import hotstone.framework.MutableCard;
 import hotstone.framework.Strategy.DeckStrategy;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
@@ -23,7 +24,7 @@ public class AlphaDeckStrategy implements DeckStrategy {
     }
 
     @Override
-    public List<StdCard> arrangeDeck(List<StdCard> deck) {
+    public List<MutableCard> arrangeDeck(List<MutableCard> deck) {
         return deck; // natural build order, unchanged
     }
 

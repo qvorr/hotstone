@@ -19,10 +19,7 @@ package hotstone.standard;
 import hotstone.framework.*;
 import hotstone.framework.Strategy.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /** This is the 'temporary test stub' in TDD
  * terms: the initial empty but compilable implementation
@@ -46,14 +43,14 @@ import java.util.Map;
  * why it is not called 'AlphaGame'.
  */
 
-public class StandardHotStoneGame implements Game {
+public class StandardHotStoneGame implements Game, MutableGame {
   private Player playerInTurn = Player.FINDUS;  // First player in turn is FINDUS
   private final int MAX_MANA = 3;
   private int turnNumber = 0;
-  private Map<Player, List<StdCard>> hand = new HashMap<>();
-  private Map<Player, StdHero> heroes = new HashMap<>();
-  private Map<Player, List<StdCard>> field = new HashMap<>();
-  private Map<Player, List<StdCard>> deck = new HashMap<>();
+  private Map<Player, List<MutableCard>> hand = new HashMap<>();
+  private Map<Player, MutableHero> heroes = new HashMap<>();
+  private Map<Player, List<MutableCard>> field = new HashMap<>();
+  private Map<Player, List<MutableCard>> deck = new HashMap<>();
   private ManaStrategy ms;
   private DeckStrategy ds;
   private HeroStrategy hs;
@@ -153,6 +150,26 @@ public class StandardHotStoneGame implements Game {
   @Override
   public int getFieldSize(Player who) {
     return field.get(who).size();
+  }
+
+  @Override
+  public void removeCardOnField(Player who, MutableCard target) {
+    field.get(who).remove(target);
+  }
+
+  @Override
+  public MutableCard getMutableCardInField(Player who, int index){
+    return field.get(who).get(index);
+  }
+
+  @Override
+  public MutableHero getMutableHero(Player who){
+    return heroes.get(who);
+  }
+
+  @Override
+  public void addCardToField(Player who, MutableCard card){
+    field.get(who).addLast(card);
   }
 
   // End turn and helper methods
@@ -324,7 +341,8 @@ public class StandardHotStoneGame implements Game {
   public void executeUseHeroPower(Player who){
     Player opponent = Player.computeOpponent(who);
 
-    hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
+//    hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
+    hs.useHeroPower(this, who);
 
     decreaseHeroManaOnPowerUse(getHero(who));
     deactivateHeroPower(who);
@@ -354,7 +372,7 @@ public class StandardHotStoneGame implements Game {
 //  draw a card from the top of the deck
   private void drawCard(Player who){
     if (!deck.get(who).isEmpty()) {
-      StdCard drawnCard =  deck.get(who).getFirst();
+      MutableCard drawnCard =  deck.get(who).getFirst();
       deck.get(who).removeFirst();
       hand.get(who).addFirst(drawnCard);
     }

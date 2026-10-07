@@ -1,6 +1,7 @@
 package hotstone.standard.Hero;
 
 import hotstone.framework.Hero;
+import hotstone.framework.MutableGame;
 import hotstone.framework.Player;
 import hotstone.framework.Strategy.HeroStrategy;
 import hotstone.standard.GameConstants;
@@ -15,7 +16,7 @@ public class AlphaHeroStrategy implements HeroStrategy {
     }
 
     @Override
-    public void useHeroPower(Hero plHero, Hero opHero, List<StdCard> playerField, List<StdCard> opponentField) {
+    public void useHeroPower(MutableGame game, Player who) {
         // does nothing
     }
 

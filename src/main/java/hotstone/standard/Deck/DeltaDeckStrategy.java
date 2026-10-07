@@ -1,5 +1,6 @@
 package hotstone.standard.Deck;
 
+import hotstone.framework.MutableCard;
 import hotstone.framework.Strategy.DeckStrategy;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
@@ -37,8 +38,8 @@ public class DeltaDeckStrategy implements DeckStrategy {
     }
 
     @Override
-    public List<StdCard> arrangeDeck(List<StdCard> deck) {
-        List<StdCard> arranged = new ArrayList<>(deck);   // copy, don't mutate caller's list
+    public List<MutableCard> arrangeDeck(List<MutableCard> deck) {
+        List<MutableCard> arranged = new ArrayList<>(deck);   // copy, don't mutate caller's list
         Random random = new Random();
         Collections.shuffle(arranged, random);
 
@@ -49,10 +50,10 @@ public class DeltaDeckStrategy implements DeckStrategy {
         return arranged;
     }
 
-    private void moveSuitableCardToFront(List<StdCard> list, int searchStartIndex, int maxManaCost) {
+    private void moveSuitableCardToFront(List<MutableCard> list, int searchStartIndex, int maxManaCost) {
         for (int i = searchStartIndex; i < list.size(); i++) {
             if (list.get(i).getManaCost() <= maxManaCost) {
-                StdCard found = list.remove(i);
+                MutableCard found = list.remove(i);
                 list.addFirst(found);
                 break;
             }

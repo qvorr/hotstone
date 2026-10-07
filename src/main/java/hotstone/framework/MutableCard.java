@@ -1,6 +1,6 @@
 package hotstone.framework;
 
-public interface MutableCard {
+public interface MutableCard extends Card{
 
     public void setHealth(int change);
 

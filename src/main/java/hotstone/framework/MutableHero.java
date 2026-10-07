@@ -1,11 +1,11 @@
 package hotstone.framework;
 
-public interface MutableHero {
-    public void setUsePower(boolean status);
+public interface MutableHero extends Hero {
+    void setUsePower(boolean status);
 
-    public void decreaseManaBy(int changeMana);
+    void decreaseManaBy(int changeMana);
 
-    public void refillMana(int turnNumber);
+    void refillMana(int turnNumber);
 
-    public void decreaseHealthBy(int change);
+    void decreaseHealthBy(int change);
 }

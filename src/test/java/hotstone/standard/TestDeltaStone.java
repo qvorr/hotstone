@@ -3,6 +3,7 @@ package hotstone.standard;
 
 import hotstone.framework.Card;
 import hotstone.framework.Game;
+import hotstone.framework.MutableCard;
 import hotstone.framework.Player;
 import hotstone.standard.Deck.DeltaDeckStrategy;
 import hotstone.standard.Factories.DeltaFactory;
@@ -59,11 +60,11 @@ public class TestDeltaStone {
     @Test
     public void firstCardShouldHave1Mana() {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
-        List<StdCard> raw = new ArrayList<>();
+        List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
         }
-        List<StdCard> arranged = strat.arrangeDeck(raw);
+        List<MutableCard> arranged = strat.arrangeDeck(raw);
 
         //this card should cost exactly 1 mana
         assertThat(arranged.get(0).getManaCost(), is(1));
@@ -72,11 +73,11 @@ public class TestDeltaStone {
     @Test
     public void secondCardShouldHave2ManaOrLess() {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
-        List<StdCard> raw = new ArrayList<>();
+        List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
         }
-        List<StdCard> arranged = strat.arrangeDeck(raw);
+        List<MutableCard> arranged = strat.arrangeDeck(raw);
 
         //This card should cost 2 mana or less
         assertThat(arranged.get(1).getManaCost(), is(lessThanOrEqualTo(2)));
@@ -85,11 +86,11 @@ public class TestDeltaStone {
     @Test
     public void thirdCardShouldHave4ManaOrLess() {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
-        List<StdCard> raw = new ArrayList<>();
+        List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
             raw.add(new StdCard(name, Player.FINDUS));
         }
-        List<StdCard> arranged = strat.arrangeDeck(raw);
+        List<MutableCard> arranged = strat.arrangeDeck(raw);
 
         //This card should cost 4 mana or less
         assertThat(arranged.get(2).getManaCost(), is(lessThanOrEqualTo(4)));
