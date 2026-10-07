@@ -5,6 +5,8 @@ import hotstone.framework.Card;
 import hotstone.framework.Game;
 import hotstone.framework.MutableCard;
 import hotstone.framework.Player;
+import hotstone.standard.CardEffects.BakedSalmonEffect;
+import hotstone.standard.CardEffects.BrownRiceEffect;
 import hotstone.standard.Deck.DeltaDeckStrategy;
 import hotstone.standard.Factories.DeltaFactory;
 import hotstone.standard.Hero.AlphaHeroStrategy;
@@ -62,7 +64,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS));
+            raw.add(new StdCard(name, Player.FINDUS, strat.effectPicker(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 
@@ -75,7 +77,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS));
+            raw.add(new StdCard(name, Player.FINDUS, strat.effectPicker(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 
@@ -88,7 +90,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS));
+            raw.add(new StdCard(name, Player.FINDUS, strat.effectPicker(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 
@@ -98,7 +100,7 @@ public class TestDeltaStone {
 
     @Test public void brownRiceShouldHave1Mana1Attack2Health() {
         //we check that Brown_Rice_Card has the correct attributes
-        Card brownRice = new StdCard(GameConstants.BROWN_RICE_CARD, Player.FINDUS);
+        Card brownRice = new StdCard(GameConstants.BROWN_RICE_CARD, Player.FINDUS, new BrownRiceEffect());
         assertThat(brownRice.getManaCost(), is(1));
         assertThat(brownRice.getAttack(), is(1));
         assertThat(brownRice.getHealth(), is(2));
@@ -106,7 +108,7 @@ public class TestDeltaStone {
 
     @Test public void bakedSalmonShouldHave5Mana8Attack2Health() {
         //we check that Brown_Rice_Card has the correct attributes
-        Card bakedSalmon = new StdCard(GameConstants.BAKED_SALMON_CARD, Player.FINDUS);
+        Card bakedSalmon = new StdCard(GameConstants.BAKED_SALMON_CARD, Player.FINDUS, new BakedSalmonEffect());
         assertThat(bakedSalmon.getManaCost(), is(5));
         assertThat(bakedSalmon.getAttack(), is(8));
         assertThat(bakedSalmon.getHealth(), is(2));

@@ -2,9 +2,11 @@ package hotstone.framework;
 
 public interface MutableCard extends Card{
 
-    public void setHealth(int change);
+    void decreaseHealthBy(int change);
 
-    public void increaseAttack(int amount);
+    void increaseAttack(int amount);
 
-    public void setActive(boolean status);
+    void setActive(boolean status);
+
+    void triggerEffect(MutableGame game);
 }

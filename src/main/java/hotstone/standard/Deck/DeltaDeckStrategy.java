@@ -1,14 +1,15 @@
 package hotstone.standard.Deck;
 
 import hotstone.framework.MutableCard;
+import hotstone.framework.MutableGame;
+import hotstone.framework.Player;
+import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.DeckStrategy;
+import hotstone.standard.CardEffects.*;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class DeltaDeckStrategy implements DeckStrategy {
     @Override
@@ -48,6 +49,11 @@ public class DeltaDeckStrategy implements DeckStrategy {
         moveSuitableCardToFront(arranged, 2, 1);  // becomes the 1st card
 
         return arranged;
+    }
+
+    @Override
+    public CardEffectStrategy effectPicker(String name){
+        return new NoEffect();
     }
 
     private void moveSuitableCardToFront(List<MutableCard> list, int searchStartIndex, int maxManaCost) {

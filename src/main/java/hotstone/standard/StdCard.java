@@ -2,7 +2,10 @@ package hotstone.standard;
 
 import hotstone.framework.Card;
 import hotstone.framework.MutableCard;
+import hotstone.framework.MutableGame;
 import hotstone.framework.Player;
+import hotstone.framework.Strategy.CardEffectStrategy;
+import hotstone.framework.Strategy.DeckStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +16,12 @@ public class StdCard implements Card, MutableCard {
     private final String cardName;
     private final Player owner;
     private boolean isActive = false;
+    private final CardEffectStrategy es;
 
-    public StdCard(String name, Player owner) {
+    public StdCard(String name, Player owner, CardEffectStrategy es) {
         cardName = name;
         this.owner = owner;
+        this.es = es;
 
 //      used as a library of all the card types and default attributes
 //      [mana, attack, health]
@@ -40,7 +45,7 @@ public class StdCard implements Card, MutableCard {
     }
 
     @Override
-    public void setHealth(int change) {
+    public void decreaseHealthBy(int change) {
         CardAttributes.get(cardName)[2] = CardAttributes.get(cardName)[2] - change;
     }
 
@@ -52,6 +57,11 @@ public class StdCard implements Card, MutableCard {
     @Override
     public void setActive(boolean status) {
         isActive = status;
+    }
+
+    @Override
+    public void triggerEffect(MutableGame game) {
+        es.executeEffect(game, getOwner());
     }
 
     @Override
@@ -86,6 +96,6 @@ public class StdCard implements Card, MutableCard {
 
     @Override
     public String getEffectDescription() {
-        return "";
+        return es.getEffectDescription();
     }
 }

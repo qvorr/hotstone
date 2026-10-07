@@ -3,10 +3,7 @@ package hotstone.standard.Hero;
 import hotstone.framework.*;
 import hotstone.framework.Strategy.HeroStrategy;
 import hotstone.standard.GameConstants;
-import hotstone.standard.StdCard;
 import hotstone.framework.Strategy.MinionSelectionStrategy;
-
-import java.util.List;
 
 public class EpsilonHeroStrategy implements HeroStrategy {
     private static final int PASTA_ATTACK_BONUS = 2;
@@ -47,7 +44,7 @@ public class EpsilonHeroStrategy implements HeroStrategy {
                 return;
             }
             MutableCard target = selectMinion(game, Player.computeOpponent(who));
-            target.setHealth(REDWINE_DAMAGE);
+            target.decreaseHealthBy(REDWINE_DAMAGE);
             if (target.getHealth() <= 0) {
                 game.removeCardOnField(Player.computeOpponent(who), target);
             }

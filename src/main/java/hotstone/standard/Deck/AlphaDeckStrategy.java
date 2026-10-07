@@ -1,7 +1,10 @@
 package hotstone.standard.Deck;
 
 import hotstone.framework.MutableCard;
+import hotstone.framework.MutableGame;
+import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.DeckStrategy;
+import hotstone.standard.CardEffects.NoEffect;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
 
@@ -26,6 +29,11 @@ public class AlphaDeckStrategy implements DeckStrategy {
     @Override
     public List<MutableCard> arrangeDeck(List<MutableCard> deck) {
         return deck; // natural build order, unchanged
+    }
+
+    @Override
+    public CardEffectStrategy effectPicker(String name) {
+        return new NoEffect();
     }
 
 }

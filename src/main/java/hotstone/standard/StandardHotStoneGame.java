@@ -72,16 +72,20 @@ public class StandardHotStoneGame implements Game, MutableGame {
   }
 
   private void dealCards(){
-//    Initialize the decks for both players
+//        Initialize the decks for both players
+
     deck.put(Player.FINDUS, new ArrayList<>());
-    for(String name : ds.getDeck()){
-      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS));
-    }
     deck.put(Player.PEDDERSEN, new ArrayList<>());
+
     for(String name : ds.getDeck()){
-      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN));
+      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds.effectPicker(name)));
     }
-//    shuffle the cards as needed
+
+    for(String name : ds.getDeck()){
+      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds.effectPicker(name)));
+    }
+
+//      shuffle the cards as needed
     deck.put(Player.FINDUS, ds.arrangeDeck(deck.get(Player.FINDUS)));
     deck.put(Player.PEDDERSEN, ds.arrangeDeck(deck.get(Player.PEDDERSEN)));
 
@@ -217,6 +221,15 @@ public class StandardHotStoneGame implements Game, MutableGame {
     return Status.OK;
   }
 
+  public void executePlayCard(Player who, Card card, int atIndex){
+//    CALL TO DECK STATEGY FOR EFFECTSSS
+    MutableCard mutableCard = (MutableCard) card;
+    mutableCard.triggerEffect(this);
+    hand.get(who).remove(card);
+    field.get(who).add(atIndex, (StdCard) card);
+    decreaseHeroMana(who, card.getManaCost());
+  }
+
   public Status isPlayCardPossible(Player who, Card card){
     boolean isPlayersTurn = getPlayerInTurn() == who;
     if (!isPlayersTurn) {
@@ -232,12 +245,6 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
 
     return Status.OK;
-  }
-
-  public void executePlayCard(Player who, Card card, int atIndex){
-    hand.get(who).remove(card);
-    field.get(who).add(atIndex, (StdCard) card);
-    decreaseHeroMana(who, card.getManaCost());
   }
 
   public void decreaseHeroMana(Player who, int value){
@@ -263,7 +270,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   }
 
   private void decreaseHealthAndRemoveIfDead(Card attacker, Card defender){
-    ((StdCard) attacker).setHealth(defender.getAttack());
+    ((StdCard) attacker).decreaseHealthBy(defender.getAttack());
     if (attacker.getHealth() <= 0) {
       field.get(attacker.getOwner()).remove(attacker);
     }
@@ -370,7 +377,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
   }
 
 //  draw a card from the top of the deck
-  private void drawCard(Player who){
+  @Override
+  public void drawCard(Player who){
     if (!deck.get(who).isEmpty()) {
       MutableCard drawnCard =  deck.get(who).getFirst();
       deck.get(who).removeFirst();

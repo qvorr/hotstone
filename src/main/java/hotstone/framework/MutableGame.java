@@ -16,4 +16,6 @@ public interface MutableGame {
 
     void addCardToField(Player who, MutableCard card);
 
+    void drawCard(Player who);
+
 }

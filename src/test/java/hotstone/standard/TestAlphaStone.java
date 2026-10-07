@@ -352,7 +352,7 @@ public class TestAlphaStone {
 
   @Test
   public void cardDosAttributes222(){
-    card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
+    Card card = game.getCardInHand(Player.FINDUS, 1);
     int[] attributes = {card.getHealth(), card.getAttack(), card.getManaCost()};
     assertThat(attributes, is(new int[]{2, 2, 2}));
   }
@@ -381,7 +381,7 @@ public class TestAlphaStone {
   @Test
   public void PedersonShouldStillHave3Cards() {
     //We made Findus play card DOS at index 0 (doesnt matter the index)
-    Card card = new StdCard(GameConstants.DOS_CARD, Player.FINDUS);
+    Card card = game.getCardInHand(Player.FINDUS, 1);
     game.playCard(Player.FINDUS, card, 0);
 
     //Now we check if Peddersen still has 3 cards
@@ -407,13 +407,13 @@ public class TestAlphaStone {
 
   @Test
   public void getCardOwner(){
-    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
+    Card card = game.getCardInHand(Player.FINDUS, 1);
     assertThat(card.getOwner(), is(Player.FINDUS));
   }
 
   @Test
   public void setCardName(){
-    Card card = new StdCard(GameConstants.UNO_CARD, Player.FINDUS);
+    Card card = game.getCardInHand(Player.FINDUS, 2);
     assertThat(card.getName(), is(GameConstants.UNO_CARD));
   }
 

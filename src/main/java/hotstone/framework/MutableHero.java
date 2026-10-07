@@ -8,4 +8,5 @@ public interface MutableHero extends Hero {
     void refillMana(int turnNumber);
 
     void decreaseHealthBy(int change);
+
 }
