@@ -1,21 +1,24 @@
 package hotstone.standard;
 
 import hotstone.framework.Card;
+import hotstone.framework.MutableCard;
 import hotstone.framework.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class StdCard implements Card {
+public class StdCard implements Card, MutableCard {
     private final Map<String, int[]> CardAttributes = new HashMap<>();
 
-    private String cardName;
-    private Player owner;
+    private final String cardName;
+    private final Player owner;
     private boolean isActive = false;
 
     public StdCard(String name, Player owner) {
         cardName = name;
         this.owner = owner;
+
+//      used as a library of all the card types and default attributes
 //      [mana, attack, health]
         CardAttributes.put(GameConstants.SOVS_CARD, new int[]{0, 1, 1});
         CardAttributes.put(GameConstants.UNO_CARD, new int[]{1, 1, 1});
@@ -34,18 +37,19 @@ public class StdCard implements Card {
         CardAttributes.put(GameConstants.NOODLE_SOUP_CARD, new int[]{4, 5, 3});
         CardAttributes.put(GameConstants.SPRING_ROLLS_CARD, new int[]{5, 3, 7});
         CardAttributes.put(GameConstants.BAKED_SALMON_CARD, new int[]{5, 8, 2});
-
-
     }
 
+    @Override
     public void setHealth(int change) {
         CardAttributes.get(cardName)[2] = CardAttributes.get(cardName)[2] - change;
     }
 
+    @Override
     public void increaseAttack(int amount) {
         CardAttributes.get(cardName)[1] = CardAttributes.get(cardName)[1] + amount;
     }
 
+    @Override
     public void setActive(boolean status) {
         isActive = status;
     }
