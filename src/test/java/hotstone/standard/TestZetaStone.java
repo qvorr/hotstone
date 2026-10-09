@@ -43,7 +43,6 @@ public class TestZetaStone {
         game.playCard(Player.PEDDERSEN, game.getCardInHand(Player.PEDDERSEN, 0), 0);
         game.endTurn();
         game.endTurn();
-        TestHelper.printGameState(game);
         game.attackCard(Player.PEDDERSEN, game.getCardInField(Player.PEDDERSEN, 0), game.getCardInField(Player.FINDUS, 0));
         assertThat(game.getWinner(), is(nullValue()));
     }

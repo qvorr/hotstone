@@ -7,7 +7,6 @@ import hotstone.framework.Player;
 import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.DeckStrategy;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class StdCard implements Card, MutableCard {
@@ -65,6 +64,16 @@ public class StdCard implements Card, MutableCard {
     @Override
     public void triggerEffect(MutableGame game) {
         es.executeEffect(game, getOwner());
+    }
+
+    @Override
+    public String getCategory(String name) {
+        return ds.getCategory(name).getType(name);
+    }
+
+    @Override
+    public boolean isTaunt(String name) {
+        return getCategory(name).equals("Taunt");
     }
 
     @Override

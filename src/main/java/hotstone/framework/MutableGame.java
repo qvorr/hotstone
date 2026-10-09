@@ -1,5 +1,8 @@
 package hotstone.framework;
 
+import hotstone.framework.Strategy.CardEffectStrategy;
+import hotstone.framework.Strategy.DeckStrategy;
+
 import java.util.List;
 
 public interface MutableGame {
@@ -30,4 +33,9 @@ public interface MutableGame {
 
     void increaseAttackofCardInField(Player who, int index, int value);
 
+    void decreaseHeroMana(Player who, int value);
+
+    void addCardToHand(Player who, MutableCard card);
+
+    MutableCard createMutableCard(Player owner, String name,  DeckStrategy ds, CardEffectStrategy es);
 }

@@ -5,7 +5,6 @@ import hotstone.framework.Card;
 import hotstone.framework.Game;
 import hotstone.framework.MutableCard;
 import hotstone.framework.Player;
-import hotstone.framework.Strategy.DeckStrategy;
 import hotstone.standard.CardEffects.BakedSalmonEffect;
 import hotstone.standard.CardEffects.BrownRiceEffect;
 import hotstone.standard.Deck.DeltaDeckStrategy;
@@ -63,7 +62,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS, strat, strat.effectPicker(name)));
+            raw.add(new StdCard(name, Player.FINDUS, strat, strat.getEffect(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 
@@ -76,7 +75,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS, strat, strat.effectPicker(name)));
+            raw.add(new StdCard(name, Player.FINDUS, strat, strat.getEffect(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 
@@ -89,7 +88,7 @@ public class TestDeltaStone {
         DeltaDeckStrategy strat = new DeltaDeckStrategy();
         List<MutableCard> raw = new ArrayList<>();
         for (String name : strat.getDeck()) {
-            raw.add(new StdCard(name, Player.FINDUS, strat, strat.effectPicker(name)));
+            raw.add(new StdCard(name, Player.FINDUS, strat, strat.getEffect(name)));
         }
         List<MutableCard> arranged = strat.arrangeDeck(raw);
 

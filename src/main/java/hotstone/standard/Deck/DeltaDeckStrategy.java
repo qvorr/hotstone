@@ -3,9 +3,11 @@ package hotstone.standard.Deck;
 import hotstone.framework.MutableCard;
 import hotstone.framework.MutableGame;
 import hotstone.framework.Player;
+import hotstone.framework.Strategy.CardCategoryStrategy;
 import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.DeckStrategy;
 import hotstone.standard.CardEffects.*;
+import hotstone.standard.Categories.OrdinaryCategory;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
 
@@ -14,7 +16,7 @@ import java.util.*;
 public class DeltaDeckStrategy implements DeckStrategy {
     @Override
     public String[] getDeck() {
-        String[] DeltaStoneDeck = {
+        return new String[]{
                 GameConstants.BROWN_RICE_CARD,
                 GameConstants.FRENCH_FRIES_CARD,
                 GameConstants.GREEN_SALAD_CARD,
@@ -35,7 +37,6 @@ public class DeltaDeckStrategy implements DeckStrategy {
                 GameConstants.BAKED_SALMON_CARD,
 //              GameConstants.SOVS_CARD
         };
-        return DeltaStoneDeck;
     }
 
     @Override
@@ -68,8 +69,18 @@ public class DeltaDeckStrategy implements DeckStrategy {
     }
 
     @Override
-    public CardEffectStrategy effectPicker(String name){
+    public CardEffectStrategy getEffect(String name){
         return new NoEffect();
+    }
+
+    @Override
+    public CardCategoryStrategy getCategory(String name) {
+        return new OrdinaryCategory();
+    }
+
+    @Override
+    public void dealExtraCards(MutableGame game) {
+        // do nothing
     }
 
     private void moveSuitableCardToFront(List<MutableCard> list, int searchStartIndex, int maxManaCost) {

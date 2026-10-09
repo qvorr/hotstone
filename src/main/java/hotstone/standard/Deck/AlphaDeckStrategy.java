@@ -2,9 +2,11 @@ package hotstone.standard.Deck;
 
 import hotstone.framework.MutableCard;
 import hotstone.framework.MutableGame;
+import hotstone.framework.Strategy.CardCategoryStrategy;
 import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.DeckStrategy;
 import hotstone.standard.CardEffects.NoEffect;
+import hotstone.standard.Categories.OrdinaryCategory;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
 
@@ -15,7 +17,7 @@ import java.util.Map;
 public class AlphaDeckStrategy implements DeckStrategy {
     @Override
     public String[] getDeck() {
-        String[] AlphaStoneDeck = {
+        return new String[]{
                 GameConstants.UNO_CARD,
                 GameConstants.DOS_CARD,
                 GameConstants.TRES_CARD,
@@ -25,7 +27,6 @@ public class AlphaDeckStrategy implements DeckStrategy {
                 GameConstants.SIETE_CARD,
 //                 GameConstants.SOVS_CARD
         };
-        return AlphaStoneDeck;
     }
 
     @Override
@@ -48,8 +49,18 @@ public class AlphaDeckStrategy implements DeckStrategy {
     }
 
     @Override
-    public CardEffectStrategy effectPicker(String name) {
+    public CardEffectStrategy getEffect(String name) {
         return new NoEffect();
+    }
+
+    @Override
+    public CardCategoryStrategy getCategory(String name) {
+        return new OrdinaryCategory();
+    }
+
+    @Override
+    public void dealExtraCards(MutableGame game) {
+        // do nothing
     }
 
 }

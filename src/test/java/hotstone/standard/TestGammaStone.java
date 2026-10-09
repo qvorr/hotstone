@@ -117,7 +117,6 @@ public class TestGammaStone {
         game.playCard(Player.FINDUS, game.getCardInHand(Player.FINDUS, 0), 0);
         game.endTurn();
         TestHelper.advanceGameNRounds(game, 3);
-        TestHelper.printGameState(game);
         game.attackCard(Player.FINDUS, game.getCardInField(Player.FINDUS, 0), game.getCardInField(Player.PEDDERSEN, 0));
         assertThat(game.getWinner(), is(nullValue()));
     }

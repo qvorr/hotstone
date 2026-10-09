@@ -1,10 +1,7 @@
 package hotstone.standard;
 
 import hotstone.framework.*;
-import hotstone.framework.Strategy.DeckStrategy;
-import hotstone.framework.Strategy.HeroStrategy;
-import hotstone.framework.Strategy.ManaStrategy;
-import hotstone.framework.Strategy.WinnerStrategy;
+import hotstone.framework.Strategy.*;
 import hotstone.standard.CardEffects.NoEffect;
 
 import java.util.ArrayList;
@@ -46,11 +43,11 @@ public class SpyMutableGame implements MutableGame {
         deck.put(Player.PEDDERSEN, new ArrayList<>());
 
         for(String name : ds.getDeck()){
-            deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds, ds.effectPicker(name)));
+            deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds, ds.getEffect(name)));
         }
 
         for(String name : ds.getDeck()){
-            deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds, ds.effectPicker(name)));
+            deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds, ds.getEffect(name)));
         }
 
 //      shuffle the cards as needed
@@ -140,5 +137,23 @@ public class SpyMutableGame implements MutableGame {
     public void increaseAttackofCardInField(Player who, int index, int value) {
         getMutableCardInField(who, index).increaseAttack(value);
         lastCall = "increaseAttackOfCardInField";
+    }
+
+    @Override
+    public void decreaseHeroMana(Player who, int value) {
+        getMutableHero(who).decreaseManaBy(value);
+        lastCall = "decreaseHeroMana";
+    }
+
+    @Override
+    public void addCardToHand(Player who, MutableCard card) {
+        hand.get(who).addLast(card);
+        lastCall = "addCardToHand";
+    }
+
+    @Override
+    public MutableCard createMutableCard(Player owner, String name, DeckStrategy ds, CardEffectStrategy es) {
+        lastCall = "createMutableCard";
+        return new StdCard(name, owner, ds, es);
     }
 }

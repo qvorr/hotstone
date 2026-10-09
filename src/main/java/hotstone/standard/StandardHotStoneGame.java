@@ -79,11 +79,11 @@ public class StandardHotStoneGame implements Game, MutableGame {
     deck.put(Player.PEDDERSEN, new ArrayList<>());
 
     for(String name : ds.getDeck()){
-      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds, ds.effectPicker(name)));
+      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds, ds.getEffect(name)));
     }
 
     for(String name : ds.getDeck()){
-      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds, ds.effectPicker(name)));
+      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds, ds.getEffect(name)));
     }
 
 //      shuffle the cards as needed
@@ -96,6 +96,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
       drawCard(Player.FINDUS);
       drawCard(Player.PEDDERSEN);
     }
+    ds.dealExtraCards(this);
 
   }
 
@@ -228,10 +229,15 @@ public class StandardHotStoneGame implements Game, MutableGame {
   }
 
   public void executePlayCard(Player who, Card card, int atIndex){
-//    CALL TO DECK STATEGY FOR EFFECTSSS
+//  call to effect strategy for triggering effect
     MutableCard mutableCard = (MutableCard) card;
     mutableCard.triggerEffect(this);
     hand.get(who).remove(card);
+
+//  if a card is a spell, do not play it
+    if(mutableCard.getCategory(card.getName()).equals("Spell")){
+      return;
+    }
     field.get(who).add(atIndex, (StdCard) card);
     decreaseHeroMana(who, card.getManaCost());
   }
@@ -253,8 +259,19 @@ public class StandardHotStoneGame implements Game, MutableGame {
     return Status.OK;
   }
 
+  @Override
   public void decreaseHeroMana(Player who, int value){
-    ((StdHero) getHero(who)).decreaseManaBy(value);
+    getMutableHero(who).decreaseManaBy(value);
+  }
+
+  @Override
+  public void addCardToHand(Player who, MutableCard card) {
+    hand.get(who).addLast(card);
+  }
+
+  @Override
+  public MutableCard createMutableCard(Player owner, String name, DeckStrategy ds, CardEffectStrategy es) {
+    return new StdCard(name, owner, ds, es);
   }
 
   // Attack card and helper methods
@@ -282,7 +299,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
   }
 
-  private Status isAttackOnCardPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
+  public  Status isAttackOnCardPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
     boolean isPlayerInTurn = getPlayerInTurn() == playerAttacking;
     if (!isPlayerInTurn) {
       return Status.NOT_PLAYER_IN_TURN;
@@ -295,6 +312,15 @@ public class StandardHotStoneGame implements Game, MutableGame {
     if (!isCardActive) {
       return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
     }
+
+    String defendingCardName = defendingCard.getName();
+    boolean hasActiveTauntsOnOpField = hasActiveTauntsOnField(Player.computeOpponent(playerAttacking));
+    boolean isDefendingCardTaunt = ((MutableCard)defendingCard).isTaunt(defendingCardName);
+
+    if (hasActiveTauntsOnOpField && !isDefendingCardTaunt) {
+      return Status.ATTACK_NOT_ALLOWED_ON_NON_TAUNT_MINION;
+    }
+
     boolean attackingOwnMinion = attackingCard.getOwner() == defendingCard.getOwner();
     if (attackingOwnMinion) {
       return Status.ATTACK_NOT_ALLOWED_ON_OWN_MINION;
@@ -324,6 +350,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
   }
 
   public Status isAttackHeroPossible(Player playerAttacking, Card attackingCard) {
+    Player opponent = Player.computeOpponent(playerAttacking);
+
     boolean isPlayerInTurn = playerInTurn == playerAttacking;
     if (!isPlayerInTurn) {
       return Status.NOT_PLAYER_IN_TURN;
@@ -332,11 +360,26 @@ public class StandardHotStoneGame implements Game, MutableGame {
     if (!isOwnerOfCard) {
       return Status.NOT_OWNER;
     }
+
+    boolean hasActiveTauntsOnOpField = hasActiveTauntsOnField(opponent);
+    if(hasActiveTauntsOnOpField){
+      return Status.ATTACK_NOT_ALLOWED_ON_NON_TAUNT_MINION;
+    }
+
     boolean isCardActive = attackingCard.isActive();
     if (!isCardActive) {
       return Status.ATTACK_NOT_ALLOWED_FOR_NON_ACTIVE_MINION;
     }
     return Status.OK;
+  }
+
+  public boolean hasActiveTauntsOnField(Player who){
+    for(Card card: getField(who)){
+      if(ds.getCategory(card.getName()).getType(card.getName()).equals("Taunt")){
+        return true;
+      }
+    }
+    return false;
   }
 
 
@@ -397,6 +440,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     Player pl = Player.PEDDERSEN;
     addCardToField(pl, new StdCard(GameConstants.SOVS_CARD, pl, ds, new NoEffect()));
   }
+
 
   @Override
   public void decreaseHeroHealth(Player who, int value) {
