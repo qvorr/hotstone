@@ -18,11 +18,23 @@ public class TomatoSaladEffect implements CardEffectStrategy {
 
     @Override
     public void executeEffect(MutableGame game, Player who) {
-        boolean isFieldEmpty = game.getFieldSize(who) == 0;
-        if(isFieldEmpty){
+        Player opponent = Player.computeOpponent(who);
+        int totalSize = 0;
+        int playerFieldSize = game.getFieldSize(who);
+        int opponentFieldSize = game.getFieldSize(Player.computeOpponent(who));
+        totalSize = playerFieldSize + opponentFieldSize;
+
+        if(totalSize == 0) {
             return;
         }
-        int index = mss.selectMinionIndex(game.getFieldSize(who));
-        game.getMutableCardInField(who, index).increaseAttack(1);
+
+        int index = mss.selectMinionIndex(totalSize);
+        if (index < playerFieldSize){
+            game.increaseAttackofCardInField(who, index, 1);
+        } else {
+            index = index - playerFieldSize;
+            game.increaseAttackofCardInField(opponent, index, 1);
+        }
+
     }
 }

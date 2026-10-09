@@ -10,6 +10,8 @@ import java.util.Map;
 public interface DeckStrategy {
     String[] getDeck();
 
+    Map<String, int[]> getCardAttributeList();
+
     List<MutableCard> arrangeDeck(List<MutableCard> deck);
 
     CardEffectStrategy effectPicker(String name);

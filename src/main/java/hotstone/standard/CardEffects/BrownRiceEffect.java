@@ -14,7 +14,7 @@ public class BrownRiceEffect implements CardEffectStrategy {
 
     @Override
     public void executeEffect(MutableGame game, Player who) {
-        MutableHero opHero = game.getMutableHero(Player.computeOpponent(who));
-        opHero.decreaseHealthBy(1);
+        Player op = Player.computeOpponent(who);
+        game.decreaseHeroHealth(op, 1);
     }
 }

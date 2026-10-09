@@ -39,6 +39,22 @@ public class DeltaDeckStrategy implements DeckStrategy {
     }
 
     @Override
+    public Map<String, int[]> getCardAttributeList() {
+        Map<String, int[]> CardAttributes = new HashMap<>();
+        CardAttributes.put(GameConstants.SOVS_CARD, new int[]{0, 1, 1});
+        CardAttributes.put(GameConstants.BROWN_RICE_CARD, new int[]{1, 1, 2});
+        CardAttributes.put(GameConstants.FRENCH_FRIES_CARD, new int[]{1, 2, 1});
+        CardAttributes.put(GameConstants.GREEN_SALAD_CARD, new int[]{2, 2, 3});
+        CardAttributes.put(GameConstants.TOMATO_SALAD_CARD, new int[]{2, 3, 2});
+        CardAttributes.put(GameConstants.POKE_BOWL_CARD, new int[]{3, 2, 4});
+        CardAttributes.put(GameConstants.PUMPKIN_SOUP_CARD, new int[]{4, 2, 7});
+        CardAttributes.put(GameConstants.NOODLE_SOUP_CARD, new int[]{4, 5, 3});
+        CardAttributes.put(GameConstants.SPRING_ROLLS_CARD, new int[]{5, 3, 7});
+        CardAttributes.put(GameConstants.BAKED_SALMON_CARD, new int[]{5, 8, 2});
+        return CardAttributes;
+    }
+
+    @Override
     public List<MutableCard> arrangeDeck(List<MutableCard> deck) {
         List<MutableCard> arranged = new ArrayList<>(deck);   // copy, don't mutate caller's list
         Random random = new Random();

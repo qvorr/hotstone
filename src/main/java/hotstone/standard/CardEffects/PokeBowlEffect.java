@@ -12,6 +12,7 @@ public class PokeBowlEffect implements CardEffectStrategy {
 
     @Override
     public void executeEffect(MutableGame game, Player who) {
-        game.getMutableHero(who).decreaseHealthBy(-2);
+//        game.getMutableHero(who).decreaseHealthBy(-2);
+        game.decreaseHeroHealth(who, -2);
     }
 }

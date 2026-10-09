@@ -13,7 +13,7 @@ public class SpringRollsEffect implements CardEffectStrategy {
 
     @Override
     public String getEffectDescription() {
-        return "Add +2 attack to random opponent minion.";
+        return "Destroy a random opponent minion";
     }
 
     @Override
@@ -24,6 +24,6 @@ public class SpringRollsEffect implements CardEffectStrategy {
             return;
         }
         int index = mss.selectMinionIndex(game.getFieldSize(op));
-        game.getMutableCardInField(op, index).increaseAttack(2);
+        game.removeCardOnField(op, game.getMutableCardInField(op, index));
     }
 }

@@ -18,6 +18,7 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.framework.Strategy.*;
+import hotstone.standard.CardEffects.NoEffect;
 
 import java.util.*;
 
@@ -78,11 +79,11 @@ public class StandardHotStoneGame implements Game, MutableGame {
     deck.put(Player.PEDDERSEN, new ArrayList<>());
 
     for(String name : ds.getDeck()){
-      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds.effectPicker(name)));
+      deck.get(Player.FINDUS).add(new StdCard(name, Player.FINDUS, ds, ds.effectPicker(name)));
     }
 
     for(String name : ds.getDeck()){
-      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds.effectPicker(name)));
+      deck.get(Player.PEDDERSEN).add(new StdCard(name, Player.PEDDERSEN, ds, ds.effectPicker(name)));
     }
 
 //      shuffle the cards as needed
@@ -134,6 +135,11 @@ public class StandardHotStoneGame implements Game, MutableGame {
   @Override
   public Iterable<? extends Card> getHand(Player who) {
     return hand.get(who);
+  }
+
+  @Override
+  public MutableCard getMutableCardInHand(Player who, int index) {
+    return hand.get(who).get(index);
   }
 
   @Override
@@ -385,4 +391,21 @@ public class StandardHotStoneGame implements Game, MutableGame {
       hand.get(who).addFirst(drawnCard);
     }
   }
+
+  @Override
+  public void addSovsToField() {
+    Player pl = Player.PEDDERSEN;
+    addCardToField(pl, new StdCard(GameConstants.SOVS_CARD, pl, ds, new NoEffect()));
+  }
+
+  @Override
+  public void decreaseHeroHealth(Player who, int value) {
+    getMutableHero(who).decreaseHealthBy(value);
+  }
+
+  @Override
+  public void increaseAttackofCardInField(Player who, int index, int value) {
+    getMutableCardInField(who, index).increaseAttack(value);
+  }
+
 }

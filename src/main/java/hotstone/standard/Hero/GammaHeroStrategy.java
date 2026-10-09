@@ -5,9 +5,6 @@ import hotstone.framework.Strategy.HeroStrategy;
 import hotstone.standard.CardEffects.NoEffect;
 import hotstone.standard.GameConstants;
 import hotstone.standard.StdCard;
-import hotstone.standard.StdHero;
-
-import java.util.List;
 
 public class GammaHeroStrategy implements HeroStrategy {
     @Override
@@ -30,7 +27,7 @@ public class GammaHeroStrategy implements HeroStrategy {
         if(player.getType().equals(GameConstants.THAI_CHEF_HERO_TYPE)){
             opponent.decreaseHealthBy(2);
         }else if(player.getType().equals(GameConstants.DANISH_CHEF_HERO_TYPE)){
-            game.addCardToField(who, new StdCard(GameConstants.SOVS_CARD, player.getOwner(), new NoEffect()));
+            game.addSovsToField();
         }
     }
 
