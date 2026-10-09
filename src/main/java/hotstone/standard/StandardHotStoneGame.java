@@ -435,12 +435,10 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
   }
 
-  @Override
-  public void addSovsToField() {
-    Player pl = Player.PEDDERSEN;
-    addCardToField(pl, new StdCard(GameConstants.SOVS_CARD, pl, ds, new NoEffect()));
-  }
-
+    @Override
+    public void addSovsToField(Player who) {
+        addCardToField(who, new StdCard(GameConstants.SOVS_CARD, who, ds, new NoEffect()));
+    }
 
   @Override
   public void decreaseHeroHealth(Player who, int value) {

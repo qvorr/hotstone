@@ -27,7 +27,7 @@ public interface MutableGame {
 
     void drawCard(Player who);
 
-    void addSovsToField();
+    void addSovsToField(Player who);
 
     void decreaseHeroHealth(Player who, int value);
 
