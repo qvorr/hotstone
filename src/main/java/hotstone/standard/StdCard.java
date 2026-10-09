@@ -76,6 +76,7 @@ public class StdCard implements Card, MutableCard {
     public int getManaCost() {
         return CardAttributes.get(cardName)[0];
     } // FAKE
+    // im not removing these
 
     @Override
     public int getAttack() {

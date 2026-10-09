@@ -57,7 +57,9 @@ public class TestEtaStone {
     public void bakedSalmonShouldAdd2AttackToRandomOpponentMinion(){
         CardEffectStrategy bakedSalmon = new BakedSalmonEffect(new FixedMinionSelectionStub(0));
         spy.addCardToField(Player.FINDUS, new StdCard(GameConstants.PUMPKIN_SOUP_CARD, Player.FINDUS, new EtaDeckStrategy(), new NoEffect()));
+        assertThat(spy.getMutableCardInField(Player.FINDUS, 0).getAttack(),is(2));
         bakedSalmon.executeEffect(spy, Player.PEDDERSEN);
+        assertThat(spy.getMutableCardInField(Player.FINDUS, 0).getAttack(),is(4));
         assertThat(spy.lastCall, is("increaseAttackOfCardInField"));
     }
 
@@ -65,7 +67,9 @@ public class TestEtaStone {
     public void springRollsShouldDestroyARandomOpponentMinion(){
         CardEffectStrategy springRoll = new SpringRollsEffect(new FixedMinionSelectionStub(0));
         spy.addCardToField(Player.FINDUS, new StdCard(GameConstants.PUMPKIN_SOUP_CARD, Player.FINDUS, new EtaDeckStrategy(), new NoEffect()));
+        assertThat(spy.getFieldSize(Player.FINDUS), is(1));
         springRoll.executeEffect(spy, Player.PEDDERSEN);
+        assertThat(spy.getFieldSize(Player.FINDUS), is(0));
         assertThat(spy.lastCall, is("removeCardOnField"));
     }
 
@@ -73,7 +77,9 @@ public class TestEtaStone {
     public void tomatoSaladShouldAdd1AttackToRandomMinion(){
         CardEffectStrategy tomatoSalad = new TomatoSaladEffect(new FixedMinionSelectionStub(0));
         spy.addCardToField(Player.FINDUS, new StdCard(GameConstants.PUMPKIN_SOUP_CARD, Player.FINDUS, new EtaDeckStrategy(), new NoEffect()));
+        assertThat(spy.getMutableCardInField(Player.FINDUS, 0).getAttack(),is(2));
         tomatoSalad.executeEffect(spy, Player.PEDDERSEN);
+        assertThat(spy.getMutableCardInField(Player.FINDUS, 0).getAttack(),is(3));
         assertThat(spy.lastCall, is("increaseAttackOfCardInField"));
     }
 
