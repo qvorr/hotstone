@@ -18,6 +18,7 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.framework.Strategy.*;
+import hotstone.observer.GameObserver;
 import hotstone.standard.CardEffects.NoEffect;
 
 import java.util.*;
@@ -450,4 +451,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
     getMutableCardInField(who, index).increaseAttack(value);
   }
 
+  @Override
+  public void addObserver(GameObserver observer) {
+
+  }
 }
