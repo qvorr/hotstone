@@ -16,8 +16,13 @@
 
 package hotstone.observer;
 
+import hotstone.framework.AbstractFactory;
 import hotstone.framework.Game;
 import hotstone.framework.Player;
+import hotstone.standard.*;
+//import hotstone.standard.Factories.AlphaFactory;
+//import hotstone.standard.StandardHotStoneGame;
+import hotstone.standard.Factories.AlphaFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,7 +34,7 @@ public class TestObserver {
     // Given a test double for the game observer
     GameObserver observerDouble = new ObserverDouble();
     // Given a game
-    Game game = null; // TODO: replace with your game implementation of choice
+    Game game = new StandardHotStoneGame(new AlphaFactory()); // TODO: replace with your game implementation of choice
     // When Findus use the hero power
     game.usePower(Player.FINDUS);
 
