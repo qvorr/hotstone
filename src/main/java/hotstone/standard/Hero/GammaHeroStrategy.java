@@ -25,7 +25,7 @@ public class GammaHeroStrategy implements HeroStrategy {
 
 
         if(player.getType().equals(GameConstants.THAI_CHEF_HERO_TYPE)){
-            opponent.decreaseHealthBy(2);
+            game.decreaseHeroHealth(Player.computeOpponent(who), 2);
         }else if(player.getType().equals(GameConstants.DANISH_CHEF_HERO_TYPE)){
             game.addSovsToField(who);
         }

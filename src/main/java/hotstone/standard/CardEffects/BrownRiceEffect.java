@@ -1,10 +1,10 @@
 package hotstone.standard.CardEffects;
 
-import hotstone.framework.MutableCard;
 import hotstone.framework.MutableGame;
-import hotstone.framework.MutableHero;
 import hotstone.framework.Player;
 import hotstone.framework.Strategy.CardEffectStrategy;
+import hotstone.standard.WizardHubAdapter;
+import wizardhub.EffectWizard;
 
 public class BrownRiceEffect implements CardEffectStrategy {
     @Override
@@ -14,7 +14,8 @@ public class BrownRiceEffect implements CardEffectStrategy {
 
     @Override
     public void executeEffect(MutableGame game, Player who) {
-        Player op = Player.computeOpponent(who);
-        game.decreaseHeroHealth(op, 1);
+        new EffectWizard(new WizardHubAdapter(game, who))
+                .forOpponent().forHero()
+                .doChangeHealthOrRemove(-1);
     }
 }

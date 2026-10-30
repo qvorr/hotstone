@@ -58,7 +58,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   private HeroStrategy hs;
   private WinnerStrategy ws;
   ObserverHandler observerHandler = new ObserverHandler();
-
+    private boolean gameWonNotified = false;
   public StandardHotStoneGame(AbstractFactory factory) {
     ms = factory.createManaStrategy();
     ds = factory.createDeckStrategy();
@@ -201,6 +201,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
     observerHandler.notifyChangeTurnTo(playerInTurn);
     observerHandler.notifyHeroUpdate(playerInTurn);
+      notifyIfGameWon();
   }
 
   private void drawCardOnNewTurn(){
@@ -233,6 +234,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     executePlayCard(who, card, atIndex);
     observerHandler.notifyPlayCard(who, card, atIndex);
     observerHandler.notifyHeroUpdate(who);
+      notifyIfGameWon();
     return Status.OK;
   }
 
@@ -292,6 +294,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
     executeAttack(attackingCard, defendingCard);
     observerHandler.notifyAttackCard(playerAttacking, attackingCard, defendingCard);
+      notifyIfGameWon();
     return Status.OK;
   }
 
@@ -306,7 +309,11 @@ public class StandardHotStoneGame implements Game, MutableGame {
     ((StdCard) attacker).decreaseHealthBy(defender.getAttack());
     if (attacker.getHealth() <= 0) {
       field.get(attacker.getOwner()).remove(attacker);
+        observerHandler.notifyCardRemove(attacker.getOwner(), attacker);
+    } else {
+        observerHandler.notifyCardUpdate(attacker);
     }
+
   }
 
   public  Status isAttackOnCardPossible(Player playerAttacking, Card attackingCard, Card defendingCard){
@@ -347,12 +354,14 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
     executeAttackOnHero(playerAttacking, attackingCard);
     observerHandler.notifyAttackHero(playerAttacking, attackingCard);
+      notifyIfGameWon();
     return Status.OK;
   }
 
   public void executeAttackOnHero(Player playerAttacking, Card attackingCard){
     StdHero opHero = (StdHero) getHero(Player.computeOpponent(playerAttacking));
     opHero.decreaseHealthBy(attackingCard.getAttack());
+      observerHandler.notifyHeroUpdate(Player.computeOpponent(playerAttacking));
     deactivateCardAttack(attackingCard);
   }
 
@@ -403,6 +412,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
     executeUseHeroPower(who);
     observerHandler.notifyUsePower(who);
+      notifyIfGameWon();
     return Status.OK;
   }
 
@@ -410,6 +420,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     hs.useHeroPower(this, who);
 
     decreaseHeroManaOnPowerUse(getHero(who));
+      observerHandler.notifyHeroUpdate(who);
     deactivateHeroPower(who);
   }
 
@@ -463,7 +474,13 @@ public class StandardHotStoneGame implements Game, MutableGame {
     getMutableCardInField(who, index).increaseAttack(value);
     observerHandler.notifyCardUpdate(getCardInField(who, index));
   }
-
+    private void notifyIfGameWon() {
+        Player winner = getWinner();
+        if (winner != null && !gameWonNotified) {
+            gameWonNotified = true;
+            observerHandler.notifyGameWon(winner);
+        }
+    }
   @Override
   public void addObserver(GameObserver observer) {
     observerHandler.addObserver(observer);

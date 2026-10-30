@@ -30,6 +30,7 @@ dependencies {
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.baerbak.maven:wizardhub:1.0.0'
 
     // Use the Hamcrest matcher library
     testImplementation "org.hamcrest:hamcrest-library:2.2"

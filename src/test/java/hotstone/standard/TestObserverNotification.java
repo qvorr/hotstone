@@ -5,6 +5,7 @@ import hotstone.framework.Game;
 import hotstone.framework.Player;
 import hotstone.framework.Status;
 import hotstone.standard.Factories.AlphaFactory;
+import hotstone.standard.Factories.GammaFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,5 +44,15 @@ public class TestObserverNotification {
         game.endTurn();
         assertThat(spy.eventLog, hasItem("onChangeTurnTo(PEDDERSEN)"));
         assertThat(spy.eventLog, hasItem("onHeroUpdate(PEDDERSEN)"));
+    }
+    @Test
+    public void danishChefPowerShouldNotifyPowerHeroAndSovs(){
+        game = new StandardHotStoneGame(new GammaFactory());
+        game.addObserver(spy);
+        game.endTurn();
+        game.usePower(Player.PEDDERSEN);
+        assertThat(spy.eventLog, hasItem("onUsePower(PEDDERSEN)"));
+        assertThat(spy.eventLog, hasItem("onHeroUpdate(PEDDERSEN)"));
+        assertThat(spy.eventLog, hasItem("onCardUpdate(Sovs)"));
     }
 }

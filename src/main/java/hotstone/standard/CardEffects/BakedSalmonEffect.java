@@ -4,6 +4,8 @@ import hotstone.framework.MutableGame;
 import hotstone.framework.Player;
 import hotstone.framework.Strategy.CardEffectStrategy;
 import hotstone.framework.Strategy.MinionSelectionStrategy;
+import hotstone.standard.WizardHubAdapter;
+import wizardhub.EffectWizard;
 
 public class BakedSalmonEffect implements CardEffectStrategy {
     private MinionSelectionStrategy mss;
@@ -18,11 +20,13 @@ public class BakedSalmonEffect implements CardEffectStrategy {
     @Override
     public void executeEffect(MutableGame game, Player who) {
         Player op = Player.computeOpponent(who);
-        boolean isFieldEmpty = game.getFieldSize(op) == 0;
-        if(isFieldEmpty){
+        int fieldSize = game.getFieldSize(op);
+        if (fieldSize == 0) {
             return;
         }
-        int index = mss.selectMinionIndex(game.getFieldSize(op));
-        game.increaseAttackofCardInField(op, index, 2);
+        int index = mss.selectMinionIndex(fieldSize);
+        new EffectWizard(new WizardHubAdapter(game, who))
+                .forOpponent().forMinionAt(index)
+                .doChangeAttack(+2);
     }
 }
