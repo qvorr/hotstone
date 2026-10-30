@@ -18,7 +18,7 @@ package hotstone.standard;
 
 import hotstone.framework.*;
 import hotstone.framework.Strategy.*;
-import hotstone.observer.GameObserver;
+import hotstone.observer.*;
 import hotstone.standard.CardEffects.NoEffect;
 
 import java.util.*;
@@ -57,6 +57,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   private DeckStrategy ds;
   private HeroStrategy hs;
   private WinnerStrategy ws;
+  ObserverHandler observerHandler = new ObserverHandler();
 
   public StandardHotStoneGame(AbstractFactory factory) {
     ms = factory.createManaStrategy();
@@ -167,6 +168,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   @Override
   public void removeCardOnField(Player who, MutableCard target) {
     field.get(who).remove(target);
+    observerHandler.notifyCardRemove(who, target);
   }
 
   @Override
@@ -182,6 +184,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   @Override
   public void addCardToField(Player who, MutableCard card){
     field.get(who).addLast(card);
+    observerHandler.notifyCardUpdate(card);
   }
 
   // End turn and helper methods
@@ -196,6 +199,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
       setUsePowerOnHeroOnNewTurn();
       activateCardsOnField();
     }
+    observerHandler.notifyChangeTurnTo(playerInTurn);
+    observerHandler.notifyHeroUpdate(playerInTurn);
   }
 
   private void drawCardOnNewTurn(){
@@ -226,6 +231,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
       return status;
     }
     executePlayCard(who, card, atIndex);
+    observerHandler.notifyPlayCard(who, card, atIndex);
+    observerHandler.notifyHeroUpdate(who);
     return Status.OK;
   }
 
@@ -263,6 +270,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
   @Override
   public void decreaseHeroMana(Player who, int value){
     getMutableHero(who).decreaseManaBy(value);
+    observerHandler.notifyHeroUpdate(who);
   }
 
   @Override
@@ -283,6 +291,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
       return status;
     }
     executeAttack(attackingCard, defendingCard);
+    observerHandler.notifyAttackCard(playerAttacking, attackingCard, defendingCard);
     return Status.OK;
   }
 
@@ -337,6 +346,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
       return status;
     }
     executeAttackOnHero(playerAttacking, attackingCard);
+    observerHandler.notifyAttackHero(playerAttacking, attackingCard);
     return Status.OK;
   }
 
@@ -392,13 +402,11 @@ public class StandardHotStoneGame implements Game, MutableGame {
       return status;
     }
     executeUseHeroPower(who);
+    observerHandler.notifyUsePower(who);
     return Status.OK;
   }
 
   public void executeUseHeroPower(Player who){
-    Player opponent = Player.computeOpponent(who);
-
-//    hs.useHeroPower(getHero(who), getHero(opponent), field.get(who), field.get(opponent));
     hs.useHeroPower(this, who);
 
     decreaseHeroManaOnPowerUse(getHero(who));
@@ -431,28 +439,33 @@ public class StandardHotStoneGame implements Game, MutableGame {
   public void drawCard(Player who){
     if (!deck.get(who).isEmpty()) {
       MutableCard drawnCard =  deck.get(who).getFirst();
-      deck.get(who).removeFirst();
+      Card card = deck.get(who).removeFirst();
       hand.get(who).addFirst(drawnCard);
+      observerHandler.notifyCardDraw(who, card);
     }
   }
 
-    @Override
-    public void addSovsToField(Player who) {
-        addCardToField(who, new StdCard(GameConstants.SOVS_CARD, who, ds, new NoEffect()));
-    }
+  @Override
+  public void addSovsToField(Player who) {
+    MutableCard sovs = new StdCard(GameConstants.SOVS_CARD, who, ds, new NoEffect());
+    addCardToField(who, sovs);
+    observerHandler.notifyCardUpdate(sovs);
+  }
 
   @Override
   public void decreaseHeroHealth(Player who, int value) {
     getMutableHero(who).decreaseHealthBy(value);
+    observerHandler.notifyHeroUpdate(who);
   }
 
   @Override
   public void increaseAttackofCardInField(Player who, int index, int value) {
     getMutableCardInField(who, index).increaseAttack(value);
+    observerHandler.notifyCardUpdate(getCardInField(who, index));
   }
 
   @Override
   public void addObserver(GameObserver observer) {
-
+    observerHandler.addObserver(observer);
   }
 }
