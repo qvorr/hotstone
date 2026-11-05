@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 /** This is ALMOST COMPLETE TEMPLATE CODE for the MiniDraw
- * integration exercise. Find the TODO's in the code below
+ * integration exercise. Find the to do's in the code below
  * and use the 'ShowUpdate' visual test to implement
  * the missing aspects.
  *
@@ -313,8 +313,7 @@ public class HotStoneDrawing implements Drawing, GameObserver {
 
     Hero hero = game.getHero(playerShown);
 
-    // TODO: Add the text figure for the shown player's power
-    String heroPowerText = "(Hero power text)";
+    String heroPowerText = hero.getEffectDescription();
     int effectLength = heroPowerText.length();
     Point effectPosition = new Point(GfxConstants.MY_HERO_POWER_DESCRIPTION_POSITION.x -
             effectLength * GfxConstants.HERO_APPROXIMATE_LETTER_WIDTH_PIXEL,
@@ -328,7 +327,7 @@ public class HotStoneDrawing implements Drawing, GameObserver {
 
     // Opponent power
     hero = game.getHero(Player.computeOpponent(playerShown));
-    TextFigure oppHeroPowerText = new TextFigure("(Other hero power text)",
+    TextFigure oppHeroPowerText = new TextFigure(hero.getEffectDescription(),
             GfxConstants.OPPONENT_HERO_POWER_DESCRIPTION_POSITION,
             Color.YELLOW, GfxConstants.SMALL_FONT_SIZE);
     add(oppHeroPowerText);
@@ -373,7 +372,9 @@ public class HotStoneDrawing implements Drawing, GameObserver {
   @Override
   public void onPlayCard(Player who, Card card, int atIndex) {
     addMessage("" + who + " plays " + card.getName() + ".");
-    // TODO: Add another message if the card has an effect
+    if(!card.getEffectDescription().isEmpty()){
+      addMessage("" + card.getName() + " has effect " + card.getEffectDescription() + ".");
+    }
 
     // As this direct mutator call has known side effects which are
     // not represented by the indirect observer notifications, the
@@ -420,14 +421,13 @@ public class HotStoneDrawing implements Drawing, GameObserver {
 
   @Override
   public void onAttackHero(Player playerAttacking, Card attackingCard) {
-    // TODO: Inform player
-    addMessage("TODO: tell about attack");
+    addMessage("" + playerAttacking + " attacked " + Player.computeOpponent(playerAttacking) +
+            " with " + attackingCard.getName() + ".");
   }
 
   @Override
   public void onUsePower(Player who) {
-    // TODO: Inform player
-    addMessage("TODO: tell about power");
+    addMessage("" + who + " used hero power '" + game.getHero(who).getEffectDescription() + "'.");
   }
 
   @Override
@@ -436,9 +436,10 @@ public class HotStoneDrawing implements Drawing, GameObserver {
     // refresh the hand; otherwise just update the summary
     // of the opponent player
     if (who == playerShown) {
-      // TODO: add card to hand, refresh the hand Gfx
+      createActorAndUpdateMapping(drawnCard, HotStoneFigureType.CARD_FIGURE);
+      refreshHand(who);
     } else {
-      // TODO: update opponent's summary
+      refreshHand(who);
     }
     addMessage(who + " draws a card.");
   }
@@ -449,25 +450,28 @@ public class HotStoneDrawing implements Drawing, GameObserver {
     // Opponent cards may not have an associated actor
     // for instance if they are in the hand.
     if (actor != null) {
-      // TODO: update the stats of the card/minion
-      addMessage("TODO: update card stats");
+      actor.updateStats();
+      addMessage("" + card.getName() + " updated: Health - " + card.getHealth() +
+              ", Mana cost - " + card.getManaCost() +
+              ", Attack - " +card.getAttack() + ".");
     }
   }
 
   @Override
   public void onCardRemove(Player who, Card card) {
-    // TODO: Remove the minion and refresh field
+    removeActorAndUpdateMapping(card);
+    refreshField(who);
     // NOTE: be SURE to use the
     // right internal data structure manipulation method
     // so both the figure collection AND the actorMap
     // is updated
-    addMessage("TODO: " + who + "'s minion " + card.getName()
+    addMessage(who + "'s minion " + card.getName()
             + " is killed.");
   }
 
   @Override
   public void onHeroUpdate(Player who) {
-    // TODO: Refresh the hero's stats
+    refreshHero(who);
   }
 
   @Override

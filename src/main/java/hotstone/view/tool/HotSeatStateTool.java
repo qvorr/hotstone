@@ -17,6 +17,7 @@
 package hotstone.view.tool;
 
 import hotstone.framework.Game;
+import hotstone.view.figure.HeroFigure;
 import hotstone.view.figure.HotStoneFigure;
 import hotstone.view.figure.HotStoneFigureType;
 import minidraw.framework.Drawing;
@@ -66,11 +67,9 @@ public class HotSeatStateTool extends NullTool {
               hsf.getType() == HotStoneFigureType.SWAP_BUTTON) {
         state = new EndTurnTool(editor, game);
       } else if (hsf.getType() == HotStoneFigureType.MINION_FIGURE) {
-        // TODO: Handle moving minions -> attacks
-        state = theNullTool;
+        state = new MinionAttackTool(editor, game, game.getPlayerInTurn());
       } else if (hsf.getType() == HotStoneFigureType.HERO_FIGURE) {
-        // TODO: Handle clicking heroes -> use power
-        state = theNullTool;
+        state = new UsePowerTool(editor, game, game.getPlayerInTurn());
       } else if (hsf.getType() == HotStoneFigureType.WIN_BUTTON) {
         // Clicking the 'won button' should do nothing!
         state = theNullTool; // User have to close the window to restart.
