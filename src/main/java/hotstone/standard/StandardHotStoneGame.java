@@ -115,8 +115,6 @@ public class StandardHotStoneGame implements Game, MutableGame {
 
   @Override
   public Player getWinner() {
-    Hero currentPlayer =  getHero(getPlayerInTurn());
-    Hero opPlayer = getHero(Player.computeOpponent(getPlayerInTurn()));
     return ws.getWinner(this);
   }
 
@@ -201,7 +199,7 @@ public class StandardHotStoneGame implements Game, MutableGame {
     }
     observerHandler.notifyChangeTurnTo(playerInTurn);
     observerHandler.notifyHeroUpdate(playerInTurn);
-      notifyIfGameWon();
+    notifyIfGameWon();
   }
 
   private void drawCardOnNewTurn(){

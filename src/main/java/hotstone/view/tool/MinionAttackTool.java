@@ -53,6 +53,7 @@ public class MinionAttackTool extends NullTool {
 
     @Override
     public void mouseUp(MouseEvent e, int x, int y) {
+        editor.drawing().zOrder(draggedActor, ZOrder.TO_BOTTOM);
         Figure targetFigure = editor.drawing().findFigure(x, y);
         Card attackingCard = draggedActor.getAssociatedCard();
 
@@ -76,7 +77,7 @@ public class MinionAttackTool extends NullTool {
             }
         }
         if(draggedActor != null){
-            draggedActor.moveTo(orgX, orgY);
+            draggedActor.moveBy( orgX - x, orgY - y );
         }
         draggedActor = null;
     }
