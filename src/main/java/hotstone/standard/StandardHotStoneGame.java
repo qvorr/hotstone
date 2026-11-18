@@ -230,9 +230,8 @@ public class StandardHotStoneGame implements Game, MutableGame {
       return status;
     }
     executePlayCard(who, card, atIndex);
+    notifyIfGameWon();
     observerHandler.notifyPlayCard(who, card, atIndex);
-    observerHandler.notifyHeroUpdate(who);
-      notifyIfGameWon();
     return Status.OK;
   }
 

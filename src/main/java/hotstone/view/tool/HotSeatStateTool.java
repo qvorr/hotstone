@@ -60,7 +60,6 @@ public class HotSeatStateTool extends NullTool {
     // implementing this role interface).
     if (figureAtPosition instanceof HotStoneFigure) {
       HotStoneFigure hsf = (HotStoneFigure) figureAtPosition;
-      // TODO: Complete this state selection
       if (hsf.getType() == HotStoneFigureType.CARD_FIGURE) {
         state = new PlayCardTool(editor, game, game.getPlayerInTurn());
       } else if (hsf.getType() == HotStoneFigureType.TURN_BUTTON ||

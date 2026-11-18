@@ -437,10 +437,8 @@ public class HotStoneDrawing implements Drawing, GameObserver {
     // of the opponent player
     if (who == playerShown) {
       createActorAndUpdateMapping(drawnCard, HotStoneFigureType.CARD_FIGURE);
-      refreshHand(who);
-    } else {
-      refreshHand(who);
     }
+    refreshHand(who);
     addMessage(who + " draws a card.");
   }
 

@@ -29,12 +29,18 @@ dependencies {
     implementation group: 'com.baerbak.maven',
             name: 'minidraw', version: '5.0'
 
+    // Depend on the FRDS.Broker library
+    implementation group: 'com.baerbak.maven',
+            name: 'broker', version: '5.1'
+    // Bind SLF4J it to the Log4J logging framework
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12',
+            version: '2.0.17'
+
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.3'
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'com.baerbak.maven:wizardhub:1.0.0'
 
     // Use the Hamcrest matcher library
     testImplementation "org.hamcrest:hamcrest-library:2.2"
@@ -145,4 +151,33 @@ task hotseatstone(type: JavaExec) {
     args variant
 }
 
+// === Distributed HotStone - executing targets
 
+// The hotstone server
+task hotstoneServer(type: JavaExec) {
+    group = 'HotStone Mandatory Exercise Distribution'
+    description = 'Run HotStone server'
+
+    mainClass = 'hotstone.broker.main.HotStoneServer'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// The hotstone story test, manual integrationtest in Broker I delivery
+task hotstoneStorytest(type: JavaExec) {
+    group = 'HotStone Mandatory Exercise Distribution'
+    description = 'Run a HotStone Story as a MANUAL TEST client '
+
+    mainClass = 'hotstone.broker.main.HotStoneStoryTest'
+    classpath = sourceSets.main.runtimeClasspath
+    args host
+}
+
+// The hotstone client, in Broker II delivery
+task hotstoneClient(type: JavaExec) {
+    group = 'HotStone Mandatory Exercise Distribution'
+    description = 'Run HotStone client'
+
+    mainClass = 'hotstone.broker.main.HotStoneClient'
+    classpath = sourceSets.main.runtimeClasspath
+    args host, who
+}
