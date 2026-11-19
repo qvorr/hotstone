@@ -18,6 +18,9 @@ package hotstone.broker.doubles;
 
 import hotstone.framework.*;
 import hotstone.observer.GameObserver;
+import hotstone.standard.Hero.AlphaHeroStrategy;
+import hotstone.standard.Mana.AlphaManaStrategy;
+import hotstone.standard.StdHero;
 
 /** A Test Stub for game, to make easily recognizable output
  * to assert on in the Broker test cases. Some methods have
@@ -44,7 +47,7 @@ public class StubGameForBroker implements Game {
 
   @Override
   public Hero getHero(Player who) {
-    return null;
+    return new StubHero();
   }
 
   @Override
