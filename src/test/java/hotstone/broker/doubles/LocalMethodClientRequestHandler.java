@@ -33,9 +33,9 @@ public class LocalMethodClientRequestHandler implements ClientRequestHandler {
   @Override
   public String sendToServerAndAwaitReply(String request) {
     // Scaffolding output, must of course be removed once all tests pass...
-    System.out.println(" --> " + request);
+//    System.out.println(" --> " + request);
     String reply = invoker.handleRequest(request);
-    System.out.println(" --< " + reply);
+//    System.out.println(" --< " + reply);
     return reply;
   }
 

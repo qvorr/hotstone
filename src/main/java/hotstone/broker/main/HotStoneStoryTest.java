@@ -19,9 +19,14 @@ package hotstone.broker.main;
 import frds.broker.Requestor;
 import frds.broker.ipc.http.UriTunnelClientRequestHandler;
 import frds.broker.marshall.json.StandardJSONRequestor;
+import hotstone.broker.client.CardClientProxy;
 import hotstone.broker.client.GameClientProxy;
+import hotstone.broker.client.HeroClientProxy;
 import hotstone.broker.common.BrokerConstants;
+import hotstone.framework.Card;
 import hotstone.framework.Game;
+import hotstone.framework.Hero;
+import hotstone.framework.Player;
 
 public class HotStoneStoryTest {
   public static void main(String[] args)  {
@@ -39,14 +44,30 @@ public class HotStoneStoryTest {
     Requestor requestor = new StandardJSONRequestor(clientRequestHandler);
 
     Game game = new GameClientProxy(requestor);
-    testSimpleMethods(game);
+    Hero hero = new HeroClientProxy(requestor);
+    Card card = new CardClientProxy(requestor);
+    testSimpleMethods(game, hero, card);
   }
 
-  private void testSimpleMethods(Game game) {
+  private void testSimpleMethods(Game game, Hero hero, Card card) {
     System.out.println("=== Testing pass-by-value methods of Game ===");
     System.out.println(" --> Game turnNumber     " + game.getTurnNumber());
     System.out.println(" --> Game winner         " + game.getWinner());
-    // TODO - add calls to the rest of the implemented methods
+    System.out.println(" --> Deck size FINDUS    " + game.getDeckSize(Player.FINDUS));
+    System.out.println(" --> Deck Size PEDDERSEN " + game.getDeckSize(Player.PEDDERSEN));
+    System.out.println(" --> Hand Size PEDDERSEN " + game.getHandSize(Player.FINDUS));
+    System.out.println(" --> Hand Size PEDDERSEN " + game.getHandSize(Player.PEDDERSEN));
+    System.out.println("=== Testing methods of Hero ===");
+    System.out.println(" --> Hero Mana           " + hero.getMana());
+    System.out.println(" --> Hero Health         " + hero.getHealth());
+    System.out.println(" --> Hero Can Use Power  " + hero.canUsePower());
+    System.out.println(" --> Hero Owner          " + hero.getOwner());
+    System.out.println("=== Testing methods of Card ===");
+    System.out.println(" --> Card Attack         " + card.getAttack());
+    System.out.println(" --> Card Health         " + card.getHealth());
+    System.out.println(" --> Card Mana Cost      " + card.getManaCost());
+    System.out.println(" --> Card Is Active      " + card.isActive());
+    System.out.println(" --> Card Owner          " + card.getOwner());
     System.out.println("=== End ===");
   }
 }

@@ -16,12 +16,6 @@ public class HeroClientProxy implements Hero, ClientProxy {
         this.requestor = requestor;
     }
 
-    @Override
-    public int getMana() {
-        // I think with the object id is how we identify which hero we're talking about, without passing
-        // arguments to the function. so im leaving it like this and I will pray.
-        return requestor.sendRequestAndAwaitReply(objid, OperationNames.HERO_GET_MANA, Integer.class);
-    }
 
     @Override
     public int getHealth() {
@@ -33,6 +27,12 @@ public class HeroClientProxy implements Hero, ClientProxy {
         return requestor.sendRequestAndAwaitReply(objid, OperationNames.HERO_CAN_USE_POWER, Boolean.class);
     }
 
+    @Override
+    public int getMana() {
+        // I think with the object id is how we identify which hero we're talking about, without passing
+        // arguments to the function. so im leaving it like this and I will pray.
+        return requestor.sendRequestAndAwaitReply(objid, OperationNames.HERO_GET_MANA, Integer.class);
+    }
     @Override
     public String getType() {
         return requestor.sendRequestAndAwaitReply(objid, OperationNames.HERO_GET_TYPE, String.class);

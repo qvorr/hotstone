@@ -21,6 +21,6 @@ package hotstone.broker.common;
  * HTTP path are communication over?
  */
 public class BrokerConstants {
-  public static final String HOTSTONE_TUNNEL_PATH = "/hotstone";
+  public static final String HOTSTONE_TUNNEL_PATH = "hotstone";
   public static final int HOTSTONE_PORT = 5555;
 }

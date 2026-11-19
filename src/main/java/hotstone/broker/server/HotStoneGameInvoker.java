@@ -59,10 +59,10 @@ public class HotStoneGameInvoker implements Invoker {
         reply = switch (requestObject.getOperationName()) {
           case OperationNames.GAME_GET_TURN_NUMBER ->
                   new ReplyObject(200, "" + game.getTurnNumber());
-          case OperationNames.GAME_GET_PLAYER_IN_TURN ->
-                  new ReplyObject(200, "" + game.getPlayerInTurn());
           case OperationNames.GAME_GET_DECK_SIZE ->
                   new ReplyObject(200, "" + game.getDeckSize(gson.fromJson(array.get(0), Player.class)));
+          case OperationNames.GAME_GET_PLAYER_IN_TURN ->
+                  new ReplyObject(200, "" + game.getPlayerInTurn());
           case OperationNames.GAME_GET_HAND_SIZE ->
                   new ReplyObject(200, "" + game.getHandSize(gson.fromJson(array.get(0), Player.class)));
           case OperationNames.GAME_GET_WINNER ->
@@ -72,7 +72,6 @@ public class HotStoneGameInvoker implements Invoker {
         };
 
       }else if(requestObject.getOperationName().startsWith(OperationNames.HERO_PREFIX)) {
-//      }else {
         Hero hero = lookupHero(objectId);
 
         reply = switch (requestObject.getOperationName()) {
