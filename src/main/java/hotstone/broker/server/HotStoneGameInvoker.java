@@ -24,6 +24,7 @@ import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
 import hotstone.framework.Game;
 import hotstone.broker.common.OperationNames;
+import hotstone.framework.Player;
 
 /** TODO: Template code for solving the Broker exercises */
 public class HotStoneGameInvoker implements Invoker {
@@ -49,8 +50,12 @@ public class HotStoneGameInvoker implements Invoker {
                 new ReplyObject(200, "" + game.getTurnNumber()) ;
         case OperationNames.GAME_GET_PLAYER_IN_TURN ->
                 new ReplyObject(200, "" + game.getPlayerInTurn());
-//        case OperationNames.
-        default -> new ReplyObject(500, "Something went wrong");
+        case OperationNames.GAME_GET_DECK_SIZE ->
+                new ReplyObject(200, "" + game.getDeckSize(gson.fromJson(array.get(0), Player.class)));
+        case OperationNames.GAME_GET_HAND_SIZE ->
+                new ReplyObject(200, "" + game.getHandSize(gson.fromJson(array.get(0), Player.class)));
+        default ->
+                new ReplyObject(500, "Something went wrong");
       };
     }catch(Exception e){
       reply = new ReplyObject(500, e.getMessage());

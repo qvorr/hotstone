@@ -40,6 +40,7 @@ public class GameClientProxy implements Game, ClientProxy {
 
   @Override
   public Hero getHero(Player who) {
+//    return requestor.sendRequestAndAwaitReply(singletonid, OperationNames.GAME_GET_HERO, Hero.class)
     return null;
   }
 
@@ -55,7 +56,8 @@ public class GameClientProxy implements Game, ClientProxy {
 
   @Override
   public int getDeckSize(Player who) {
-    return 0;
+    return requestor.sendRequestAndAwaitReply(singletonid, OperationNames.GAME_GET_DECK_SIZE, Integer.class, who);
+//    return 0;
   }
 
   @Override
@@ -70,7 +72,7 @@ public class GameClientProxy implements Game, ClientProxy {
 
   @Override
   public int getHandSize(Player who) {
-    return 0;
+    return requestor.sendRequestAndAwaitReply(singletonid, OperationNames.GAME_GET_HAND_SIZE, Integer.class, who);
   }
 
   @Override

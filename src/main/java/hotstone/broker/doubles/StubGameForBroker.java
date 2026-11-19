@@ -49,7 +49,11 @@ public class StubGameForBroker implements Game {
 
   @Override
   public int getDeckSize(Player who) {
-    return 0;
+    switch(who){
+      case Player.FINDUS -> {return 1;}
+      case Player.PEDDERSEN -> {return 2;}
+      default -> {return 0;}
+    }
   }
 
   @Override
@@ -64,7 +68,11 @@ public class StubGameForBroker implements Game {
 
   @Override
   public int getHandSize(Player who) {
-    return 0;
+    switch(who){
+      case Player.FINDUS -> {return 3;}
+      case Player.PEDDERSEN -> {return 6;}
+      default -> {return 0;}
+    }
   }
 
   @Override
@@ -79,7 +87,11 @@ public class StubGameForBroker implements Game {
 
   @Override
   public int getFieldSize(Player who) {
-    return 0;
+    switch(who){
+      case Player.FINDUS -> {return 15;}
+      case Player.PEDDERSEN -> {return 16;}
+      default -> {return 0;}
+    }
   }
 
   @Override

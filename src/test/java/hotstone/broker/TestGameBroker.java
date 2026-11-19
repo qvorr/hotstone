@@ -95,4 +95,20 @@ public class TestGameBroker {
     Player playerinTurn = gameClientProxy.getPlayerInTurn();
     assertThat(playerinTurn, is(Player.FINDUS));
   }
+
+  @Test
+  public void shouldGet1DeckSizeForFindusAnd2ForPeddersen(){
+    int deckSize = gameClientProxy.getDeckSize(Player.FINDUS);
+    assertThat(deckSize, is(1));
+    deckSize = gameClientProxy.getDeckSize(Player.PEDDERSEN);
+    assertThat(deckSize, is(2));
+  }
+
+  @Test
+  public void shouldGet1HandSizeForFindusAnd2ForPeddersen(){
+    int handSize = gameClientProxy.getHandSize(Player.FINDUS);
+    assertThat(handSize, is(3));
+    handSize = gameClientProxy.getHandSize(Player.PEDDERSEN);
+    assertThat(handSize, is(6));
+  }
 }
