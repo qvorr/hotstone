@@ -22,22 +22,27 @@ import com.google.gson.JsonParser;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotstone.broker.doubles.StubHero;
+import hotstone.doubles.StubCard;
+import hotstone.doubles.StubHero;
+import hotstone.framework.Card;
 import hotstone.framework.Game;
 import hotstone.broker.common.OperationNames;
 import hotstone.framework.Hero;
 import hotstone.framework.Player;
+import io.javalin.plugin.bundled.RedirectToLowercasePathPlugin;
 
 /** TODO: Template code for solving the Broker exercises */
 public class HotStoneGameInvoker implements Invoker {
   private final Game game;
   private final Hero stubhero;
+  private final Card stubcard;
   private final Gson gson;
 
 
   public HotStoneGameInvoker(Game servant) {
     game = servant;
     stubhero = new StubHero();
+    stubcard = new StubCard("Siete", Player.FINDUS, 5, "Six");
     gson = new Gson();
   }
 
@@ -66,8 +71,8 @@ public class HotStoneGameInvoker implements Invoker {
                   new ReplyObject(500, "Something went wrong");
         };
 
-//      }else if(requestObject.getOperationName().startsWith(OperationNames.HERO_PREFIX)) {
-      }else {
+      }else if(requestObject.getOperationName().startsWith(OperationNames.HERO_PREFIX)) {
+//      }else {
         Hero hero = lookupHero(objectId);
 
         reply = switch (requestObject.getOperationName()) {
@@ -86,6 +91,28 @@ public class HotStoneGameInvoker implements Invoker {
           default ->
                   new ReplyObject(500, "Something went wrong");
         };
+      }else if(requestObject.getOperationName().startsWith(OperationNames.CARD_PREFIX)){
+        Card card = lookupCard(objectId);
+        reply = switch(requestObject.getOperationName()){
+          case OperationNames.CARD_GET_NAME ->
+                  new ReplyObject(200, card.getName());
+          case OperationNames.CARD_GET_MANA_COST ->
+                  new ReplyObject(200, "" + card.getManaCost());
+          case OperationNames.CARD_GET_ATTACK ->
+                  new ReplyObject(200, "" + card.getAttack());
+          case OperationNames.CARD_GET_HEALTH ->
+                  new ReplyObject(200, "" + card.getHealth());
+          case OperationNames.CARD_GET_OWNER ->
+                  new ReplyObject(200, "" + card.getOwner());
+          case OperationNames.CARD_IS_ACTIVE ->
+                  new ReplyObject(200, "" + card.isActive());
+          case OperationNames.CARD_GET_EFFECT_DESCRIPTION ->
+                  new ReplyObject(200, card.getEffectDescription());
+          default ->
+                  new ReplyObject(500, "Something went wrong");
+        };
+      } else{
+        reply = new ReplyObject(500, "Something went wrong");
       }
 
     }catch(Exception e){
@@ -96,6 +123,10 @@ public class HotStoneGameInvoker implements Invoker {
 
     return gson.toJson(reply);
   }
+
+    private Card lookupCard(String objectId) {
+        return stubcard;
+    }
 
 
   private Hero lookupHero(String objectId){

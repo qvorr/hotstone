@@ -16,6 +16,7 @@
 
 package hotstone.broker.doubles;
 
+import hotstone.doubles.StubHero;
 import hotstone.framework.*;
 import hotstone.observer.GameObserver;
 import hotstone.standard.Hero.AlphaHeroStrategy;

@@ -32,25 +32,25 @@ public class TestHeroBroker {
     @Test
     public void getHeroMana(){
         int mana = hero.getMana();
-        assertThat(mana, is(2));
+        assertThat(mana, is(1));
     }
 
     @Test
     public void getHeroHealth(){
         int health = hero.getHealth();
-        assertThat(health, is(20));
+        assertThat(health, is(7));
     }
 
     @Test
     public void canHeroUsePower(){
         boolean can = hero.canUsePower();
-        assertThat(can, is(true));
+        assertThat(can, is(false));
     }
 
     @Test
     public void getHeroOwner(){
         Player owner = hero.getOwner();
-        assertThat(owner, is(Player.PEDDERSEN));
+        assertThat(owner, is(Player.FINDUS));
     }
 
 }
