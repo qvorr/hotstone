@@ -54,6 +54,8 @@ public class HotStoneGameInvoker implements Invoker {
                 new ReplyObject(200, "" + game.getDeckSize(gson.fromJson(array.get(0), Player.class)));
         case OperationNames.GAME_GET_HAND_SIZE ->
                 new ReplyObject(200, "" + game.getHandSize(gson.fromJson(array.get(0), Player.class)));
+        case OperationNames.GAME_GET_WINNER ->
+                new ReplyObject(200, "" + game.getWinner());
         default ->
                 new ReplyObject(500, "Something went wrong");
       };

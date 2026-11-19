@@ -97,6 +97,12 @@ public class TestGameBroker {
   }
 
   @Test
+  public void shouldReturnPeddersenWinner(){
+    Player winner = gameClientProxy.getWinner();
+    assertThat(winner, is(Player.PEDDERSEN));
+  }
+
+  @Test
   public void shouldGet1DeckSizeForFindusAnd2ForPeddersen(){
     int deckSize = gameClientProxy.getDeckSize(Player.FINDUS);
     assertThat(deckSize, is(1));
