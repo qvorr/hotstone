@@ -26,6 +26,7 @@ import hotstone.broker.doubles.LocalMethodClientRequestHandler;
 import hotstone.broker.server.HotStoneGameInvoker;
 import hotstone.framework.Game;
 
+import hotstone.framework.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -76,7 +77,6 @@ public class TestGameBroker {
   // TODO: TDD the 'clientproxy' and 'invoker' implementation
   // to support remote method call of getTurnNumber()
   @Test
-  @Disabled
   public void shouldHaveTurnNumber312() {
     // Given a stub game which is hard coded to
     // return 312 as turn number
@@ -88,5 +88,11 @@ public class TestGameBroker {
     // client request handler -> invoker -> servant) will
     // return the stub's 312 reply.
     assertThat(turnNumber, is(312));
+  }
+
+  @Test
+  public void shouldReturnFindusInTurn(){
+    Player playerinTurn = gameClientProxy.getPlayerInTurn();
+    assertThat(playerinTurn, is(Player.FINDUS));
   }
 }

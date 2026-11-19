@@ -20,16 +20,22 @@ import frds.broker.ClientProxy;
 import frds.broker.Requestor;
 import hotstone.framework.*;
 import hotstone.observer.GameObserver;
+import hotstone.broker.common.OperationNames;
 
 /** TODO: Template/starter code for your ClientProxy of Game.
  */
 public class GameClientProxy implements Game, ClientProxy {
+  private final Requestor requestor;
+  private String singletonid = "one-game";
+
+
   public GameClientProxy(Requestor requestor) {
+    this.requestor = requestor;
   }
 
   @Override
   public Player getPlayerInTurn() {
-    return null;
+    return requestor.sendRequestAndAwaitReply(singletonid, OperationNames.GAME_GET_PLAYER_IN_TURN, Player.class);
   }
 
   @Override
@@ -44,7 +50,7 @@ public class GameClientProxy implements Game, ClientProxy {
 
   @Override
   public int getTurnNumber() {
-    return 0;
+    return requestor.sendRequestAndAwaitReply(singletonid, OperationNames.GAME_GET_TURN_NUMBER, Integer.class);
   }
 
   @Override
