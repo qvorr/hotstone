@@ -22,18 +22,22 @@ import com.google.gson.JsonParser;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotstone.broker.doubles.StubHero;
 import hotstone.framework.Game;
 import hotstone.broker.common.OperationNames;
+import hotstone.framework.Hero;
 import hotstone.framework.Player;
 
 /** TODO: Template code for solving the Broker exercises */
 public class HotStoneGameInvoker implements Invoker {
   private final Game game;
+  private final Hero stubhero;
   private final Gson gson;
 
 
   public HotStoneGameInvoker(Game servant) {
     game = servant;
+    stubhero = new StubHero();
     gson = new Gson();
   }
 
@@ -41,27 +45,49 @@ public class HotStoneGameInvoker implements Invoker {
   public String handleRequest(String request) {
     RequestObject requestObject = gson.fromJson(request, RequestObject.class);
     JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
+    String objectId = requestObject.getObjectId();
 
 
     ReplyObject reply;
     try{
-      reply = switch(requestObject.getOperationName()){
-        case OperationNames.GAME_GET_TURN_NUMBER ->
-                new ReplyObject(200, "" + game.getTurnNumber()) ;
-        case OperationNames.GAME_GET_PLAYER_IN_TURN ->
-                new ReplyObject(200, "" + game.getPlayerInTurn());
-        case OperationNames.GAME_GET_DECK_SIZE ->
-                new ReplyObject(200, "" + game.getDeckSize(gson.fromJson(array.get(0), Player.class)));
-        case OperationNames.GAME_GET_HAND_SIZE ->
-                new ReplyObject(200, "" + game.getHandSize(gson.fromJson(array.get(0), Player.class)));
-        case OperationNames.GAME_GET_WINNER ->
-                new ReplyObject(200, "" + game.getWinner());
+      if(requestObject.getOperationName().startsWith(OperationNames.GAME_PREFIX)) {
+        reply = switch (requestObject.getOperationName()) {
+          case OperationNames.GAME_GET_TURN_NUMBER ->
+                  new ReplyObject(200, "" + game.getTurnNumber());
+          case OperationNames.GAME_GET_PLAYER_IN_TURN ->
+                  new ReplyObject(200, "" + game.getPlayerInTurn());
+          case OperationNames.GAME_GET_DECK_SIZE ->
+                  new ReplyObject(200, "" + game.getDeckSize(gson.fromJson(array.get(0), Player.class)));
+          case OperationNames.GAME_GET_HAND_SIZE ->
+                  new ReplyObject(200, "" + game.getHandSize(gson.fromJson(array.get(0), Player.class)));
+          case OperationNames.GAME_GET_WINNER ->
+                  new ReplyObject(200, "" + game.getWinner());
+          default ->
+                  new ReplyObject(500, "Something went wrong");
+        };
 
-        case OperationNames.HERO_GET_MANA ->
-                new ReplyObject(200, "" + game.getHero(Player.FINDUS).getMana());
-        default ->
-                new ReplyObject(500, "Something went wrong");
-      };
+//      }else if(requestObject.getOperationName().startsWith(OperationNames.HERO_PREFIX)) {
+      }else {
+        Hero hero = lookupHero(objectId);
+
+        reply = switch (requestObject.getOperationName()) {
+          case OperationNames.HERO_GET_MANA ->
+                  new ReplyObject(200, "" + hero.getMana());
+          case OperationNames.HERO_GET_HEALTH ->
+                  new ReplyObject(200, "" + hero.getHealth());
+          case OperationNames.HERO_GET_TYPE ->
+                  new ReplyObject(200, hero.getType());
+          case OperationNames.HERO_GET_OWNER ->
+                  new ReplyObject(200, "" + hero.getOwner());
+          case OperationNames.HERO_GET_EFFECT_DESCRIPTION ->
+                  new ReplyObject(200, hero.getEffectDescription());
+          case OperationNames.HERO_CAN_USE_POWER ->
+                  new ReplyObject(200, "" + hero.canUsePower());
+          default ->
+                  new ReplyObject(500, "Something went wrong");
+        };
+      }
+
     }catch(Exception e){
       reply = new ReplyObject(500, e.getMessage());
     }
@@ -69,5 +95,10 @@ public class HotStoneGameInvoker implements Invoker {
 
 
     return gson.toJson(reply);
+  }
+
+
+  private Hero lookupHero(String objectId){
+    return stubhero;
   }
 }

@@ -8,6 +8,7 @@ import hotstone.broker.doubles.LocalMethodClientRequestHandler;
 import hotstone.broker.doubles.StubGameForBroker;
 import hotstone.broker.server.HotStoneGameInvoker;
 import hotstone.framework.Game;
+import hotstone.framework.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
 public class TestHeroBroker {
-    private Game gameClientProxy;
     private HeroClientProxy hero;
     private StandardJSONRequestor requestor;
 
@@ -30,11 +30,27 @@ public class TestHeroBroker {
     }
 
     @Test
-    public void getFindusHeroMana(){
+    public void getHeroMana(){
         int mana = hero.getMana();
         assertThat(mana, is(2));
     }
 
+    @Test
+    public void getHeroHealth(){
+        int health = hero.getHealth();
+        assertThat(health, is(20));
+    }
 
+    @Test
+    public void canHeroUsePower(){
+        boolean can = hero.canUsePower();
+        assertThat(can, is(true));
+    }
+
+    @Test
+    public void getHeroOwner(){
+        Player owner = hero.getOwner();
+        assertThat(owner, is(Player.PEDDERSEN));
+    }
 
 }

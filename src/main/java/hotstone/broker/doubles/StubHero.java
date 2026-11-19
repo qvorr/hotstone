@@ -11,26 +11,26 @@ public class StubHero implements Hero {
 
     @Override
     public int getHealth() {
-        return 0;
+        return 20;
     }
 
     @Override
     public boolean canUsePower() {
-        return false;
+        return true;
     }
 
     @Override
     public String getType() {
-        return "";
+        return "Baby";
     }
 
     @Override
     public Player getOwner() {
-        return null;
+        return Player.PEDDERSEN;
     }
 
     @Override
     public String getEffectDescription() {
-        return "";
+        return "Just cute.";
     }
 }
